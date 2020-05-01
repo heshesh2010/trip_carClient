@@ -1,5 +1,6 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:restaurant_rlutter_ui/src/models/user.dart';
+import 'package:order_client_app/src/models/user.dart';
 
 class ProfileAvatarWidget extends StatelessWidget {
   final User user;
@@ -19,31 +20,12 @@ class ProfileAvatarWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
               SizedBox(
-                width: 50,
-                height: 50,
-                child: FlatButton(
-                  padding: EdgeInsets.all(0),
-                  onPressed: () {},
-                  child: Icon(Icons.add, color: Theme.of(context).primaryColor),
-                  color: Theme.of(context).accentColor,
-                  shape: StadiumBorder(),
-                ),
-              ),
-              SizedBox(
                 width: 135,
                 height: 135,
-                child: CircleAvatar(backgroundImage: NetworkImage(user.image.thumb)),
-              ),
-              SizedBox(
-                width: 50,
-                height: 50,
-                child: FlatButton(
-                  padding: EdgeInsets.all(0),
-                  onPressed: () {},
-                  child: Icon(Icons.chat, color: Theme.of(context).primaryColor),
-                  color: Theme.of(context).accentColor,
-                  shape: StadiumBorder(),
-                ),
+                child: CircleAvatar(
+                    backgroundImage: user.image != null
+                        ? CachedNetworkImageProvider(user.image.thumb)
+                        : Image.asset('assets/img/default.png').image),
               ),
             ],
           ),

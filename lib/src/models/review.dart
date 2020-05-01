@@ -1,9 +1,9 @@
-import 'package:restaurant_rlutter_ui/src/models/user.dart';
+import 'package:order_client_app/src/models/user.dart';
 
 class Review {
   String id;
   String review;
-  String rate;
+  double rate;
   User user;
 
   Review();
@@ -11,7 +11,7 @@ class Review {
   Review.fromJSON(Map<String, dynamic> jsonMap) {
     id = jsonMap['id'].toString();
     review = jsonMap['review'];
-    rate = jsonMap['rate'].toString() ?? '0';
+    rate = double.parse(jsonMap['rate'].toString()) ?? '0.0';
     user = jsonMap['user'] != null ? User.fromJSON(jsonMap['user']) : null;
   }
 }

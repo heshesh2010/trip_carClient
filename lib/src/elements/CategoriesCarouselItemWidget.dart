@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:restaurant_rlutter_ui/src/models/category.dart';
-import 'package:restaurant_rlutter_ui/src/models/route_argument.dart';
+import 'package:order_client_app/src/models/category.dart';
+import 'package:order_client_app/src/models/route_argument.dart';
 
 // ignore: must_be_immutable
 class CategoriesCarouselItemWidget extends StatelessWidget {
@@ -13,9 +13,9 @@ class CategoriesCarouselItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       splashColor: Theme.of(context).accentColor.withOpacity(0.08),
-      highlightColor: Colors.transparent,
+      highlightColor:Theme.of(context).accentColor,
       onTap: () {
-        Navigator.of(context).pushNamed('/Category', arguments: RouteArgument(id: category.id));
+        Navigator.of(context).pushNamed('Category', arguments: RouteArgument(id: category.id));
       },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -32,7 +32,7 @@ class CategoriesCarouselItemWidget extends StatelessWidget {
                 padding: const EdgeInsets.all(20),
                 child: SvgPicture.network(
                   category.image,
-                  color: Theme.of(context).scaffoldBackgroundColor,
+                  color: Theme.of(context).hintColor,
                 ),
               ),
             ),
@@ -43,7 +43,7 @@ class CategoriesCarouselItemWidget extends StatelessWidget {
             child: Text(
               category.name,
               overflow: TextOverflow.ellipsis,
-              style: Theme.of(context).textTheme.body1,
+              style: Theme.of(context).textTheme.bodyText2,
             ),
           ),
         ],

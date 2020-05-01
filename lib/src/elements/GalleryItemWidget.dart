@@ -1,6 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:restaurant_rlutter_ui/src/elements/CircularLoadingWidget.dart';
-import 'package:restaurant_rlutter_ui/src/models/gallery.dart';
+import 'package:order_client_app/src/elements/CircularLoadingWidget.dart';
+import 'package:order_client_app/src/models/gallery.dart';
 
 class GalleryItemWidget extends StatelessWidget {
   Gallery gallery;
@@ -18,7 +19,7 @@ class GalleryItemWidget extends StatelessWidget {
               color: Theme.of(context).primaryColor,
               borderRadius: BorderRadius.all(Radius.circular(5)),
               image: DecorationImage(
-                image: NetworkImage(gallery.image),
+                image:gallery.image==null?Image.asset('assets/img/default_food.png').image: CachedNetworkImageProvider(gallery.image),
                 fit: BoxFit.cover,
               ),
               boxShadow: [

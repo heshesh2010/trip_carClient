@@ -1,3 +1,5 @@
+import 'dart:core';
+
 import 'package:flutter/material.dart';
 
 class App {
@@ -12,8 +14,10 @@ class App {
     MediaQueryData _queryData = MediaQuery.of(this._context);
     _height = _queryData.size.height / 100.0;
     _width = _queryData.size.width / 100.0;
-    _heightPadding = _height - ((_queryData.padding.top + _queryData.padding.bottom) / 100.0);
-    _widthPadding = _width - (_queryData.padding.left + _queryData.padding.right) / 100.0;
+    _heightPadding = _height -
+        ((_queryData.padding.top + _queryData.padding.bottom) / 100.0);
+    _widthPadding =
+        _width - (_queryData.padding.left + _queryData.padding.right) / 100.0;
   }
 
   double appHeight(double v) {
@@ -33,16 +37,22 @@ class App {
   }
 }
 
-class Colors {
+class AppColors {
 //  Color _mainColor = Color(0xFFFF4E6A);
-  Color _mainColor = Color(0xFFe2c509);
-  Color _mainDarkColor = Color(0xFFea5c44);
-  Color _secondColor = Color(0xFF891b1e);
+  Color _mainColor = Color(0xFFFFD600);
+  Color _mainDarkColor = Color(0xFF121212);
+
+  Color _secondColor = Color(0xFF121212);
   Color _secondDarkColor = Color(0xFFffffff);
+
   Color _accentColor = Color(0xFF891b1e);
-  Color _accentDarkColor = Color(0xFFffffff);
-  Color _scaffoldDarkColor = Color(0xFF2C2C2C);
-  Color _scaffoldColor = Color(0xFF891b1e);
+  Color _accentDarkColor = Color(0xFFf7cb00);
+
+  Color _nonActiveColorLight = Color(0xFF757575);
+  Color _nonActiveColorDark = Color(0xFF121212);
+
+  Color _shimmerLight = Colors.grey.shade100;
+  Color _shimmerDark = Colors.grey.shade600;
 
   Color mainColor(double opacity) {
     return this._mainColor.withOpacity(opacity);
@@ -68,8 +78,19 @@ class Colors {
     return this._accentDarkColor.withOpacity(opacity);
   }
 
-  Color scaffoldColor(double opacity) {
-    // TODO test if brightness is dark or not
-    return _scaffoldColor.withOpacity(opacity);
+  Color nonActiveColorLight(double opacity) {
+    return _nonActiveColorLight.withOpacity(opacity);
+  }
+
+  Color nonActiveColorDark(double opacity) {
+    return _nonActiveColorDark.withOpacity(opacity);
+  }
+
+  Color shimmerLight(double opacity) {
+    return _shimmerLight.withOpacity(opacity);
+  }
+
+  Color shimmerDark(double opacity) {
+    return _shimmerDark.withOpacity(opacity);
   }
 }

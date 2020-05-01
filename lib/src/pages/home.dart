@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
-import 'package:restaurant_rlutter_ui/generated/i18n.dart';
-import 'package:restaurant_rlutter_ui/src/controllers/home_controller.dart';
-import 'package:restaurant_rlutter_ui/src/elements/CardsCarouselWidget.dart';
-import 'package:restaurant_rlutter_ui/src/elements/CaregoriesCarouselWidget.dart';
-import 'package:restaurant_rlutter_ui/src/elements/FoodsCarouselWidget.dart';
-import 'package:restaurant_rlutter_ui/src/elements/GridWidget.dart';
-import 'package:restaurant_rlutter_ui/src/elements/ReviewsListWidget.dart';
-import 'package:restaurant_rlutter_ui/src/elements/SearchBarWidget.dart';
+import 'package:order_client_app/generated/i18n.dart';
+import 'package:order_client_app/src/controllers/home_controller.dart';
+import 'package:order_client_app/src/elements/CardsCarouselWidget.dart';
+import 'package:order_client_app/src/elements/CaregoriesCarouselWidget.dart';
+import 'package:order_client_app/src/elements/FoodsCarouselWidget.dart';
+import 'package:order_client_app/src/elements/GridWidget.dart';
+import 'package:order_client_app/src/elements/ReviewsListWidget.dart';
+import 'package:order_client_app/src/elements/SearchBarWidget.dart';
 
 class HomeWidget extends StatefulWidget {
   @override

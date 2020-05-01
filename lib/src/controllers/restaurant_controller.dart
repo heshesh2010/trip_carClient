@@ -1,12 +1,13 @@
+import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
-import 'package:restaurant_rlutter_ui/src/models/food.dart';
-import 'package:restaurant_rlutter_ui/src/models/gallery.dart';
-import 'package:restaurant_rlutter_ui/src/models/restaurant.dart';
-import 'package:restaurant_rlutter_ui/src/models/review.dart';
-import 'package:restaurant_rlutter_ui/src/repository/food_repository.dart';
-import 'package:restaurant_rlutter_ui/src/repository/gallery_repository.dart';
-import 'package:restaurant_rlutter_ui/src/repository/restaurant_repository.dart';
+import 'package:order_client_app/src/models/food.dart';
+import 'package:order_client_app/src/models/gallery.dart';
+import 'package:order_client_app/src/models/restaurant.dart';
+import 'package:order_client_app/src/models/review.dart';
+import 'package:order_client_app/src/repository/food_repository.dart';
+import 'package:order_client_app/src/repository/gallery_repository.dart';
+import 'package:order_client_app/src/repository/restaurant_repository.dart';
 
 class RestaurantController extends ControllerMVC {
   Restaurant restaurant;
@@ -21,39 +22,37 @@ class RestaurantController extends ControllerMVC {
     this.scaffoldKey = new GlobalKey<ScaffoldState>();
   }
 
-  void listenForRestaurant({String id, String message}) async {
+  void listenForRestaurant({int id, String message}) async {
     final Stream<Restaurant> stream = await getRestaurant(id);
     stream.listen((Restaurant _restaurant) {
       setState(() => restaurant = _restaurant);
     }, onError: (a) {
       print(a);
-      scaffoldKey.currentState.showSnackBar(SnackBar(
-        content: Text('Verify your internet connection'),
-      ));
+      FlushbarHelper.createError(message: "حدث خطأ بالاتصال")
+          .show(scaffoldKey.currentState.context);
     }, onDone: () {
       if (message != null) {
-        scaffoldKey.currentState.showSnackBar(SnackBar(
-          content: Text(message),
-        ));
+        FlushbarHelper.createSuccess(message: message)
+            .show(scaffoldKey.currentState.context);
       }
     });
   }
 
-  void listenForGalleries(String idRestaurant) async {
+  void listenForGalleries(int idRestaurant) async {
     final Stream<Gallery> stream = await getGalleries(idRestaurant);
     stream.listen((Gallery _gallery) {
       setState(() => galleries.add(_gallery));
     }, onError: (a) {}, onDone: () {});
   }
 
-  void listenForRestaurantReviews({String id, String message}) async {
+  void listenForRestaurantReviews({int id, String message}) async {
     final Stream<Review> stream = await getRestaurantReviews(id);
     stream.listen((Review _review) {
       setState(() => reviews.add(_review));
     }, onError: (a) {}, onDone: () {});
   }
 
-  void listenForFoods(String idRestaurant) async {
+  void listenForFoods(int idRestaurant) async {
     final Stream<Food> stream = await getFoodsOfRestaurant(idRestaurant);
     stream.listen((Food _food) {
       setState(() => foods.add(_food));
@@ -62,7 +61,7 @@ class RestaurantController extends ControllerMVC {
     }, onDone: () {});
   }
 
-  void listenForTrendingFoods(String idRestaurant) async {
+  void listenForTrendingFoods(int idRestaurant) async {
     final Stream<Food> stream = await getTrendingFoodsOfRestaurant(idRestaurant);
     stream.listen((Food _food) {
       setState(() => trendingFoods.add(_food));
@@ -71,7 +70,7 @@ class RestaurantController extends ControllerMVC {
     }, onDone: () {});
   }
 
-  void listenForFeaturedFoods(String idRestaurant) async {
+  void listenForFeaturedFoods(int idRestaurant) async {
     final Stream<Food> stream = await getFeaturedFoodsOfRestaurant(idRestaurant);
     stream.listen((Food _food) {
       setState(() => featuredFoods.add(_food));
@@ -86,7 +85,7 @@ class RestaurantController extends ControllerMVC {
     galleries.clear();
     reviews.clear();
     featuredFoods.clear();
-    listenForRestaurant(id: _id, message: 'Restaurant refreshed successfuly');
+    listenForRestaurant(id: _id, message: 'تم تحديث معلومات المطعم');
     listenForRestaurantReviews(id: _id);
     listenForGalleries(_id);
     listenForFeaturedFoods(_id);

@@ -1,4 +1,4 @@
-import 'package:restaurant_rlutter_ui/src/models/notification_type.dart';
+import 'package:order_client_app/src/models/notification_type.dart';
 
 class Notification {
   String id;

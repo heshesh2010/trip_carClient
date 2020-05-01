@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant_rlutter_ui/src/models/payment_method.dart';
+import 'package:order_client_app/src/models/payment.dart';
+import 'package:order_client_app/src/models/payment_method.dart';
 
 // ignore: must_be_immutable
 class PaymentMethodListItemWidget extends StatelessWidget {
   String heroTag;
   PaymentMethod paymentMethod;
-
   PaymentMethodListItemWidget({Key key, this.paymentMethod}) : super(key: key);
 
   @override
@@ -15,7 +15,8 @@ class PaymentMethodListItemWidget extends StatelessWidget {
       focusColor: Theme.of(context).accentColor,
       highlightColor: Theme.of(context).primaryColor,
       onTap: () {
-        Navigator.of(context).pushNamed(this.paymentMethod.route);
+        Navigator.of(context).pushNamed(this.paymentMethod.route,
+            arguments: new Payment(method:paymentMethod.name));
         print(this.paymentMethod.name);
       },
       child: Container(
@@ -23,18 +24,24 @@ class PaymentMethodListItemWidget extends StatelessWidget {
         decoration: BoxDecoration(
           color: Theme.of(context).primaryColor.withOpacity(0.9),
           boxShadow: [
-            BoxShadow(color: Theme.of(context).focusColor.withOpacity(0.1), blurRadius: 5, offset: Offset(0, 2)),
+            BoxShadow(
+                color: Theme.of(context).focusColor.withOpacity(0.1),
+                blurRadius: 5,
+                offset: Offset(0, 2)),
           ],
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            Container(
-              height: 60,
-              width: 60,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(5)),
-                image: DecorationImage(image: AssetImage(paymentMethod.logo), fit: BoxFit.fill),
+            Expanded(
+              child: Container(
+                height: 60,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(5)),
+                  image: DecorationImage(
+                    image: AssetImage(paymentMethod.logo),
+                  ),
+                ),
               ),
             ),
             SizedBox(width: 15),

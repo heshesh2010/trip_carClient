@@ -1,7 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:restaurant_rlutter_ui/src/helpers/helper.dart';
-import 'package:restaurant_rlutter_ui/src/models/food.dart';
-import 'package:restaurant_rlutter_ui/src/models/route_argument.dart';
+import 'package:order_client_app/src/helpers/helper.dart';
+import 'package:order_client_app/src/models/food.dart';
+import 'package:order_client_app/src/models/route_argument.dart';
 
 class FoodItemWidget extends StatelessWidget {
   final String heroTag;
@@ -16,7 +17,7 @@ class FoodItemWidget extends StatelessWidget {
       focusColor: Theme.of(context).accentColor,
       highlightColor: Theme.of(context).primaryColor,
       onTap: () {
-        Navigator.of(context).pushNamed('/Food', arguments: RouteArgument(id: food.id, heroTag: this.heroTag));
+        Navigator.of(context).pushNamed('Food', arguments: RouteArgument(food: food, heroTag: this.heroTag));
       },
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
@@ -36,7 +37,7 @@ class FoodItemWidget extends StatelessWidget {
                 width: 60,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(5)),
-                  image: DecorationImage(image: NetworkImage(food.image.thumb), fit: BoxFit.cover),
+                  image: DecorationImage(image: CachedNetworkImageProvider(food.image.thumb), fit: BoxFit.cover),
                 ),
               ),
             ),

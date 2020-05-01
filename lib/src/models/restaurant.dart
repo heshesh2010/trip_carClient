@@ -1,10 +1,10 @@
-import 'package:restaurant_rlutter_ui/src/models/media.dart';
+import 'package:order_client_app/src/models/media.dart';
 
 class Restaurant {
-  String id;
+  int id;
   String name;
   Media image;
-  String rate;
+  double rate;
   String address;
   String description;
   String phone;
@@ -13,22 +13,27 @@ class Restaurant {
   String latitude;
   String longitude;
   double distance;
-
+ int userId;
   Restaurant();
 
   Restaurant.fromJSON(Map<String, dynamic> jsonMap)
-      : id = jsonMap['id'].toString(),
+      : id = jsonMap['id'],
         name = jsonMap['name'],
-        image = jsonMap['media'] != null ? Media.fromJSON(jsonMap['media'][0]) : null,
-        rate = jsonMap['rate'] ?? '0',
-        address = jsonMap['address'],
-        description = jsonMap['description'],
-        phone = jsonMap['phone'],
-        mobile = jsonMap['mobile'],
-        information = jsonMap['information'],
-        latitude = jsonMap['latitude'],
-        longitude = jsonMap['longitude'],
-        distance = jsonMap['distance'] != null ? double.parse(jsonMap['distance'].toString()) : 0.0;
+        image = jsonMap['media'] != null
+            ? Media.fromJSON(jsonMap['media'][0])
+            : null,
+        rate = double.parse(jsonMap['rate'].toString()) ?? 0.0,
+        address = jsonMap['address'] ?? "",
+        description = jsonMap['description'] ?? "",
+        phone = jsonMap['phone'] ?? "",
+        mobile = jsonMap['mobile'] ?? "",
+        information = jsonMap['information'] ?? "",
+        latitude = jsonMap['latitude'] ?? "",
+        longitude = jsonMap['longitude'] ?? "",
+        distance = jsonMap['distance'] != null
+            ? double.parse(jsonMap['distance'].toString())
+            : 0.0,
+userId = jsonMap['user_id'] ?? null;
 
   Map<String, dynamic> toMap() {
     return {

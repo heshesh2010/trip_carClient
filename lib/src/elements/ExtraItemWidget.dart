@@ -1,6 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:restaurant_rlutter_ui/src/helpers/helper.dart';
-import 'package:restaurant_rlutter_ui/src/models/extra.dart';
+import 'package:order_client_app/src/helpers/helper.dart';
+import 'package:order_client_app/src/models/extra.dart';
 
 class ExtraItemWidget extends StatefulWidget {
   Extra extra;
@@ -80,7 +81,7 @@ class _ExtraItemWidgetState extends State<ExtraItemWidget> with SingleTickerProv
                 width: 60,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(60)),
-                  image: DecorationImage(image: NetworkImage(widget.extra.image.thumb), fit: BoxFit.cover),
+                  image: DecorationImage(image: CachedNetworkImageProvider(widget.extra.image.thumb), fit: BoxFit.cover),
                 ),
               ),
               Container(

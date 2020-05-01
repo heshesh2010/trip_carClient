@@ -1,10 +1,15 @@
+import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
-import 'package:restaurant_rlutter_ui/src/models/order.dart';
-import 'package:restaurant_rlutter_ui/src/repository/order_repository.dart';
+import 'package:order_client_app/src/models/order.dart';
+import 'package:order_client_app/src/models/order_status.dart';
+import 'package:order_client_app/src/repository/order_repository.dart';
 
 class OrderController extends ControllerMVC {
   List<Order> orders = <Order>[];
+  List<OrderStatus> orderStatus = <OrderStatus>[];
+  bool isLoading = true;
+
   GlobalKey<ScaffoldState> scaffoldKey;
 
   OrderController() {
@@ -19,21 +24,36 @@ class OrderController extends ControllerMVC {
         orders.add(_order);
       });
     }, onError: (a) {
+      setState(() {
+        isLoading = false;
+      });
       print(a);
-      scaffoldKey.currentState.showSnackBar(SnackBar(
-        content: Text('Verify your internet connection'),
-      ));
+      FlushbarHelper.createError(message: a.toString())
+          .show(context);
     }, onDone: () {
+      listenForOrderStatus();
+      setState(() {
+        isLoading = false;
+      });
       if (message != null) {
-        scaffoldKey.currentState.showSnackBar(SnackBar(
-          content: Text(message),
-        ));
+        FlushbarHelper.createSuccess(message: message).show(context);
       }
     });
   }
 
+  void listenForOrderStatus() async {
+    final Stream<OrderStatus> stream = await getOrderStatus();
+    stream.listen((OrderStatus _orderStatus) {
+      setState(() {
+        orderStatus.add(_orderStatus);
+      });
+    }, onError: (a) {}, onDone: () {});
+  }
+
   Future<void> refreshOrders() async {
     orders.clear();
-    listenForOrders(message: 'Order refreshed successfuly');
+    orderStatus.clear();
+    listenForOrders(message: 'تم تحديث قائمة الاوردرات بنجاح');
+    //  listenForOrderStatus();
   }
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
-import 'package:restaurant_rlutter_ui/src/controllers/cart_controller.dart';
-import 'package:restaurant_rlutter_ui/src/models/route_argument.dart';
+import 'package:order_client_app/src/controllers/cart_controller.dart';
+import 'package:order_client_app/src/models/route_argument.dart';
 
 class ShoppingCartButtonWidget extends StatefulWidget {
   const ShoppingCartButtonWidget({
@@ -33,8 +33,9 @@ class _ShoppingCartButtonWidgetState extends StateMVC<ShoppingCartButtonWidget> 
   @override
   Widget build(BuildContext context) {
     return FlatButton(
+      key: _con.scaffoldKey,
       onPressed: () {
-        Navigator.of(context).pushReplacementNamed('/Cart', arguments: RouteArgument(param: '/Pages', id: '2'));
+        Navigator.of(context).pushReplacementNamed('Cart', arguments: RouteArgument(param: '/Pages', id: 2));
       },
       child: Stack(
         alignment: AlignmentDirectional.bottomEnd,

@@ -1,8 +1,9 @@
+import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
-import 'package:restaurant_rlutter_ui/src/models/credit_card.dart';
-import 'package:restaurant_rlutter_ui/src/models/user.dart';
-import 'package:restaurant_rlutter_ui/src/repository/user_repository.dart' as repository;
+import 'package:order_client_app/src/models/credit_card.dart';
+import 'package:order_client_app/src/models/user.dart';
+import 'package:order_client_app/src/repository/user_repository.dart' as repository;
 
 class SettingsController extends ControllerMVC {
   User user = new User();
@@ -21,18 +22,16 @@ class SettingsController extends ControllerMVC {
       setState(() {
         //this.favorite = value;
       });
-      scaffoldKey.currentState.showSnackBar(SnackBar(
-        content: Text('Profile settings updated successfully'),
-      ));
+      FlushbarHelper.createSuccess(message: "تم تحديث الملف الشخصي")
+          .show(scaffoldKey.currentState.context);
     });
   }
 
   void updateCreditCard(CreditCard creditCard) {
     repository.setCreditCard(creditCard).then((value) {
       setState(() {});
-      scaffoldKey.currentState.showSnackBar(SnackBar(
-        content: Text('Payment settings updated successfully'),
-      ));
+      FlushbarHelper.createSuccess(message: "تم تحديث معلومات الدفع")
+          .show(scaffoldKey.currentState.context);
     });
   }
 

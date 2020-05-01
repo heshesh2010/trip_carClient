@@ -9,10 +9,6 @@ class Media {
   Media();
 
   Media.fromJSON(Map<String, dynamic> jsonMap)
-      : id = jsonMap['id'].toString(),
-        name = jsonMap['name'],
-        url = jsonMap['url'],
-        thumb = jsonMap['thumb'],
-        icon = jsonMap['icon'],
-        size = jsonMap['formated_size'];
+      : url = jsonMap['url'] != null ? jsonMap['url'] : null,
+        thumb = jsonMap['thumb'] != null ? jsonMap['thumb'] : null;
 }

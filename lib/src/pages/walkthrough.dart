@@ -2,9 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
-import 'package:restaurant_rlutter_ui/config/app_config.dart' as config;
-import 'package:restaurant_rlutter_ui/generated/i18n.dart';
-import 'package:restaurant_rlutter_ui/src/controllers/walkthrough_controller.dart';
+import 'package:order_client_app/config/app_config.dart' as config;
+import 'package:order_client_app/generated/i18n.dart';
+import 'package:order_client_app/src/controllers/walkthrough_controller.dart';
 
 class Walkthrough extends StatelessWidget {
   @override
@@ -22,7 +22,7 @@ class Walkthrough extends StatelessWidget {
       leading: MaterialButton(
         padding: EdgeInsets.all(0),
         onPressed: () {
-          Navigator.of(context).pushReplacementNamed('/Pages', arguments: 2);
+          Navigator.of(context).pushReplacementNamed('Pages', arguments: 2);
         },
         child: Padding(
           padding: const EdgeInsets.only(left: 20),
@@ -36,7 +36,7 @@ class Walkthrough extends StatelessWidget {
         MaterialButton(
             padding: EdgeInsets.all(0),
             onPressed: () {
-              Navigator.of(context).pushReplacementNamed('/Login');
+              Navigator.of(context).pushReplacementNamed('Login');
             },
             child: Row(
               children: <Widget>[

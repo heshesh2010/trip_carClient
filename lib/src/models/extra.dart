@@ -1,4 +1,4 @@
-import 'package:restaurant_rlutter_ui/src/models/media.dart';
+import 'package:order_client_app/src/models/media.dart';
 
 class Extra {
   String id;
@@ -16,7 +16,11 @@ class Extra {
         price = jsonMap['price'] != null ? jsonMap['price'].toDouble() : null,
         description = jsonMap['description'],
         checked = false,
-        image = jsonMap['media'] != null ? Media.fromJSON(jsonMap['media'][0]) : null;
+        image = jsonMap['media'] != null
+            ? (jsonMap['media'] as List).isNotEmpty
+                ? Media.fromJSON(jsonMap['media'][0])
+                : null
+            : null;
 
   Map toMap() {
     var map = new Map<String, dynamic>();

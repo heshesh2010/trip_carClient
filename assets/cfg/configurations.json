@@ -1,5 +1,5 @@
 {
-  "base_url": "http://148.251.32.37/~salalordercom/public/",
-  "api_base_url": "http://148.251.32.37/~salalordercom/public/api/",
-  "google_maps_key" : "AIzaSyB1F-b6QOA8S-rKf3niLrUcY71cGGVdiZ4"
+  "base_url": "http://salalorder.toplinedev.com/",
+  "api_base_url": "http://salalorder.toplinedev.com/public/api/",
+  "google_maps_key" : "AIzaSyBVaPkrHib_vKXVIIiqFayY0dml0tVQ_nQ"
 }

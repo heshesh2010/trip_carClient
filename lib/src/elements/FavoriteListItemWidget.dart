@@ -1,14 +1,16 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:restaurant_rlutter_ui/src/helpers/helper.dart';
-import 'package:restaurant_rlutter_ui/src/models/favorite.dart';
-import 'package:restaurant_rlutter_ui/src/models/route_argument.dart';
+import 'package:order_client_app/src/helpers/helper.dart';
+import 'package:order_client_app/src/models/favorite.dart';
+import 'package:order_client_app/src/models/route_argument.dart';
 
 // ignore: must_be_immutable
 class FavoriteListItemWidget extends StatelessWidget {
   String heroTag;
   Favorite favorite;
 
-  FavoriteListItemWidget({Key key, this.heroTag, this.favorite}) : super(key: key);
+  FavoriteListItemWidget({Key key, this.heroTag, this.favorite})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,28 +19,35 @@ class FavoriteListItemWidget extends StatelessWidget {
       focusColor: Theme.of(context).accentColor,
       highlightColor: Theme.of(context).primaryColor,
       onTap: () {
-        Navigator.of(context)
-            .pushNamed('/Food', arguments: new RouteArgument(heroTag: this.heroTag, id: this.favorite.food.id));
+        Navigator.of(context).pushNamed('Food',
+            arguments:
+                RouteArgument(heroTag: this.heroTag, food: this.favorite.food));
       },
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
         decoration: BoxDecoration(
           color: Theme.of(context).primaryColor.withOpacity(0.9),
           boxShadow: [
-            BoxShadow(color: Theme.of(context).focusColor.withOpacity(0.1), blurRadius: 5, offset: Offset(0, 2)),
+            BoxShadow(
+                color: Theme.of(context).focusColor.withOpacity(0.1),
+                blurRadius: 5,
+                offset: Offset(0, 2)),
           ],
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Hero(
-              tag: heroTag + favorite.food.id,
+              tag: this.heroTag + favorite.food.id,
               child: Container(
                 height: 60,
                 width: 60,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(5)),
-                  image: DecorationImage(image: NetworkImage(favorite.food.image.thumb), fit: BoxFit.cover),
+                  image: DecorationImage(
+                      image:
+                          CachedNetworkImageProvider(favorite.food.image.thumb),
+                      fit: BoxFit.cover),
                 ),
               ),
             ),
@@ -67,7 +76,8 @@ class FavoriteListItemWidget extends StatelessWidget {
                     ),
                   ),
                   SizedBox(width: 8),
-                  Helper.getPrice(favorite.food.price, style: Theme.of(context).textTheme.display1),
+                  Helper.getPrice(favorite.food.price,
+                      style: Theme.of(context).textTheme.display1),
                 ],
               ),
             )

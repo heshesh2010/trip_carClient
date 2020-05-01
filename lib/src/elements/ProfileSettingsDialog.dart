@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant_rlutter_ui/src/models/user.dart';
+import 'package:order_client_app/src/models/user.dart';
 
 class ProfileSettingsDialog extends StatefulWidget {
   User user;

@@ -1,7 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:restaurant_rlutter_ui/src/helpers/helper.dart';
-import 'package:restaurant_rlutter_ui/src/models/food.dart';
-import 'package:restaurant_rlutter_ui/src/models/route_argument.dart';
+import 'package:order_client_app/src/helpers/helper.dart';
+import 'package:order_client_app/src/models/food.dart';
+import 'package:order_client_app/src/models/route_argument.dart';
 
 class FoodsCarouselItemWidget extends StatelessWidget {
   double marginLeft;
@@ -14,9 +15,9 @@ class FoodsCarouselItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       splashColor: Theme.of(context).accentColor.withOpacity(0.08),
-      highlightColor: Colors.transparent,
+      highlightColor: Colors.white10,
       onTap: () {
-        Navigator.of(context).pushNamed('/Food', arguments: RouteArgument(id: food.id, heroTag: heroTag));
+        Navigator.of(context).pushNamed('Food', arguments: RouteArgument(food: food, heroTag: heroTag));
       },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -34,7 +35,7 @@ class FoodsCarouselItemWidget extends StatelessWidget {
                     borderRadius: BorderRadius.all(Radius.circular(5)),
                     image: DecorationImage(
                       fit: BoxFit.cover,
-                      image: NetworkImage(food.image.thumb),
+                      image: CachedNetworkImageProvider(food.image.thumb),
                     ),
                   ),
                 ),

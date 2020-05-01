@@ -1,7 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:restaurant_rlutter_ui/src/helpers/helper.dart';
-import 'package:restaurant_rlutter_ui/src/models/food.dart';
-import 'package:restaurant_rlutter_ui/src/models/route_argument.dart';
+import 'package:order_client_app/src/helpers/helper.dart';
+import 'package:order_client_app/src/models/food.dart';
+import 'package:order_client_app/src/models/route_argument.dart';
 
 // ignore: must_be_immutable
 class FoodListItemWidget extends StatelessWidget {
@@ -17,7 +18,7 @@ class FoodListItemWidget extends StatelessWidget {
       focusColor: Theme.of(context).accentColor,
       highlightColor: Theme.of(context).primaryColor,
       onTap: () {
-        Navigator.of(context).pushNamed('/Food', arguments: new RouteArgument(heroTag: this.heroTag, id: this.food.id));
+        Navigator.of(context).pushNamed('Food', arguments: new RouteArgument(heroTag: this.heroTag, food: this.food));
       },
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
@@ -37,7 +38,7 @@ class FoodListItemWidget extends StatelessWidget {
                 width: 60,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(5)),
-                  image: DecorationImage(image: NetworkImage(food.image.thumb), fit: BoxFit.cover),
+                  image: DecorationImage(image: CachedNetworkImageProvider(food.image.thumb), fit: BoxFit.cover),
                 ),
               ),
             ),

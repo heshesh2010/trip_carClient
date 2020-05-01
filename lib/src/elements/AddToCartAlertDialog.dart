@@ -1,5 +1,6 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:restaurant_rlutter_ui/src/models/food.dart';
+import 'package:order_client_app/src/models/food.dart';
 
 typedef FoodBoolFunc = void Function(Food food, {bool reset});
 
@@ -58,14 +59,14 @@ class AddToCartAlertDialogWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   Hero(
-                    tag: 'new_restaurant' + this.newFood?.restaurant?.id,
+                    tag: 'new_restaurant' + this.newFood?.restaurant?.id.toString(),
                     child: Container(
                       height: 60,
                       width: 60,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(5)),
                         image: DecorationImage(
-                            image: NetworkImage(this.newFood?.restaurant?.image?.thumb), fit: BoxFit.cover),
+                            image: CachedNetworkImageProvider(this.newFood?.restaurant?.image?.thumb), fit: BoxFit.cover),
                       ),
                     ),
                   ),
@@ -119,14 +120,14 @@ class AddToCartAlertDialogWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   Hero(
-                    tag: 'old_restaurant' + this.oldFood.restaurant.id,
+                    tag: 'old_restaurant' + this.oldFood.restaurant.id.toString(),
                     child: Container(
                       height: 60,
                       width: 60,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(5)),
                         image: DecorationImage(
-                            image: NetworkImage(this.oldFood.restaurant.image.thumb), fit: BoxFit.cover),
+                            image: CachedNetworkImageProvider(this.oldFood.restaurant.image.thumb), fit: BoxFit.cover),
                       ),
                     ),
                   ),

@@ -1,46 +1,57 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart' show DateFormat;
-import 'package:restaurant_rlutter_ui/src/helpers/helper.dart';
-import 'package:restaurant_rlutter_ui/src/models/food_order.dart';
-import 'package:restaurant_rlutter_ui/src/models/order.dart';
-import 'package:restaurant_rlutter_ui/src/models/route_argument.dart';
+import 'package:order_client_app/generated/i18n.dart';
+import 'package:order_client_app/src/helpers/helper.dart';
+import 'package:order_client_app/src/models/order.dart';
+import 'package:order_client_app/src/models/order_status.dart';
+import 'package:order_client_app/src/models/route_argument.dart';
 
 class OrderItemWidget extends StatelessWidget {
-  final String heroTag;
-  final FoodOrder foodOrder;
   final Order order;
+  final List<OrderStatus> orderStatus;
 
-  const OrderItemWidget({Key key, this.foodOrder, this.order, this.heroTag}) : super(key: key);
+  const OrderItemWidget({Key key, this.order, this.orderStatus})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      splashColor: Theme.of(context).accentColor,
-      focusColor: Theme.of(context).accentColor,
-      highlightColor: Theme.of(context).primaryColor,
+      // splashColor: Theme.of(context).primaryColor,
+      // focusColor: Theme.of(context).focusColor,
+      //highlightColor: Theme.of(context).primaryColor,
+
       onTap: () {
-        Navigator.of(context).pushNamed('/Tracking', arguments: RouteArgument(id: order.id, heroTag: this.heroTag));
+        if (orderStatus.isNotEmpty && orderStatus != null)
+          Navigator.of(context).pushNamed('Tracking',
+              arguments:
+                  RouteArgument(order: order, ordersStatus: orderStatus));
       },
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
         decoration: BoxDecoration(
-          color: Theme.of(context).primaryColor.withOpacity(0.9),
+          color: Theme.of(context).primaryColor,
           boxShadow: [
-            BoxShadow(color: Theme.of(context).focusColor.withOpacity(0.1), blurRadius: 5, offset: Offset(0, 2)),
+            BoxShadow(
+                color: Theme.of(context).focusColor.withOpacity(0.1),
+                blurRadius: 5,
+                offset: Offset(0, 2)),
           ],
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            Hero(
-              tag: heroTag + foodOrder?.id,
-              child: Container(
-                height: 60,
-                width: 60,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(5)),
-                  image: DecorationImage(image: NetworkImage(foodOrder.food.image.thumb), fit: BoxFit.cover),
-                ),
+            Container(
+              height: 60,
+              width: 60,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(5)),
+                image: DecorationImage(
+                    image: order.restaurant?.image != null
+                        ? CachedNetworkImageProvider(
+                            order.restaurant.image.thumb,
+                          )
+                        : Image.asset('assets/img/default.png').image,
+                    fit: BoxFit.cover),
               ),
             ),
             SizedBox(width: 15),
@@ -53,13 +64,13 @@ class OrderItemWidget extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          foodOrder.food.name,
+                          '${S.of(context).order_id}:#${order.orderNumber.toString()}',
                           overflow: TextOverflow.ellipsis,
                           maxLines: 2,
-                          style: Theme.of(context).textTheme.subhead,
+                          style: Theme.of(context).textTheme.subtitle1,
                         ),
                         Text(
-                          foodOrder.food.restaurant.name,
+                          order.restaurant?.name ?? '',
                           overflow: TextOverflow.ellipsis,
                           maxLines: 2,
                           style: Theme.of(context).textTheme.caption,
@@ -72,14 +83,21 @@ class OrderItemWidget extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: <Widget>[
-                      Helper.getPrice(Helper.getTotalOrderPrice(foodOrder, order.tax),
-                          style: Theme.of(context).textTheme.display1),
+                      Helper.getPrice(
+                          order.payment != null
+                              ? order.payment.price ?? 0.0
+                              : 0.0,
+                          style: Theme.of(context).textTheme.headline4),
                       Text(
-                        DateFormat('yyyy-MM-dd').format(foodOrder.dateTime),
+                        Helper.getDateOnly(order.date),
                         style: Theme.of(context).textTheme.caption,
                       ),
                       Text(
-                        DateFormat('HH:mm').format(foodOrder.dateTime),
+                        Helper.getTimeOnly(order.date),
+                        style: Theme.of(context).textTheme.caption,
+                      ),
+                      Text(
+                        order.orderStatus.status,
                         style: Theme.of(context).textTheme.caption,
                       ),
                     ],

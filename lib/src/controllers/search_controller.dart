@@ -1,9 +1,9 @@
 import 'package:location/location.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
-import 'package:restaurant_rlutter_ui/src/models/restaurant.dart';
-import 'package:restaurant_rlutter_ui/src/repository/restaurant_repository.dart';
-import 'package:restaurant_rlutter_ui/src/repository/search_repository.dart';
-import 'package:restaurant_rlutter_ui/src/repository/settings_repository.dart';
+import 'package:order_client_app/src/models/restaurant.dart';
+import 'package:order_client_app/src/repository/restaurant_repository.dart';
+import 'package:order_client_app/src/repository/search_repository.dart';
+import 'package:order_client_app/src/repository/settings_repository.dart';
 
 class SearchController extends ControllerMVC {
   List<Restaurant> restaurants = <Restaurant>[];

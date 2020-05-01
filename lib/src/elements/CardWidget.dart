@@ -1,7 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:restaurant_rlutter_ui/src/helpers/helper.dart';
-import 'package:restaurant_rlutter_ui/src/models/restaurant.dart';
-import 'package:restaurant_rlutter_ui/src/models/route_argument.dart';
+import 'package:order_client_app/src/helpers/helper.dart';
+import 'package:order_client_app/src/models/restaurant.dart';
+import 'package:order_client_app/src/models/route_argument.dart';
 
 class CardWidget extends StatelessWidget {
   Restaurant restaurant;
@@ -17,7 +18,10 @@ class CardWidget extends StatelessWidget {
         color: Theme.of(context).primaryColor,
         borderRadius: BorderRadius.all(Radius.circular(10)),
         boxShadow: [
-          BoxShadow(color: Theme.of(context).focusColor.withOpacity(0.1), blurRadius: 15, offset: Offset(0, 5)),
+          BoxShadow(
+              color: Theme.of(context).focusColor.withOpacity(0.1),
+              blurRadius: 15,
+              offset: Offset(0, 5)),
         ],
       ),
       child: Column(
@@ -25,15 +29,17 @@ class CardWidget extends StatelessWidget {
         children: <Widget>[
           // Image of the card
           Hero(
-            tag: this.heroTag + restaurant.id,
+            tag: this.heroTag + restaurant.id.toString(),
             child: Container(
               height: 150,
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: NetworkImage(restaurant.image.url),
+                  image: CachedNetworkImageProvider(restaurant.image.url),
                   fit: BoxFit.cover,
                 ),
-                borderRadius: BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(10),
+                    topRight: Radius.circular(10)),
               ),
             ),
           ),
@@ -63,7 +69,7 @@ class CardWidget extends StatelessWidget {
                       ),
                       SizedBox(height: 5),
                       Row(
-                        children: Helper.getStarsList(double.parse(restaurant.rate)),
+                        children: Helper.getStarsList(restaurant.rate),
                       ),
                     ],
                   ),
@@ -76,11 +82,14 @@ class CardWidget extends StatelessWidget {
                         padding: EdgeInsets.all(0),
                         onPressed: () {
                           print('Go to map');
-                          Navigator.of(context).pushNamed('/Map', arguments: new RouteArgument(param: restaurant));
+                          Navigator.of(context).pushNamed('Map',
+                              arguments: new RouteArgument(param: restaurant));
                         },
-                        child: Icon(Icons.directions, color: Theme.of(context).focusColor),
+                        child: Icon(Icons.directions,
+                            color: Theme.of(context).focusColor),
                         color: Theme.of(context).accentColor,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5)),
                       ),
                       Text(
                         Helper.getDistance(restaurant.distance),

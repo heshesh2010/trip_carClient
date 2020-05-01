@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant_rlutter_ui/src/elements/PaymentSettingsDialog.dart';
-import 'package:restaurant_rlutter_ui/src/helpers/helper.dart';
-import 'package:restaurant_rlutter_ui/src/models/credit_card.dart';
+import 'package:order_client_app/src/elements/PaymentSettingsDialog.dart';
+import 'package:order_client_app/src/helpers/helper.dart';
+import 'package:order_client_app/src/models/credit_card.dart';
 
 class CreditCardsWidget extends StatelessWidget {
   CreditCard creditCard;

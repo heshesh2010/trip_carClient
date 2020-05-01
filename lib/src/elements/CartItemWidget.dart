@@ -1,7 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:restaurant_rlutter_ui/src/helpers/helper.dart';
-import 'package:restaurant_rlutter_ui/src/models/cart.dart';
-import 'package:restaurant_rlutter_ui/src/models/route_argument.dart';
+import 'package:order_client_app/src/helpers/helper.dart';
+import 'package:order_client_app/src/models/cart.dart';
+import 'package:order_client_app/src/models/route_argument.dart';
 
 class CartItemWidget extends StatefulWidget {
   String heroTag;
@@ -10,7 +11,13 @@ class CartItemWidget extends StatefulWidget {
   VoidCallback decrement;
   VoidCallback onDismissed;
 
-  CartItemWidget({Key key, this.cart, this.heroTag, this.increment, this.decrement, this.onDismissed})
+  CartItemWidget(
+      {Key key,
+      this.cart,
+      this.heroTag,
+      this.increment,
+      this.decrement,
+      this.onDismissed})
       : super(key: key);
 
   @override
@@ -21,7 +28,7 @@ class _CartItemWidgetState extends State<CartItemWidget> {
   @override
   Widget build(BuildContext context) {
     return Dismissible(
-      key: Key(widget.cart.id),
+      key: UniqueKey(),
       onDismissed: (direction) {
         setState(() {
           widget.onDismissed();
@@ -32,15 +39,19 @@ class _CartItemWidgetState extends State<CartItemWidget> {
         focusColor: Theme.of(context).accentColor,
         highlightColor: Theme.of(context).primaryColor,
         onTap: () {
-          Navigator.of(context)
-              .pushNamed('/Food', arguments: RouteArgument(id: widget.cart.food.id, heroTag: widget.heroTag));
+          Navigator.of(context).pushNamed('Food',
+              arguments: RouteArgument(
+                  food: widget.cart.food, heroTag: widget.heroTag));
         },
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 20, vertical: 7),
           decoration: BoxDecoration(
             color: Theme.of(context).primaryColor.withOpacity(0.9),
             boxShadow: [
-              BoxShadow(color: Theme.of(context).focusColor.withOpacity(0.1), blurRadius: 5, offset: Offset(0, 2)),
+              BoxShadow(
+                  color: Theme.of(context).focusColor.withOpacity(0.1),
+                  blurRadius: 5,
+                  offset: Offset(0, 2)),
             ],
           ),
           child: Row(
@@ -51,7 +62,10 @@ class _CartItemWidgetState extends State<CartItemWidget> {
                 width: 90,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(5)),
-                  image: DecorationImage(image: NetworkImage(widget.cart.food.image.url), fit: BoxFit.cover),
+                  image: DecorationImage(
+                      image: CachedNetworkImageProvider(
+                          widget.cart.food.image.url),
+                      fit: BoxFit.cover),
                 ),
               ),
               SizedBox(width: 15),
@@ -70,14 +84,17 @@ class _CartItemWidgetState extends State<CartItemWidget> {
                             style: Theme.of(context).textTheme.subhead,
                           ),
                           Wrap(
-                            children: List.generate(widget.cart.extras.length, (index) {
+                            children: List.generate(
+                                widget.cart.food.extras.length, (index) {
                               return Text(
-                                widget.cart.extras.elementAt(index).name + ', ',
+                                widget.cart.food.extras.elementAt(index).name +
+                                    ', ',
                                 style: Theme.of(context).textTheme.caption,
                               );
                             }),
                           ),
-                          Helper.getPrice(widget.cart.food.price, style: Theme.of(context).textTheme.display1)
+                          Helper.getPrice(widget.cart.food.price,
+                              style: Theme.of(context).textTheme.display1)
                         ],
                       ),
                     ),
@@ -96,7 +113,8 @@ class _CartItemWidgetState extends State<CartItemWidget> {
                           icon: Icon(Icons.add_circle_outline),
                           color: Theme.of(context).hintColor,
                         ),
-                        Text(widget.cart.quantity.toString(), style: Theme.of(context).textTheme.subhead),
+                        Text(widget.cart.quantity.toString(),
+                            style: Theme.of(context).textTheme.subhead),
                         IconButton(
                           onPressed: () {
                             setState(() {

@@ -1,9 +1,10 @@
-import 'package:restaurant_rlutter_ui/src/models/category.dart';
-import 'package:restaurant_rlutter_ui/src/models/extra.dart';
-import 'package:restaurant_rlutter_ui/src/models/media.dart';
-import 'package:restaurant_rlutter_ui/src/models/nutrition.dart';
-import 'package:restaurant_rlutter_ui/src/models/restaurant.dart';
-import 'package:restaurant_rlutter_ui/src/models/review.dart';
+import 'package:order_client_app/src/models/category.dart';
+import 'package:order_client_app/src/models/extra.dart';
+import 'package:order_client_app/src/models/favorite.dart';
+import 'package:order_client_app/src/models/media.dart';
+import 'package:order_client_app/src/models/restaurant.dart';
+import 'package:order_client_app/src/models/review.dart';
+import 'package:order_client_app/src/models/size.dart';
 
 class Food {
   String id;
@@ -13,13 +14,16 @@ class Food {
   Media image;
   String description;
   String ingredients;
-  String weight;
   bool featured;
   Restaurant restaurant;
   Category category;
   List<Extra> extras;
+  List<Extra> selectedExtras = [];
   List<Review> foodReviews;
-  List<Nutrition> nutritions;
+  Size size;
+  String preparationTime;
+  String foodType;
+  Favorite favorite;
 
   Food();
 
@@ -27,23 +31,37 @@ class Food {
     id = jsonMap['id'].toString();
     name = jsonMap['name'];
     price = jsonMap['price'].toDouble();
-    discountPrice = jsonMap['discount_price'] != null ? jsonMap['discount_price'].toDouble() : null;
+    discountPrice = jsonMap['discount_price'] != null
+        ? jsonMap['discount_price'].toDouble()
+        : null;
     description = jsonMap['description'];
     ingredients = jsonMap['ingredients'];
-    weight = jsonMap['weight'].toString();
     featured = jsonMap['featured'] ?? false;
-    restaurant = jsonMap['restaurant'] != null ? Restaurant.fromJSON(jsonMap['restaurant']) : null;
-    category = jsonMap['category'] != null ? Category.fromJSON(jsonMap['category']) : null;
-    image = jsonMap['media'] != null ? Media.fromJSON(jsonMap['media'][0]) : null;
+    restaurant = jsonMap['restaurant'] != null
+        ? Restaurant.fromJSON(jsonMap['restaurant'])
+        : null;
+    category = jsonMap['category'] != null
+        ? Category.fromJSON(jsonMap['category'])
+        : null;
+    image =
+        jsonMap['media'] != null ? Media.fromJSON(jsonMap['media'][0]) : null;
     extras = jsonMap['extras'] != null
-        ? List.from(jsonMap['extras']).map((element) => Extra.fromJSON(element)).toList()
+        ? List.from(jsonMap['extras'])
+            .map((element) => Extra.fromJSON(element))
+            .toList()
         : null;
-    nutritions = jsonMap['nutrition'] != null
-        ? List.from(jsonMap['nutrition']).map((element) => Nutrition.fromJSON(element)).toList()
-        : null;
+    selectedExtras.addAll(extras);
     foodReviews = jsonMap['food_reviews'] != null
-        ? List.from(jsonMap['food_reviews']).map((element) => Review.fromJSON(element)).toList()
+        ? List.from(jsonMap['food_reviews'])
+            .map((element) => Review.fromJSON(element))
+            .toList()
         : null;
+    size = jsonMap['size'] != null ? Size.fromJSON(jsonMap['size']) : null;
+    preparationTime = jsonMap['preparation_time'];
+    foodType = jsonMap['food_type'];
+    //favorite = jsonMap['favorite'] != null
+    //    ? Favorite.fromJSON(jsonMap['favorite'])
+    //    : null;
   }
 
   Map toMap() {
@@ -54,7 +72,8 @@ class Food {
     map["discountPrice"] = discountPrice;
     map["description"] = description;
     map["ingredients"] = ingredients;
-    map["weight"] = weight;
+    map["food_type"] = foodType;
+
     return map;
   }
 }

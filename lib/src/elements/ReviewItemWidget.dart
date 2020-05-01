@@ -1,8 +1,9 @@
 import 'dart:math';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:restaurant_rlutter_ui/src/helpers/helper.dart';
-import 'package:restaurant_rlutter_ui/src/models/review.dart';
+import 'package:order_client_app/src/helpers/helper.dart';
+import 'package:order_client_app/src/models/review.dart';
 
 // ignore: must_be_immutable
 class ReviewItemWidget extends StatelessWidget {
@@ -25,9 +26,12 @@ class ReviewItemWidget extends StatelessWidget {
                 height: 65,
                 width: 65,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(100)),
-                  image: DecorationImage(image: NetworkImage(this.review.user.image.thumb), fit: BoxFit.cover),
-                ),
+                    borderRadius: BorderRadius.all(Radius.circular(100)),
+                    image: DecorationImage(
+                        image: this.review.user.image != null
+                            ? CachedNetworkImageProvider(
+                                this.review.user.image.thumb)
+                            : Image.asset('assets/img/default.png').image)),
               ),
               SizedBox(width: 15),
               Flexible(
@@ -43,8 +47,8 @@ class ReviewItemWidget extends StatelessWidget {
                             overflow: TextOverflow.fade,
                             softWrap: false,
                             maxLines: 2,
-                            style:
-                                Theme.of(context).textTheme.title.merge(TextStyle(color: Theme.of(context).hintColor)),
+                            style: Theme.of(context).textTheme.title.merge(
+                                TextStyle(color: Theme.of(context).hintColor)),
                           ),
                         ),
                         SizedBox(
@@ -54,26 +58,30 @@ class ReviewItemWidget extends StatelessWidget {
                             label: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
-                                Text(review.rate,
+                                Text(review.rate.toString(),
                                     style: Theme.of(context)
                                         .textTheme
-                                        .body2
-                                        .merge(TextStyle(color: Theme.of(context).primaryColor))),
+                                        .bodyText1
+                                        .merge(TextStyle(
+                                            color:
+                                                Theme.of(context).hintColor))),
                                 Icon(
                                   Icons.star_border,
-                                  color: Theme.of(context).primaryColor,
+                                  color: Theme.of(context).hintColor,
                                   size: 16,
                                 ),
                               ],
                             ),
-                            backgroundColor: Theme.of(context).accentColor.withOpacity(0.9),
+                            backgroundColor:
+                                Theme.of(context).accentColor.withOpacity(0.9),
                             shape: StadiumBorder(),
                           ),
                         ),
                       ],
                     ),
                     Text(
-                      review.user.bio.substring(0, min(30, review.user.bio.length)),
+                      review.user.bio
+                          .substring(0, min(30, review.user.bio.length)),
                       overflow: TextOverflow.ellipsis,
                       style: Theme.of(context).textTheme.caption,
                     )

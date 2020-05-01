@@ -2,10 +2,10 @@ import 'dart:convert';
 
 import 'package:global_configuration/global_configuration.dart';
 import 'package:http/http.dart' as http;
-import 'package:restaurant_rlutter_ui/src/helpers/helper.dart';
-import 'package:restaurant_rlutter_ui/src/models/category.dart';
-import 'package:restaurant_rlutter_ui/src/models/user.dart';
-import 'package:restaurant_rlutter_ui/src/repository/user_repository.dart';
+import 'package:order_client_app/src/helpers/helper.dart';
+import 'package:order_client_app/src/models/category.dart';
+import 'package:order_client_app/src/models/user.dart';
+import 'package:order_client_app/src/repository/user_repository.dart';
 
 Future<Stream<Category>> getCategories() async {
   User _user = await getCurrentUser();
@@ -23,7 +23,7 @@ Future<Stream<Category>> getCategories() async {
       .map((data) => Category.fromJSON(data));
 }
 
-Future<Stream<Category>> getCategory(String id) async {
+Future<Stream<Category>> getCategory(int id) async {
   User _user = await getCurrentUser();
   final String _apiToken = 'api_token=${_user.apiToken}';
   final String url = '${GlobalConfiguration().getString('api_base_url')}categories/$id?$_apiToken';

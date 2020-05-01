@@ -1,9 +1,10 @@
+import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
-import 'package:restaurant_rlutter_ui/src/models/order.dart';
-import 'package:restaurant_rlutter_ui/src/models/user.dart';
-import 'package:restaurant_rlutter_ui/src/repository/order_repository.dart';
-import 'package:restaurant_rlutter_ui/src/repository/user_repository.dart';
+import 'package:order_client_app/src/models/order.dart';
+import 'package:order_client_app/src/models/user.dart';
+import 'package:order_client_app/src/repository/order_repository.dart';
+import 'package:order_client_app/src/repository/user_repository.dart';
 
 class ProfileController extends ControllerMVC {
   User user = new User();
@@ -32,14 +33,10 @@ class ProfileController extends ControllerMVC {
       });
     }, onError: (a) {
       print(a);
-      scaffoldKey?.currentState?.showSnackBar(SnackBar(
-        content: Text('Verify your internet connection'),
-      ));
+      FlushbarHelper.createError(message: "حدث خطأ بالاتصال").show(context);
     }, onDone: () {
       if (message != null) {
-        scaffoldKey?.currentState?.showSnackBar(SnackBar(
-          content: Text(message),
-        ));
+        FlushbarHelper.createSuccess(message: message).show(context);
       }
     });
   }
@@ -47,7 +44,7 @@ class ProfileController extends ControllerMVC {
   Future<void> refreshProfile() async {
     recentOrders.clear();
     user = new User();
-    listenForRecentOrders(message: 'Orders refreshed successfuly');
+    listenForRecentOrders(message: 'تم تحديث قائمة الاوردرات');
     listenForUser();
   }
 }

@@ -3,13 +3,12 @@ import 'dart:io';
 
 import 'package:global_configuration/global_configuration.dart';
 import 'package:http/http.dart' as http;
-import 'package:restaurant_rlutter_ui/src/helpers/helper.dart';
-import 'package:restaurant_rlutter_ui/src/models/credit_card.dart';
-import 'package:restaurant_rlutter_ui/src/models/order.dart';
-import 'package:restaurant_rlutter_ui/src/models/order_status.dart';
-import 'package:restaurant_rlutter_ui/src/models/payment.dart';
-import 'package:restaurant_rlutter_ui/src/models/user.dart';
-import 'package:restaurant_rlutter_ui/src/repository/user_repository.dart';
+import 'package:order_client_app/src/helpers/helper.dart';
+import 'package:order_client_app/src/models/order.dart';
+import 'package:order_client_app/src/models/order_status.dart';
+import 'package:order_client_app/src/models/payment.dart';
+import 'package:order_client_app/src/models/user.dart';
+import 'package:order_client_app/src/repository/user_repository.dart';
 
 Future<Stream<Order>> getOrders() async {
   User _user = await getCurrentUser();
@@ -70,7 +69,8 @@ Future<Stream<Order>> getRecentOrders() async {
 Future<Stream<OrderStatus>> getOrderStatus() async {
   User _user = await getCurrentUser();
   final String _apiToken = 'api_token=${_user.apiToken}';
-  final String url = '${GlobalConfiguration().getString('api_base_url')}order_statuses?$_apiToken';
+  final String url =
+      '${GlobalConfiguration().getString('api_base_url')}order_statuses?$_apiToken';
 
   final client = new http.Client();
   final streamedRest = await client.send(http.Request('get', Uri.parse(url)));
@@ -85,19 +85,45 @@ Future<Stream<OrderStatus>> getOrderStatus() async {
   });
 }
 
-Future<Order> addOrder(Order order, Payment payment) async {
+Future<Payment> addOrder(Order order) async {
   User _user = await getCurrentUser();
-  CreditCard _creditCard = await getCreditCard();
-  order.user = _user;
-  order.payment = payment;
-  final String _apiToken = 'api_token=${_user.apiToken}';
-  final String url = '${GlobalConfiguration().getString('api_base_url')}orders?$_apiToken';
+    final String _apiToken = 'api_token=${_user.apiToken}';
+  final String url = '${GlobalConfiguration().getString('api_base_url')}orders';
   final client = new http.Client();
   Map params = order.toMap();
-  params.addAll(_creditCard.toMap());
   final response = await client.post(
     url,
-    headers: {HttpHeaders.contentTypeHeader: 'application/json'},
+    headers: {
+      HttpHeaders.contentTypeHeader: 'application/json',
+      //     HttpHeaders.contentTypeHeader: 'application/json',
+      //   HttpHeaders.contentTypeHeader: "application/x-www-form-urlencoded",
+    
+      HttpHeaders.authorizationHeader: "Bearer ${_user.apiToken}"
+    
+    },
+    body: json.encode(params),
+  );
+  print(response.body);
+  return Payment.fromMap(json.decode(response.body)['data']);
+}
+
+String url;
+Future<Order> updateOrder(Order order) async {
+  User _user = await getCurrentUser();
+
+  url =
+      '${GlobalConfiguration().getString('api_base_url')}updateOrder/'+order.orderNumber.toString();
+  final client = new http.Client();
+  Map params = order.toMapUpdateStatus();
+  // params.addAll(_creditCard.toMap());
+  final response = await client.post(
+    url,
+    // headers: {HttpHeaders.contentTypeHeader: 'application/json',HttpHeaders.authorizationHeader:"Bearer ${_user.apiToken}"},
+    headers: {
+      HttpHeaders.acceptHeader: 'application/json',
+      HttpHeaders.authorizationHeader: "Bearer ${_user.apiToken}"
+    },
+
     body: json.encode(params),
   );
   return Order.fromJSON(json.decode(response.body)['data']);

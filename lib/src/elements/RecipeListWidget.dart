@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant_rlutter_ui/src/elements/RecipeListItemWidget.dart';
+import 'package:order_client_app/src/elements/RecipeListItemWidget.dart';
 
 class RecipeListWidget extends StatelessWidget {
   @override

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant_rlutter_ui/src/elements/SearchResultsWidget.dart';
+import 'package:order_client_app/src/elements/SearchResultsWidget.dart';
 
 class SearchModal extends ModalRoute<void> {
   @override

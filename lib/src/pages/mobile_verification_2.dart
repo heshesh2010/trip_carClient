@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant_rlutter_ui/config/app_config.dart' as config;
-import 'package:restaurant_rlutter_ui/generated/i18n.dart';
-import 'package:restaurant_rlutter_ui/src/elements/BlockButtonWidget.dart';
+import 'package:order_client_app/config/app_config.dart' as config;
+import 'package:order_client_app/generated/i18n.dart';
+import 'package:order_client_app/src/elements/BlockButtonWidget.dart';
 
 class MobileVerification2 extends StatelessWidget {
   @override
@@ -57,7 +57,7 @@ class MobileVerification2 extends StatelessWidget {
             SizedBox(height: 80),
             new BlockButtonWidget(
               onPressed: () {
-                Navigator.of(context).pushReplacementNamed('/Pages', arguments: 2);
+                Navigator.of(context).pushReplacementNamed('Pages', arguments: 2);
               },
               color: Theme.of(context).accentColor,
               text: Text(S.of(context).verify.toUpperCase(),

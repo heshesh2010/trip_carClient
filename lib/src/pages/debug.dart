@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
-import 'package:restaurant_rlutter_ui/src/controllers/favorite_controller.dart';
-import 'package:restaurant_rlutter_ui/src/elements/CircularLoadingWidget.dart';
-import 'package:restaurant_rlutter_ui/src/models/route_argument.dart';
+import 'package:order_client_app/src/controllers/favorite_controller.dart';
+import 'package:order_client_app/src/elements/CircularLoadingWidget.dart';
+import 'package:order_client_app/src/models/route_argument.dart';
 
 class DebugWidget extends StatefulWidget {
   RouteArgument routeArgument;

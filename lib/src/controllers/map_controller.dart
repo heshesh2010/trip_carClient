@@ -6,11 +6,12 @@ import 'package:global_configuration/global_configuration.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
-import 'package:restaurant_rlutter_ui/src/helpers/helper.dart';
-import 'package:restaurant_rlutter_ui/src/helpers/maps_util.dart';
-import 'package:restaurant_rlutter_ui/src/models/restaurant.dart';
-import 'package:restaurant_rlutter_ui/src/repository/restaurant_repository.dart';
-import 'package:restaurant_rlutter_ui/src/repository/settings_repository.dart' as sett;
+import 'package:order_client_app/src/helpers/helper.dart';
+import 'package:order_client_app/src/helpers/maps_util.dart';
+import 'package:order_client_app/src/models/restaurant.dart';
+import 'package:order_client_app/src/repository/restaurant_repository.dart';
+import 'package:order_client_app/src/repository/settings_repository.dart'
+    as sett;
 
 class MapController extends ControllerMVC {
   Restaurant currentRestaurant;
@@ -27,8 +28,10 @@ class MapController extends ControllerMVC {
     getDirectionSteps();
   }
 
-  void listenForNearRestaurants(LocationData myLocation, LocationData areaLocation) async {
-    final Stream<Restaurant> stream = await getNearRestaurants(myLocation, areaLocation);
+  void listenForNearRestaurants(
+      LocationData myLocation, LocationData areaLocation) async {
+    final Stream<Restaurant> stream =
+        await getNearRestaurants(myLocation, areaLocation);
     stream.listen((Restaurant _restaurant) {
       setState(() {
         topRestaurants.add(_restaurant);
@@ -46,11 +49,14 @@ class MapController extends ControllerMVC {
       currentLocation = await sett.getCurrentLocation();
       setState(() {
         cameraPosition = CameraPosition(
-          target: LatLng(double.parse(currentRestaurant.latitude), double.parse(currentRestaurant.longitude)),
+          target: LatLng(double.parse(currentRestaurant.latitude),
+              double.parse(currentRestaurant.longitude)),
           zoom: 14.4746,
         );
       });
-      Helper.getMyPositionMarker(currentLocation.latitude, currentLocation.longitude).then((marker) {
+      Helper.getMyPositionMarker(
+              currentLocation.latitude, currentLocation.longitude)
+          .then((marker) {
         setState(() {
           allMarkers.add(marker);
         });
@@ -73,8 +79,10 @@ class MapController extends ControllerMVC {
   void getRestaurantsOfArea() async {
     setState(() {
       topRestaurants = <Restaurant>[];
-      LocationData areaLocation = LocationData.fromMap(
-          {"latitude": cameraPosition.target.latitude, "longitude": cameraPosition.target.longitude});
+      LocationData areaLocation = LocationData.fromMap({
+        "latitude": cameraPosition.target.latitude,
+        "longitude": cameraPosition.target.longitude
+      });
       if (cameraPosition != null) {
         listenForNearRestaurants(currentLocation, areaLocation);
       } else {
@@ -95,16 +103,14 @@ class MapController extends ControllerMVC {
             "," +
             currentRestaurant.longitude +
             "&key=${GlobalConfiguration().getString('google_maps_key')}")
-        .then((dynamic res) {
-      List<LatLng> _latLng = res as List<LatLng>;
-      _latLng.insert(0, new LatLng(currentLocation.latitude, currentLocation.longitude));
+        .then((String res) {
       setState(() {
-        polylines.add(new Polyline(
-            visible: true,
+        polylines.add(Polyline(
             polylineId: new PolylineId(currentLocation.hashCode.toString()),
-            points: _latLng,
-            color: Color(0xFFea5c44),
-            width: 6));
+            width: 3,
+            geodesic: true,
+            points: Helper.convertToLatLng(Helper.decodePoly(res)),
+            color: Color(0xFFea5c44)));
       });
     });
   }

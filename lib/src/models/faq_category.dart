@@ -1,4 +1,4 @@
-import 'package:restaurant_rlutter_ui/src/models/faq.dart';
+import 'package:order_client_app/src/models/faq.dart';
 
 class FaqCategory {
   String id;

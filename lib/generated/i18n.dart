@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -13,7 +14,12 @@ class S implements WidgetsLocalizations {
 
   static S current;
 
-  static const GeneratedLocalizationsDelegate delegate = GeneratedLocalizationsDelegate();
+  static const GeneratedLocalizationsDelegate delegate =
+      GeneratedLocalizationsDelegate();
+
+  String get food => 'food';
+
+  String get chat => "chat";
 
   static S of(BuildContext context) => Localizations.of<S>(context, S);
 
@@ -22,9 +28,11 @@ class S implements WidgetsLocalizations {
 
   String get about => "About";
   String get add_to_cart => "Add to Cart";
-  String get shopping_cart  => "Shopping Cart";
+  String get shopping_cart => "Shopping Cart";
   String get shopping_cart_desc => " Verify your quantity and click checkout";
-
+  String get terms_approve =>
+      " I agree to the Terms of Services and Privacy Policy ";
+  String get order_details => "Order details";
 
   String get address => "Address";
   String get all_menu => "All Menu";
@@ -37,7 +45,8 @@ class S implements WidgetsLocalizations {
   String get confirmation => "Confirmation";
   String get default_credit_card => "Default Credit Card";
   String get discover__explorer => "Discover & Explorer";
-  String get double_click_on_the_food_to_add_it_to_the => "Double click on the food to add it to the cart";
+  String get double_click_on_the_food_to_add_it_to_the =>
+      "Double click on the food to add it to the cart";
   String get email => "Email";
   String get english => "English";
   String get extras => "Extras";
@@ -60,7 +69,8 @@ class S implements WidgetsLocalizations {
   String get languages => "Languages";
   String get lets_start_with_register => "Let's Start with register!";
   String get login => "Login";
-  String get longpress_on_the_food_to_add_suplements => "Longpress on the food to add suplements";
+  String get longpress_on_the_food_to_add_suplements =>
+      "Longpress on the food to add suplements";
   String get maps_explorer => "Maps Explorer";
   String get menu => "Menu";
   String get most_popular => "Most Popular";
@@ -68,7 +78,7 @@ class S implements WidgetsLocalizations {
   String get my_orders => "My Orders";
   String get order_refreshed => "Order refreshed successfuly";
   String get notifications => "Notifications";
-  String get nutrition => "Nutrition";
+  String get time => "preparation time";
   String get or_checkout_with => "Or Checkout With";
   String get order_id => "Order Id";
   String get ordered_by_nearby_first => "Ordered by Nearby first";
@@ -86,11 +96,15 @@ class S implements WidgetsLocalizations {
   String get recent_reviews1 => "Recent Reviews1";
   String get register => "Register";
   String get reviews => "Reviews";
-  String get search_for_restaurants_or_foods => "Search for restaurants or foods";
+  String get search_for_restaurants_or_foods =>
+      "Search for restaurants or foods";
   String get search => "Search";
-  String get select_extras_to_add_them_on_the_food => "Select extras to add them on the food";
-  String get select_your_preferred_languages => "Select your preferred languages";
-  String get select_your_preferred_payment_mode => "Select your preferred payment mode";
+  String get select_extras_to_add_them_on_the_food =>
+      "Select extras to add them on the food";
+  String get select_your_preferred_languages =>
+      "Select your preferred languages";
+  String get select_your_preferred_payment_mode =>
+      "Select your preferred payment mode";
   String get settings => "Settings";
   String get should_be_a_valid_email => "Should be a valid email";
   String get should_be_more_than_3_letters => "Should be more than 3 letters";
@@ -107,36 +121,45 @@ class S implements WidgetsLocalizations {
   String get what_they_say => "What They Say ?";
   String get you_can_discover_restaurants =>
       "You can discover restaurants & fastfood arround you and choose you best meal after few minutes we prepare and delivere it for you";
-  String get your_order_has_been_successfully_submitted => "Your order has been successfully submitted!";
+  String get your_order_has_been_successfully_submitted =>
+      "Your order has been successfully submitted!";
   String get recent_search => "Recent Search";
-
-
 }
 
 class $ar extends S {
   const $ar();
+  @override
+  String get food => 'مشاهدة تفاصيل الوجبة';
 
   @override
+  String get chat => "المحادثات";
+  @override
+  String get order_details => " تفاصيل الاوردر ";
+  @override
   TextDirection get textDirection => TextDirection.rtl;
-
+  @override
+  String get terms_approve => "انا اوافق على الشروط والاحكام ";
   @override
   String get default_credit_card => "البطاقة الائتمانية الافتراضية";
   @override
   String get app_language => "App Language";
   @override
-  String get longpress_on_the_food_to_add_suplements => "اضغط ضغطة مطولة للاضافة الى سلة المشتريات ";
+  String get longpress_on_the_food_to_add_suplements =>
+      "اضغط ضغطة مطولة للاضافة الى سلة المشتريات ";
   @override
   String get help_support => "الدعم  والمساعدة";
   @override
-  String get double_click_on_the_food_to_add_it_to_the => "اضغط مرتين للاضافة الى سلة الشتريات ";
+  String get double_click_on_the_food_to_add_it_to_the =>
+      "اضغط مرتين للاضافة الى سلة الشتريات ";
   @override
   String get about => "نبذة ";
   @override
-  String get select_your_preferred_payment_mode => "حدد كيفية الدفع المفضلة لديك";
+  String get select_your_preferred_payment_mode =>
+      "حدد كيفية الدفع المفضلة لديك";
   @override
   String get add_to_cart => "اضف الى سلة الشتريات";
   @override
-  String get shopping_cart => " سلة الشتريات";
+  String get shopping_cart => " سلة المشتريات";
   @override
   String get shopping_cart_desc => " فضلاً تاكد من الكمية والوجبات المطلوبة";
   @override
@@ -150,7 +173,8 @@ class $ar extends S {
   @override
   String get password => "كلمة المرور";
   @override
-  String get select_extras_to_add_them_on_the_food => "اختر الاضافات الى الوجبة";
+  String get select_extras_to_add_them_on_the_food =>
+      "اختر الاضافات الى الوجبة";
   @override
   String get reviews => "التقييمات";
   @override
@@ -163,7 +187,7 @@ class $ar extends S {
   @override
   String get english => "English";
   @override
-  String get should_be_more_than_3_letters => "Should be more than 3 letters";
+  String get should_be_more_than_3_letters => "يجب ادخال اكثر من ثلاثه خانات";
   @override
   String get lets_start_with_register => "لنبدأ بالتسجيل!";
   @override
@@ -183,7 +207,7 @@ class $ar extends S {
   @override
   String get paypal_payment => "PayPal Payment";
   @override
-  String get nutrition => "السعرات الحرارية";
+  String get time => "الوقت التقديري لتجهيز الوجبة";
   @override
   String get payments_settings => "اعدادات الدفع";
   @override
@@ -210,11 +234,12 @@ class $ar extends S {
   @override
   String get favorites => "المفضلة";
   @override
-  String get i_have_account_back_to_login => "لدي حساب بالفعل ؟ العودة الى تسجيل الدخول";
+  String get i_have_account_back_to_login =>
+      "لدي حساب بالفعل ؟ العودة الى تسجيل الدخول";
   @override
   String get submit => "إرسال";
   @override
-  String get john_doe => "John Doe";
+  String get john_doe => "فلان ابن فلان";
   @override
   String get what_they_say => "اراء العملاء";
   @override
@@ -222,7 +247,8 @@ class $ar extends S {
   @override
   String get skip => "تخطى";
   @override
-  String get your_order_has_been_successfully_submitted => "طلبك تم ارساله بنجاح ";
+  String get your_order_has_been_successfully_submitted =>
+      "طلبك تم ارساله بنجاح ";
   @override
   String get login => "دخول";
   @override
@@ -272,7 +298,7 @@ class $ar extends S {
   @override
   String get home => "الرئيسية";
   @override
-  String get should_be_more_than_6_letters => "Should be more than 6 letters";
+  String get should_be_more_than_6_letters => "يجب ان يكون اكثر من ٦ خانات";
   @override
   String get help_supports => "الدعم والمساعدة";
   @override
@@ -280,11 +306,11 @@ class $ar extends S {
   @override
   String get maps_explorer => "تصفح الخريطة";
   @override
-  String get i_forgot_password => "نسيت كلمة المرور  ?";
+  String get i_forgot_password => "نسيت كلمة المرور ؟";
   @override
   String get information => "للتواصل مع المطعم ";
   @override
-  String get discover__explorer => "تصفح الطاعم ";
+  String get discover__explorer => "تصفح المطاعم ";
   @override
   String get most_popular => "الأكثر شعبية";
   @override
@@ -306,32 +332,38 @@ class $pt extends S {
   @override
   String get app_language => "App Language";
   @override
-  String get longpress_on_the_food_to_add_suplements => "Longpress on the food to add suplements";
+  String get longpress_on_the_food_to_add_suplements =>
+      "Longpress on the food to add suplements";
   @override
   String get help_support => "Help & Support";
   @override
-  String get double_click_on_the_food_to_add_it_to_the => "Double click on the food to add it to the cart";
+  String get double_click_on_the_food_to_add_it_to_the =>
+      "Double click on the food to add it to the cart";
   @override
   String get about => "About";
   @override
   String get recent_reviews1 => "Recent Reviews1";
 
   @override
-  String get select_your_preferred_payment_mode => "Select your preferred payment mode";
+  String get select_your_preferred_payment_mode =>
+      "Select your preferred payment mode";
   @override
   String get add_to_cart => "Add to Cart";
   @override
-  String get select_your_preferred_languages => "Select your preferred languages";
+  String get select_your_preferred_languages =>
+      "Select your preferred languages";
   @override
   String get all_menu => "All Menu";
   @override
-  String get search_for_restaurants_or_foods => "Search for restaurants or foods";
+  String get search_for_restaurants_or_foods =>
+      "Search for restaurants or foods";
   @override
   String get should_be_a_valid_email => "Should be a valid email";
   @override
   String get password => "Password";
   @override
-  String get select_extras_to_add_them_on_the_food => "Select extras to add them on the food";
+  String get select_extras_to_add_them_on_the_food =>
+      "Select extras to add them on the food";
   @override
   String get reviews => "Reviews";
   @override
@@ -396,7 +428,8 @@ class $pt extends S {
   @override
   String get skip => "Skip";
   @override
-  String get your_order_has_been_successfully_submitted => "Your order has been successfully submitted!";
+  String get your_order_has_been_successfully_submitted =>
+      "Your order has been successfully submitted!";
   @override
   String get login => "Login";
   @override
@@ -478,31 +511,37 @@ class $in extends S {
   @override
   String get app_language => "App Language";
   @override
-  String get longpress_on_the_food_to_add_suplements => "Longpress on the food to add suplements";
+  String get longpress_on_the_food_to_add_suplements =>
+      "Longpress on the food to add suplements";
   @override
   String get help_support => "Help & Support";
   @override
-  String get double_click_on_the_food_to_add_it_to_the => "Double click on the food to add it to the cart";
+  String get double_click_on_the_food_to_add_it_to_the =>
+      "Double click on the food to add it to the cart";
   @override
   String get about => "About";
   @override
   String get recent_reviews1 => "Recent Reviews1";
   @override
-  String get select_your_preferred_payment_mode => "Select your preferred payment mode";
+  String get select_your_preferred_payment_mode =>
+      "Select your preferred payment mode";
   @override
   String get add_to_cart => "Add to Cart";
   @override
-  String get select_your_preferred_languages => "Select your preferred languages";
+  String get select_your_preferred_languages =>
+      "Select your preferred languages";
   @override
   String get all_menu => "All Menu";
   @override
-  String get search_for_restaurants_or_foods => "Search for restaurants or foods";
+  String get search_for_restaurants_or_foods =>
+      "Search for restaurants or foods";
   @override
   String get should_be_a_valid_email => "Should be a valid email";
   @override
   String get password => "Password";
   @override
-  String get select_extras_to_add_them_on_the_food => "Select extras to add them on the food";
+  String get select_extras_to_add_them_on_the_food =>
+      "Select extras to add them on the food";
   @override
   String get reviews => "Reviews";
   @override
@@ -567,7 +606,8 @@ class $in extends S {
   @override
   String get skip => "Skip";
   @override
-  String get your_order_has_been_successfully_submitted => "Your order has been successfully submitted!";
+  String get your_order_has_been_successfully_submitted =>
+      "Your order has been successfully submitted!";
   @override
   String get login => "Login";
   @override
@@ -653,31 +693,37 @@ class $fr extends S {
   @override
   String get app_language => "App Language";
   @override
-  String get longpress_on_the_food_to_add_suplements => "Longpress on the food to add suplements";
+  String get longpress_on_the_food_to_add_suplements =>
+      "Longpress on the food to add suplements";
   @override
   String get help_support => "Help & Support";
   @override
-  String get double_click_on_the_food_to_add_it_to_the => "Double click on the food to add it to the cart";
+  String get double_click_on_the_food_to_add_it_to_the =>
+      "Double click on the food to add it to the cart";
   @override
   String get about => "About";
   @override
   String get recent_reviews1 => "Recent Reviews1";
   @override
-  String get select_your_preferred_payment_mode => "Select your preferred payment mode";
+  String get select_your_preferred_payment_mode =>
+      "Select your preferred payment mode";
   @override
   String get add_to_cart => "Add to Cart";
   @override
-  String get select_your_preferred_languages => "Select your preferred languages";
+  String get select_your_preferred_languages =>
+      "Select your preferred languages";
   @override
   String get all_menu => "All Menu";
   @override
-  String get search_for_restaurants_or_foods => "Search for restaurants or foods";
+  String get search_for_restaurants_or_foods =>
+      "Search for restaurants or foods";
   @override
   String get should_be_a_valid_email => "Should be a valid email";
   @override
   String get password => "Password";
   @override
-  String get select_extras_to_add_them_on_the_food => "Select extras to add them on the food";
+  String get select_extras_to_add_them_on_the_food =>
+      "Select extras to add them on the food";
   @override
   String get reviews => "Reviews";
   @override
@@ -742,7 +788,8 @@ class $fr extends S {
   @override
   String get skip => "Skip";
   @override
-  String get your_order_has_been_successfully_submitted => "Your order has been successfully submitted!";
+  String get your_order_has_been_successfully_submitted =>
+      "Your order has been successfully submitted!";
   @override
   String get login => "Login";
   @override
@@ -824,31 +871,37 @@ class $es extends S {
   @override
   String get app_language => "App Language";
   @override
-  String get longpress_on_the_food_to_add_suplements => "Longpress on the food to add suplements";
+  String get longpress_on_the_food_to_add_suplements =>
+      "Longpress on the food to add suplements";
   @override
   String get help_support => "Help & Support";
   @override
-  String get double_click_on_the_food_to_add_it_to_the => "Double click on the food to add it to the cart";
+  String get double_click_on_the_food_to_add_it_to_the =>
+      "Double click on the food to add it to the cart";
   @override
   String get about => "About";
   @override
   String get recent_reviews1 => "Recent Reviews1";
   @override
-  String get select_your_preferred_payment_mode => "Select your preferred payment mode";
+  String get select_your_preferred_payment_mode =>
+      "Select your preferred payment mode";
   @override
   String get add_to_cart => "Add to Cart";
   @override
-  String get select_your_preferred_languages => "Select your preferred languages";
+  String get select_your_preferred_languages =>
+      "Select your preferred languages";
   @override
   String get all_menu => "All Menu";
   @override
-  String get search_for_restaurants_or_foods => "Search for restaurants or foods";
+  String get search_for_restaurants_or_foods =>
+      "Search for restaurants or foods";
   @override
   String get should_be_a_valid_email => "Should be a valid email";
   @override
   String get password => "Password";
   @override
-  String get select_extras_to_add_them_on_the_food => "Select extras to add them on the food";
+  String get select_extras_to_add_them_on_the_food =>
+      "Select extras to add them on the food";
   @override
   String get reviews => "Reviews";
   @override
@@ -913,7 +966,8 @@ class $es extends S {
   @override
   String get skip => "Skip";
   @override
-  String get your_order_has_been_successfully_submitted => "Your order has been successfully submitted!";
+  String get your_order_has_been_successfully_submitted =>
+      "Your order has been successfully submitted!";
   @override
   String get login => "Login";
   @override
@@ -990,7 +1044,7 @@ class GeneratedLocalizationsDelegate extends LocalizationsDelegate<S> {
   List<Locale> get supportedLocales {
     return const <Locale>[
       Locale("ar", ""),
-    /*  Locale("pt", ""),
+      /*  Locale("pt", ""),
       Locale("in", ""),
       Locale("en", ""),
       Locale("fr", ""),
@@ -998,7 +1052,8 @@ class GeneratedLocalizationsDelegate extends LocalizationsDelegate<S> {
     ];
   }
 
-  LocaleListResolutionCallback listResolution({Locale fallback, bool withCountry = true}) {
+  LocaleListResolutionCallback listResolution(
+      {Locale fallback, bool withCountry = true}) {
     return (List<Locale> locales, Iterable<Locale> supported) {
       if (locales == null || locales.isEmpty) {
         return fallback ?? supported.first;
@@ -1008,7 +1063,8 @@ class GeneratedLocalizationsDelegate extends LocalizationsDelegate<S> {
     };
   }
 
-  LocaleResolutionCallback resolution({Locale fallback, bool withCountry = true}) {
+  LocaleResolutionCallback resolution(
+      {Locale fallback, bool withCountry = true}) {
     return (Locale locale, Iterable<Locale> supported) {
       return _resolve(locale, fallback, supported, withCountry);
     };
@@ -1054,7 +1110,8 @@ class GeneratedLocalizationsDelegate extends LocalizationsDelegate<S> {
   ///
   /// Internal method to resolve a locale from a list of locales.
   ///
-  Locale _resolve(Locale locale, Locale fallback, Iterable<Locale> supported, bool withCountry) {
+  Locale _resolve(Locale locale, Locale fallback, Iterable<Locale> supported,
+      bool withCountry) {
     if (locale == null || !_isSupported(locale, withCountry)) {
       return fallback ?? supported.first;
     }
@@ -1087,7 +1144,9 @@ class GeneratedLocalizationsDelegate extends LocalizationsDelegate<S> {
         }
 
         // If no country requirement is requested, check if this locale has no country.
-        if (true != withCountry && (supportedLocale.countryCode == null || supportedLocale.countryCode.isEmpty)) {
+        if (true != withCountry &&
+            (supportedLocale.countryCode == null ||
+                supportedLocale.countryCode.isEmpty)) {
           return true;
         }
       }
@@ -1096,5 +1155,23 @@ class GeneratedLocalizationsDelegate extends LocalizationsDelegate<S> {
   }
 }
 
-String getLang(Locale l) =>
-    l == null ? null : l.countryCode != null && l.countryCode.isEmpty ? l.languageCode : l.toString();
+String getLang(Locale l) => l == null
+    ? null
+    : l.countryCode != null && l.countryCode.isEmpty
+        ? l.languageCode
+        : l.toString();
+
+class FallbackCupertinoLocalisationsDelegate
+    extends LocalizationsDelegate<CupertinoLocalizations> {
+  const FallbackCupertinoLocalisationsDelegate();
+
+  @override
+  bool isSupported(Locale locale) => true;
+
+  @override
+  Future<CupertinoLocalizations> load(Locale locale) =>
+      DefaultCupertinoLocalizations.load(locale);
+
+  @override
+  bool shouldReload(FallbackCupertinoLocalisationsDelegate old) => false;
+}

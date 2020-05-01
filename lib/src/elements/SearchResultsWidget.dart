@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
-import 'package:restaurant_rlutter_ui/generated/i18n.dart';
-import 'package:restaurant_rlutter_ui/src/controllers/search_controller.dart';
-import 'package:restaurant_rlutter_ui/src/elements/CardWidget.dart';
-import 'package:restaurant_rlutter_ui/src/elements/CircularLoadingWidget.dart';
-import 'package:restaurant_rlutter_ui/src/models/route_argument.dart';
+import 'package:order_client_app/generated/i18n.dart';
+import 'package:order_client_app/src/controllers/search_controller.dart';
+import 'package:order_client_app/src/elements/CardWidget.dart';
+import 'package:order_client_app/src/elements/CircularLoadingWidget.dart';
+import 'package:order_client_app/src/models/route_argument.dart';
 
 class SearchResultWidget extends StatefulWidget {
   String heroTag;
@@ -98,7 +98,7 @@ class _SearchResultWidgetState extends StateMVC<SearchResultWidget> {
                     itemBuilder: (context, index) {
                       return GestureDetector(
                         onTap: () {
-                          Navigator.of(context).pushNamed('/Details',
+                          Navigator.of(context).pushNamed('Details',
                               arguments: RouteArgument(
                                 id: _con.restaurants.elementAt(index).id,
                                 heroTag: widget.heroTag,

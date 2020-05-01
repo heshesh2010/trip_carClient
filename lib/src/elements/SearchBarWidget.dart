@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant_rlutter_ui/generated/i18n.dart';
-import 'package:restaurant_rlutter_ui/src/elements/SearchWidget.dart';
+import 'package:order_client_app/generated/i18n.dart';
+import 'package:order_client_app/src/elements/SearchWidget.dart';
 
 class SearchBarWidget extends StatelessWidget {
   const SearchBarWidget({

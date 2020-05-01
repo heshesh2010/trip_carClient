@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
-import 'package:restaurant_rlutter_ui/generated/i18n.dart';
-import 'package:restaurant_rlutter_ui/src/controllers/faq_controller.dart';
-import 'package:restaurant_rlutter_ui/src/elements/CircularLoadingWidget.dart';
-import 'package:restaurant_rlutter_ui/src/elements/DrawerWidget.dart';
-import 'package:restaurant_rlutter_ui/src/elements/FaqItemWidget.dart';
-import 'package:restaurant_rlutter_ui/src/elements/SearchBarWidget.dart';
-import 'package:restaurant_rlutter_ui/src/elements/ShoppingCartButtonWidget.dart';
+import 'package:order_client_app/generated/i18n.dart';
+import 'package:order_client_app/src/controllers/faq_controller.dart';
+import 'package:order_client_app/src/elements/CircularLoadingWidget.dart';
+import 'package:order_client_app/src/elements/DrawerWidget.dart';
+import 'package:order_client_app/src/elements/FaqItemWidget.dart';
+import 'package:order_client_app/src/elements/SearchBarWidget.dart';
+import 'package:order_client_app/src/elements/ShoppingCartButtonWidget.dart';
 
 class HelpWidget extends StatefulWidget {
   @override

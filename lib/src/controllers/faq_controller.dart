@@ -1,7 +1,8 @@
+import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
-import 'package:restaurant_rlutter_ui/src/models/faq_category.dart';
-import 'package:restaurant_rlutter_ui/src/repository/faq_repository.dart';
+import 'package:order_client_app/src/models/faq_category.dart';
+import 'package:order_client_app/src/repository/faq_repository.dart';
 
 class FaqController extends ControllerMVC {
   List<FaqCategory> faqs = <FaqCategory>[];
@@ -20,20 +21,18 @@ class FaqController extends ControllerMVC {
       });
     }, onError: (a) {
       print(a);
-      scaffoldKey.currentState.showSnackBar(SnackBar(
-        content: Text('Verify your internet connection'),
-      ));
+      FlushbarHelper.createError(message: "حدث خطأ بالاتصال")
+          .show(scaffoldKey.currentState.context);
     }, onDone: () {
       if (message != null) {
-        scaffoldKey.currentState.showSnackBar(SnackBar(
-          content: Text(message),
-        ));
+        FlushbarHelper.createSuccess(message: message)
+            .show(scaffoldKey.currentState.context);
       }
     });
   }
 
   Future<void> refreshFaqs() async {
     faqs.clear();
-    listenForFaqs(message: 'Faqs refreshed successfuly');
+    listenForFaqs(message: 'تم تحديث الأسئلة الشائعة');
   }
 }

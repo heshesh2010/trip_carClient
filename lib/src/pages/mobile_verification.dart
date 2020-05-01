@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:restaurant_rlutter_ui/config/app_config.dart' as config;
-import 'package:restaurant_rlutter_ui/generated/i18n.dart';
-import 'package:restaurant_rlutter_ui/src/elements/BlockButtonWidget.dart';
+import 'package:order_client_app/config/app_config.dart' as config;
+import 'package:order_client_app/generated/i18n.dart';
+import 'package:order_client_app/src/elements/BlockButtonWidget.dart';
 
 class MobileVerification extends StatelessWidget {
   @override
@@ -82,7 +82,7 @@ class MobileVerification extends StatelessWidget {
             SizedBox(height: 80),
             new BlockButtonWidget(
               onPressed: () {
-                Navigator.of(context).pushNamed('/MobileVerification2');
+                Navigator.of(context).pushNamed('MobileVerification2');
               },
               color: Theme.of(context).accentColor,
               text: Text(S.of(context).submit.toUpperCase(),

@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:global_configuration/global_configuration.dart';
 import 'package:http/http.dart' as http;
 import 'package:location/location.dart';
-import 'package:restaurant_rlutter_ui/src/models/setting.dart';
+import 'package:order_client_app/src/models/setting.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Setting setting;

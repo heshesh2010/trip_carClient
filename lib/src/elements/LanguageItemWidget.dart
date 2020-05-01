@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant_rlutter_ui/src/models/language.dart';
-import 'package:restaurant_rlutter_ui/src/repository/settings_repository.dart' as settingRepo;
+import 'package:order_client_app/src/models/language.dart';
+import 'package:order_client_app/src/repository/settings_repository.dart' as settingRepo;
 
 class LanguageItemWidget extends StatefulWidget {
   final Language language;

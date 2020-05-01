@@ -1,8 +1,10 @@
+import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
-import 'package:restaurant_rlutter_ui/src/models/cart.dart';
-import 'package:restaurant_rlutter_ui/src/repository/cart_repository.dart';
-import 'package:restaurant_rlutter_ui/src/repository/settings_repository.dart' as settingRepo;
+import 'package:order_client_app/src/models/cart.dart';
+import 'package:order_client_app/src/repository/cart_repository.dart';
+import 'package:order_client_app/src/repository/settings_repository.dart'
+    as settingRepo;
 
 class CartController extends ControllerMVC {
   List<Cart> carts = <Cart>[];
@@ -26,15 +28,11 @@ class CartController extends ControllerMVC {
       }
     }, onError: (a) {
       print(a);
-      scaffoldKey?.currentState?.showSnackBar(SnackBar(
-        content: Text('Verify your internet connection'),
-      ));
+      FlushbarHelper.createError(message: "حدث خطأ بالاتصال").show(context);
     }, onDone: () {
       calculateSubtotal();
       if (message != null) {
-        scaffoldKey.currentState.showSnackBar(SnackBar(
-          content: Text(message),
-        ));
+        FlushbarHelper.createSuccess(message: message).show(context);
       }
     });
   }
@@ -47,14 +45,12 @@ class CartController extends ControllerMVC {
       });
     }, onError: (a) {
       print(a);
-      scaffoldKey?.currentState?.showSnackBar(SnackBar(
-        content: Text('Verify your internet connection'),
-      ));
+      FlushbarHelper.createError(message: "حدث خطأ بالاتصال").show(context);
     });
   }
 
   Future<void> refreshCarts() async {
-    listenForCarts(message: 'Carts refreshed successfuly');
+    listenForCarts(message: 'تم تحديث سلة المشتريات بنجاح');
   }
 
   void removeFromCart(Cart _cart) async {
@@ -62,9 +58,9 @@ class CartController extends ControllerMVC {
       setState(() {
         this.carts.remove(_cart);
       });
-      scaffoldKey.currentState.showSnackBar(SnackBar(
-        content: Text("The ${_cart.food.name} was removed from your cart"),
-      ));
+      FlushbarHelper.createInformation(
+              message: " ${_cart.food.name}تم حذف الوجبة ")
+          .show(context);
     });
   }
 

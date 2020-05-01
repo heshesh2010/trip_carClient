@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant_rlutter_ui/src/elements/CircularLoadingWidget.dart';
-import 'package:restaurant_rlutter_ui/src/elements/FoodsCarouselItemWidget.dart';
-import 'package:restaurant_rlutter_ui/src/models/food.dart';
+import 'package:order_client_app/src/elements/FoodsCarouselItemWidget.dart';
+import 'package:order_client_app/src/helpers/shimmer_helper.dart';
+import 'package:order_client_app/src/models/food.dart';
 
 class FoodsCarouselWidget extends StatelessWidget {
   List<Food> foodsList;
   String heroTag;
 
-  FoodsCarouselWidget({Key key, this.foodsList, this.heroTag}) : super(key: key);
+  FoodsCarouselWidget({Key key, this.foodsList, this.heroTag})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return foodsList.isEmpty
-        ? CircularLoadingWidget(height: 210)
+        ? ShimmerHelper(
+            type: Type.cards,
+          )
         : Container(
             height: 210,
             color: Theme.of(context).primaryColor,

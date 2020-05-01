@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant_rlutter_ui/generated/i18n.dart';
-import 'package:restaurant_rlutter_ui/src/elements/PaymentMethodListItemWidget.dart';
-import 'package:restaurant_rlutter_ui/src/elements/SearchBarWidget.dart';
-import 'package:restaurant_rlutter_ui/src/elements/ShoppingCartButtonWidget.dart';
-import 'package:restaurant_rlutter_ui/src/models/payment_method.dart';
-import 'package:restaurant_rlutter_ui/src/models/route_argument.dart';
-import 'package:restaurant_rlutter_ui/src/repository/settings_repository.dart';
+import 'package:order_client_app/generated/i18n.dart';
+import 'package:order_client_app/src/elements/PaymentMethodListItemWidget.dart';
+import 'package:order_client_app/src/elements/SearchBarWidget.dart';
+import 'package:order_client_app/src/elements/ShoppingCartButtonWidget.dart';
+import 'package:order_client_app/src/models/payment_method.dart';
+import 'package:order_client_app/src/models/route_argument.dart';
 
 class PaymentMethodsWidget extends StatefulWidget {
-  RouteArgument routeArgument;
+  final RouteArgument routeArgument;
 
   PaymentMethodsWidget({Key key, this.routeArgument}) : super(key: key);
 
@@ -22,14 +21,7 @@ class _PaymentMethodsWidgetState extends State<PaymentMethodsWidget> {
   @override
   void initState() {
     list = new PaymentMethodList();
-  /*  if (!setting.payPalEnabled)
-      list.paymentsList.removeWhere((element) {
-        return element.name == "PayPal";
-      });*/
-    if (!setting.stripeEnabled)
-      list.paymentsList.removeWhere((element) {
-        return element.name == "Visa Card" || element.name == "MasterCard";
-      });
+
     super.initState();
   }
 
@@ -42,11 +34,15 @@ class _PaymentMethodsWidgetState extends State<PaymentMethodsWidget> {
         centerTitle: true,
         title: Text(
           S.of(context).payment_mode,
-          style: Theme.of(context).textTheme.title.merge(TextStyle(letterSpacing: 1.3)),
+          style: Theme.of(context)
+              .textTheme
+              .title
+              .merge(TextStyle(letterSpacing: 1.3)),
         ),
         actions: <Widget>[
           new ShoppingCartButtonWidget(
-              iconColor: Theme.of(context).hintColor, labelColor: Theme.of(context).accentColor),
+              iconColor: Theme.of(context).hintColor,
+              labelColor: Theme.of(context).accentColor),
         ],
       ),
       body: SingleChildScrollView(
@@ -76,7 +72,8 @@ class _PaymentMethodsWidgetState extends State<PaymentMethodsWidget> {
                         overflow: TextOverflow.ellipsis,
                         style: Theme.of(context).textTheme.display1,
                       ),
-                      subtitle: Text(S.of(context).select_your_preferred_payment_mode),
+                      subtitle: Text(
+                          S.of(context).select_your_preferred_payment_mode),
                     ),
                   )
                 : SizedBox(
@@ -92,12 +89,15 @@ class _PaymentMethodsWidgetState extends State<PaymentMethodsWidget> {
                 return SizedBox(height: 10);
               },
               itemBuilder: (context, index) {
-                return PaymentMethodListItemWidget(paymentMethod: list.paymentsList.elementAt(index));
+                return PaymentMethodListItemWidget(
+                  paymentMethod: list.paymentsList.elementAt(index),
+                );
               },
             ),
             list.cashList.length > 0
                 ? Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 10, horizontal: 20),
                     child: ListTile(
                       contentPadding: EdgeInsets.symmetric(vertical: 0),
                       leading: Icon(
@@ -110,7 +110,8 @@ class _PaymentMethodsWidgetState extends State<PaymentMethodsWidget> {
                         overflow: TextOverflow.ellipsis,
                         style: Theme.of(context).textTheme.display1,
                       ),
-                      subtitle: Text(S.of(context).select_your_preferred_payment_mode),
+                      subtitle: Text(
+                          S.of(context).select_your_preferred_payment_mode),
                     ),
                   )
                 : SizedBox(
@@ -125,7 +126,8 @@ class _PaymentMethodsWidgetState extends State<PaymentMethodsWidget> {
                 return SizedBox(height: 10);
               },
               itemBuilder: (context, index) {
-                return PaymentMethodListItemWidget(paymentMethod: list.cashList.elementAt(index));
+                return PaymentMethodListItemWidget(
+                    paymentMethod: list.cashList.elementAt(index));
               },
             ),
           ],

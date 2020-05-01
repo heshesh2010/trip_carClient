@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant_rlutter_ui/src/helpers/helper.dart';
-import 'package:restaurant_rlutter_ui/src/models/faq.dart';
+import 'package:order_client_app/src/helpers/helper.dart';
+import 'package:order_client_app/src/models/faq.dart';
 
 class FaqItemWidget extends StatelessWidget {
   Faq faq;

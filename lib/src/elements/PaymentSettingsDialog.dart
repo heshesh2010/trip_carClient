@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant_rlutter_ui/src/models/credit_card.dart';
+import 'package:order_client_app/src/models/credit_card.dart';
 
 class PaymentSettingsDialog extends StatefulWidget {
   CreditCard creditCard;

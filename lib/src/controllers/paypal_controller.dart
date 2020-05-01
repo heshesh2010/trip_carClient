@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_inappbrowser/flutter_inappbrowser.dart';
 import 'package:global_configuration/global_configuration.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
-import 'package:restaurant_rlutter_ui/src/repository/user_repository.dart' as userRepo;
+import 'package:order_client_app/src/repository/user_repository.dart' as userRepo;
 
 class PayPalController extends ControllerMVC {
   GlobalKey<ScaffoldState> scaffoldKey;

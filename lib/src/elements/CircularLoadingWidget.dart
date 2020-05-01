@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 class CircularLoadingWidget extends StatefulWidget {
-  double height;
+  final double height;
 
   CircularLoadingWidget({Key key, this.height}) : super(key: key);
 
@@ -21,7 +21,7 @@ class _CircularLoadingWidgetState extends State<CircularLoadingWidget>
     animationController =
         AnimationController(duration: Duration(milliseconds: 300), vsync: this);
     CurvedAnimation curve =
-        CurvedAnimation(parent: animationController, curve: Curves.easeOut);
+    CurvedAnimation(parent: animationController, curve: Curves.easeOut,);
     animation = Tween<double>(begin: widget.height, end: 0).animate(curve)
       ..addListener(() {
         if (mounted) {
@@ -52,13 +52,13 @@ class _CircularLoadingWidgetState extends State<CircularLoadingWidget>
       child: SizedBox(
         height: animation.value,
         child: new Center(
-            child: Image.asset(
+          /*  child: Image.asset(
           "assets/img/load.gif",
           height: 125.0,
           width: 125.0,
-        )
-            // child: new CircularProgressIndicator(),
-            ),
+        )*/
+          child:CircularProgressIndicator(valueColor: new AlwaysStoppedAnimation<Color>(Theme.of(context).hintColor)),
+        ),
       ),
     );
   }

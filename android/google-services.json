@@ -1,35 +1,50 @@
 {
   "project_info": {
-    "project_number": "123587395840",
-    "firebase_url": "https://multi-restaurants-1d0c7.firebaseio.com",
-    "project_id": "multi-restaurants-1d0c7",
-    "storage_bucket": "multi-restaurants-1d0c7.appspot.com"
+    "project_number": "31975482566",
+    "firebase_url": "https://order-client.firebaseio.com",
+    "project_id": "order-client",
+    "storage_bucket": "order-client.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:123587395840:android:8181be122286a3f2a073e5",
+        "mobilesdk_app_id": "1:31975482566:android:f83c4df929fd28523d63c7",
         "android_client_info": {
-          "package_name": "com.smartervision.restaurant_rlutter_ui"
+          "package_name": "com.hesham.order_client_app"
         }
       },
       "oauth_client": [
         {
-          "client_id": "123587395840-2locsqpcb8sd73j2v21vfap13s50itku.apps.googleusercontent.com",
+          "client_id": "31975482566-fmf3gdosalinjka98vser0pkdgtf9p24.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hesham.order_client_app",
+            "certificate_hash": "393b7cd864c1aa54a46f70d58d7b3102791be7d9"
+          }
+        },
+        {
+          "client_id": "31975482566-2mhvvl3j6vgh4hnr5ss5479dd6epf15j.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDuKazIjr_WMtuLGpwwKb1njg51-sGrTrM"
+          "current_key": "AIzaSyDPwjrh2QpV4QKDWWAgHp76O0B7AB19rZk"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "123587395840-2locsqpcb8sd73j2v21vfap13s50itku.apps.googleusercontent.com",
+              "client_id": "31975482566-2mhvvl3j6vgh4hnr5ss5479dd6epf15j.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "31975482566-0bjsrd6d413r745s7p6m6l4m2sjj070b.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.hesham.order.client"
+              }
             }
           ]
         }

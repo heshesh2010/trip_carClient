@@ -2,12 +2,12 @@ import 'dart:convert';
 
 import 'package:global_configuration/global_configuration.dart';
 import 'package:http/http.dart' as http;
-import 'package:restaurant_rlutter_ui/src/helpers/helper.dart';
-import 'package:restaurant_rlutter_ui/src/models/gallery.dart';
-import 'package:restaurant_rlutter_ui/src/models/user.dart';
-import 'package:restaurant_rlutter_ui/src/repository/user_repository.dart';
+import 'package:order_client_app/src/helpers/helper.dart';
+import 'package:order_client_app/src/models/gallery.dart';
+import 'package:order_client_app/src/models/user.dart';
+import 'package:order_client_app/src/repository/user_repository.dart';
 
-Future<Stream<Gallery>> getGalleries(String idRestaurant) async {
+Future<Stream<Gallery>> getGalleries(int idRestaurant) async {
   User _user = await getCurrentUser();
   final String _apiToken = 'api_token=${_user.apiToken}&';
   final String url =

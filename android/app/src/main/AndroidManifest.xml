@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.smartervision.restaurant_rlutter_ui">
+    package="com.hesham.order_client_app">
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
@@ -12,11 +12,11 @@
          FlutterApplication and put your custom class here. -->
     <application
         android:name=".Application"
-        android:label="Multi-Restaurants Flutter App"
+        android:label="اوردر"
         android:icon="@mipmap/ic_launcher">
 
         <meta-data android:name="com.google.android.geo.API_KEY"
-                   android:value="AIzaSyAg430J8BUC9_a1Gpt79OxU7NcaubM5uHs"/>
+                   android:value="AIzaSyBVaPkrHib_vKXVIIiqFayY0dml0tVQ_nQ"/>
         <meta-data
                 android:name="com.google.firebase.messaging.default_notification_icon"
                 android:resource="@mipmap/ic_notification" />

@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:restaurant_rlutter_ui/config/app_config.dart' as config;
+import 'package:order_client_app/config/app_config.dart' as config;
 
 class EmptyCartWidget extends StatefulWidget {
   EmptyCartWidget({
@@ -94,7 +94,7 @@ class _EmptyCartWidgetState extends State<EmptyCartWidget> {
               Opacity(
                 opacity: 0.4,
                 child: Text(
-                  'D\'ont have any item in your cart',
+                  'لا يوجد اي وجبة بسلة الشراء',
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.display2.merge(TextStyle(fontWeight: FontWeight.w300)),
                 ),
@@ -103,13 +103,13 @@ class _EmptyCartWidgetState extends State<EmptyCartWidget> {
               !loading
                   ? FlatButton(
                       onPressed: () {
-                        Navigator.of(context).pushNamed('/Pages', arguments: 2);
+                        Navigator.of(context).pushNamed('Pages', arguments: 2);
                       },
                       padding: EdgeInsets.symmetric(vertical: 12, horizontal: 30),
                       color: Theme.of(context).accentColor.withOpacity(1),
                       shape: StadiumBorder(),
                       child: Text(
-                        'Start Exploring',
+                        'ابدأ بمشاهدة الوجبات',
                         style: Theme.of(context)
                             .textTheme
                             .title

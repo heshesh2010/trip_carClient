@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
-import 'package:restaurant_rlutter_ui/generated/i18n.dart';
-import 'package:restaurant_rlutter_ui/src/controllers/map_controller.dart';
-import 'package:restaurant_rlutter_ui/src/elements/CardsCarouselWidget.dart';
-import 'package:restaurant_rlutter_ui/src/elements/CircularLoadingWidget.dart';
-import 'package:restaurant_rlutter_ui/src/models/restaurant.dart';
-import 'package:restaurant_rlutter_ui/src/models/route_argument.dart';
+import 'package:order_client_app/generated/i18n.dart';
+import 'package:order_client_app/src/controllers/map_controller.dart';
+import 'package:order_client_app/src/elements/CardsCarouselWidget.dart';
+import 'package:order_client_app/src/elements/CircularLoadingWidget.dart';
+import 'package:order_client_app/src/models/restaurant.dart';
+import 'package:order_client_app/src/models/route_argument.dart';
 
 class MapWidget extends StatefulWidget {
   RouteArgument routeArgument;

@@ -1,26 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
-import 'package:restaurant_rlutter_ui/src/controllers/cart_controller.dart';
-import 'package:restaurant_rlutter_ui/src/models/food.dart';
-import 'package:restaurant_rlutter_ui/src/models/route_argument.dart';
+import 'package:order_client_app/src/controllers/cart_controller.dart';
+import 'package:order_client_app/src/models/food.dart';
+import 'package:order_client_app/src/models/route_argument.dart';
 
 class ShoppingCartFloatButtonWidget extends StatefulWidget {
   const ShoppingCartFloatButtonWidget({
-    this.iconColor,
-    this.labelColor,
     this.food,
     Key key,
   }) : super(key: key);
 
-  final Color iconColor;
-  final Color labelColor;
   final Food food;
 
   @override
-  _ShoppingCartFloatButtonWidgetState createState() => _ShoppingCartFloatButtonWidgetState();
+  _ShoppingCartFloatButtonWidgetState createState() =>
+      _ShoppingCartFloatButtonWidgetState();
 }
 
-class _ShoppingCartFloatButtonWidgetState extends StateMVC<ShoppingCartFloatButtonWidget> {
+class _ShoppingCartFloatButtonWidgetState
+    extends StateMVC<ShoppingCartFloatButtonWidget> {
   CartController _con;
 
   _ShoppingCartFloatButtonWidgetState() : super(CartController()) {
@@ -43,15 +41,15 @@ class _ShoppingCartFloatButtonWidgetState extends StateMVC<ShoppingCartFloatButt
         color: Theme.of(context).accentColor,
         shape: StadiumBorder(),
         onPressed: () {
-          Navigator.of(context)
-              .pushReplacementNamed('/Cart', arguments: RouteArgument(param: '/Food', id: widget.food.id));
+          Navigator.of(context).pushReplacementNamed('Cart',
+              arguments: RouteArgument(param: 'Food', food: widget.food));
         },
         child: Stack(
           alignment: AlignmentDirectional.bottomEnd,
           children: <Widget>[
             Icon(
               Icons.shopping_cart,
-              color: this.widget.iconColor,
+              color: Theme.of(context).hintColor,
               size: 28,
             ),
             Container(
@@ -59,13 +57,16 @@ class _ShoppingCartFloatButtonWidgetState extends StateMVC<ShoppingCartFloatButt
                 _con.cartCount.toString(),
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.caption.merge(
-                      TextStyle(color: Theme.of(context).primaryColor, fontSize: 9),
+                      TextStyle(
+                          color: Theme.of(context).primaryColor, fontSize: 9),
                     ),
               ),
               padding: EdgeInsets.all(0),
-              decoration:
-                  BoxDecoration(color: this.widget.labelColor, borderRadius: BorderRadius.all(Radius.circular(10))),
-              constraints: BoxConstraints(minWidth: 15, maxWidth: 15, minHeight: 15, maxHeight: 15),
+              decoration: BoxDecoration(
+                  color: Theme.of(context).focusColor,
+                  borderRadius: BorderRadius.all(Radius.circular(10))),
+              constraints: BoxConstraints(
+                  minWidth: 15, maxWidth: 15, minHeight: 15, maxHeight: 15),
             ),
           ],
         ),

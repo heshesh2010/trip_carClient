@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant_rlutter_ui/src/elements/CategoriesCarouselItemWidget.dart';
-import 'package:restaurant_rlutter_ui/src/elements/CircularLoadingWidget.dart';
-import 'package:restaurant_rlutter_ui/src/models/category.dart';
+import 'package:order_client_app/src/elements/CategoriesCarouselItemWidget.dart';
+import 'package:order_client_app/src/helpers/shimmer_helper.dart';
+import 'package:order_client_app/src/models/category.dart';
 
 class CategoriesCarouselWidget extends StatelessWidget {
   List<Category> categories;
@@ -11,7 +11,9 @@ class CategoriesCarouselWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return this.categories.isEmpty
-        ? CircularLoadingWidget(height: 150)
+        ? ShimmerHelper(
+            type: Type.cards,
+          )
         : Container(
             height: 150,
             padding: EdgeInsets.symmetric(vertical: 10),

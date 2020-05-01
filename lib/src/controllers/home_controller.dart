@@ -1,13 +1,13 @@
 import 'package:location/location.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
-import 'package:restaurant_rlutter_ui/src/models/category.dart';
-import 'package:restaurant_rlutter_ui/src/models/food.dart';
-import 'package:restaurant_rlutter_ui/src/models/restaurant.dart';
-import 'package:restaurant_rlutter_ui/src/models/review.dart';
-import 'package:restaurant_rlutter_ui/src/repository/category_repository.dart';
-import 'package:restaurant_rlutter_ui/src/repository/food_repository.dart';
-import 'package:restaurant_rlutter_ui/src/repository/restaurant_repository.dart';
-import 'package:restaurant_rlutter_ui/src/repository/settings_repository.dart';
+import 'package:order_client_app/src/models/category.dart';
+import 'package:order_client_app/src/models/food.dart';
+import 'package:order_client_app/src/models/restaurant.dart';
+import 'package:order_client_app/src/models/review.dart';
+import 'package:order_client_app/src/repository/category_repository.dart';
+import 'package:order_client_app/src/repository/food_repository.dart';
+import 'package:order_client_app/src/repository/restaurant_repository.dart';
+import 'package:order_client_app/src/repository/settings_repository.dart';
 
 class HomeController extends ControllerMVC {
   List<Category> categories = <Category>[];

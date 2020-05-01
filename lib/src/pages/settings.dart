@@ -1,12 +1,13 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
-import 'package:restaurant_rlutter_ui/generated/i18n.dart';
-import 'package:restaurant_rlutter_ui/src/controllers/settings_controller.dart';
-import 'package:restaurant_rlutter_ui/src/elements/CircularLoadingWidget.dart';
-import 'package:restaurant_rlutter_ui/src/elements/PaymentSettingsDialog.dart';
-import 'package:restaurant_rlutter_ui/src/elements/ProfileSettingsDialog.dart';
-import 'package:restaurant_rlutter_ui/src/elements/SearchBarWidget.dart';
-import 'package:restaurant_rlutter_ui/src/helpers/helper.dart';
+import 'package:order_client_app/generated/i18n.dart';
+import 'package:order_client_app/src/controllers/settings_controller.dart';
+import 'package:order_client_app/src/elements/CircularLoadingWidget.dart';
+import 'package:order_client_app/src/elements/PaymentSettingsDialog.dart';
+import 'package:order_client_app/src/elements/ProfileSettingsDialog.dart';
+import 'package:order_client_app/src/elements/SearchBarWidget.dart';
+import 'package:order_client_app/src/helpers/helper.dart';
 
 class SettingsWidget extends StatefulWidget {
   @override
@@ -69,10 +70,14 @@ class _SettingsWidgetState extends StateMVC<SettingsWidget> {
                               child: InkWell(
                                 borderRadius: BorderRadius.circular(300),
                                 onTap: () {
-                                  Navigator.of(context).pushNamed('/Tabs', arguments: 1);
+                                  Navigator.of(context).pushNamed('Tabs', arguments: 1);
                                 },
                                 child: CircleAvatar(
-                                  backgroundImage: NetworkImage(_con.user.image.thumb),
+                                  backgroundImage: _con.user.image!=null?
+
+                                  CachedNetworkImageProvider(
+                                      _con.user.image.thumb)
+                                      : Image.asset('assets/img/default.png').image,
                                 ),
                               )),
                         ],
@@ -256,7 +261,7 @@ class _SettingsWidgetState extends StateMVC<SettingsWidget> {
                           ),
                           ListTile(
                             onTap: () {
-                              Navigator.of(context).pushNamed('/Languages');
+                              Navigator.of(context).pushNamed('Languages');
                             },
                             dense: true,
                             title: Row(
@@ -280,7 +285,7 @@ class _SettingsWidgetState extends StateMVC<SettingsWidget> {
                           ),
                           ListTile(
                             onTap: () {
-                              Navigator.of(context).pushNamed('/Help');
+                              Navigator.of(context).pushNamed('Help');
                             },
                             dense: true,
                             title: Row(

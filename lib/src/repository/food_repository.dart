@@ -3,16 +3,16 @@ import 'dart:io';
 
 import 'package:global_configuration/global_configuration.dart';
 import 'package:http/http.dart' as http;
-import 'package:restaurant_rlutter_ui/src/helpers/helper.dart';
-import 'package:restaurant_rlutter_ui/src/models/favorite.dart';
-import 'package:restaurant_rlutter_ui/src/models/food.dart';
-import 'package:restaurant_rlutter_ui/src/models/user.dart';
-import 'package:restaurant_rlutter_ui/src/repository/user_repository.dart';
+import 'package:order_client_app/src/helpers/helper.dart';
+import 'package:order_client_app/src/models/favorite.dart';
+import 'package:order_client_app/src/models/food.dart';
+import 'package:order_client_app/src/models/user.dart';
+import 'package:order_client_app/src/repository/user_repository.dart';
 
 Future<Stream<Food>> getTrendingFoods() async {
   User _user = await getCurrentUser();
   final String _apiToken = 'api_token=${_user.apiToken}&';
-  final String url = '${GlobalConfiguration().getString('api_base_url')}foods?${_apiToken}with=restaurant&limit=6';
+  final String url = '${GlobalConfiguration().getString('api_base_url')}bestSellingFoods?$_apiToken';
 
   final client = new http.Client();
   final streamedRest = await client.send(http.Request('get', Uri.parse(url)));
@@ -31,7 +31,7 @@ Future<Stream<Food>> getFood(String foodId) async {
   User _user = await getCurrentUser();
   final String _apiToken = 'api_token=${_user.apiToken}&';
   final String url =
-      '${GlobalConfiguration().getString('api_base_url')}foods/$foodId?${_apiToken}with=nutrition;restaurant;category;extras;foodReviews;foodReviews.user';
+      '${GlobalConfiguration().getString('api_base_url')}foods/$foodId?${_apiToken}with=restaurant;extras;category;foodReviews;foodReviews.user';
 
   final client = new http.Client();
   final streamedRest = await client.send(http.Request('get', Uri.parse(url)));
@@ -47,7 +47,7 @@ Future<Stream<Food>> getFoodsByCategory(categoryId) async {
   User _user = await getCurrentUser();
   final String _apiToken = 'api_token=${_user.apiToken}&';
   final String url =
-      '${GlobalConfiguration().getString('api_base_url')}foods?${_apiToken}with=restaurant&search=category_id:$categoryId&searchFields=category_id:=';
+      '${GlobalConfiguration().getString('api_base_url')}foods?${_apiToken}with=restaurant;extras;foodReviews;foodReviews.user&search=category_id:$categoryId&searchFields=category_id:=';
 
   final client = new http.Client();
   final streamedRest = await client.send(http.Request('get', Uri.parse(url)));
@@ -82,7 +82,7 @@ Future<Stream<Favorite>> getFavorites() async {
   User _user = await getCurrentUser();
   final String _apiToken = 'api_token=${_user.apiToken}&';
   final String url =
-      '${GlobalConfiguration().getString('api_base_url')}favorites?${_apiToken}with=food;user;extras&search=user_id:${_user.id}&searchFields=user_id:=';
+      '${GlobalConfiguration().getString('api_base_url')}favorites?${_apiToken}with=food;extras;&search=user_id:${_user.id}&searchFields=user_id:=';
 
   final client = new http.Client();
   final streamedRest = await client.send(http.Request('get', Uri.parse(url)));
@@ -121,11 +121,11 @@ Future<Favorite> removeFavorite(Favorite favorite) async {
   return Favorite.fromJSON(json.decode(response.body)['data']);
 }
 
-Future<Stream<Food>> getFoodsOfRestaurant(String restaurantId) async {
+Future<Stream<Food>> getFoodsOfRestaurant(int restaurantId) async {
   User _user = await getCurrentUser();
   final String _apiToken = 'api_token=${_user.apiToken}&';
   final String url =
-      '${GlobalConfiguration().getString('api_base_url')}foods?${_apiToken}with=restaurant&search=restaurant.id:$restaurantId&searchFields=restaurant.id:=';
+      '${GlobalConfiguration().getString('api_base_url')}foods?${_apiToken}with=restaurant;extras;foodReviews;foodReviews.user;&search=restaurant.id:$restaurantId&searchFields=restaurant.id:=';
 
   final client = new http.Client();
   final streamedRest = await client.send(http.Request('get', Uri.parse(url)));
@@ -140,12 +140,12 @@ Future<Stream<Food>> getFoodsOfRestaurant(String restaurantId) async {
   });
 }
 
-Future<Stream<Food>> getTrendingFoodsOfRestaurant(String restaurantId) async {
+Future<Stream<Food>> getTrendingFoodsOfRestaurant(int restaurantId) async {
   User _user = await getCurrentUser();
   final String _apiToken = 'api_token=${_user.apiToken}&';
   // TODO Trending foods only
   final String url =
-      '${GlobalConfiguration().getString('api_base_url')}foods?${_apiToken}with=restaurant&search=restaurant.id:$restaurantId&searchFields=restaurant.id:=';
+      '${GlobalConfiguration().getString('api_base_url')}foods?${_apiToken}with=restaurant;extras;foodReviews;foodReviews.user&search=restaurant.id:$restaurantId&searchFields=restaurant.id:=';
 
   final client = new http.Client();
   final streamedRest = await client.send(http.Request('get', Uri.parse(url)));
@@ -160,12 +160,12 @@ Future<Stream<Food>> getTrendingFoodsOfRestaurant(String restaurantId) async {
   });
 }
 
-Future<Stream<Food>> getFeaturedFoodsOfRestaurant(String restaurantId) async {
+Future<Stream<Food>> getFeaturedFoodsOfRestaurant(int restaurantId) async {
   User _user = await getCurrentUser();
   final String _apiToken = 'api_token=${_user.apiToken}&';
   // TODO Featured foods only
   final String url =
-      '${GlobalConfiguration().getString('api_base_url')}foods?${_apiToken}with=restaurant&search=restaurant_id:$restaurantId&searchFields=restaurant_id:=';
+      '${GlobalConfiguration().getString('api_base_url')}FeaturedFoodsOfRestaurant/$restaurantId?$_apiToken';
 
   final client = new http.Client();
   final streamedRest = await client.send(http.Request('get', Uri.parse(url)));

@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:restaurant_rlutter_ui/config/app_config.dart' as config;
+import 'package:order_client_app/config/app_config.dart' as config;
 
 class EmptyNotificationsWidget extends StatefulWidget {
   EmptyNotificationsWidget({
@@ -94,7 +94,7 @@ class _EmptyNotificationsWidgetState extends State<EmptyNotificationsWidget> {
               Opacity(
                 opacity: 0.4,
                 child: Text(
-                  'D\'ont have any item in the notification list',
+                  'لا يوجد اشعارات ',
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.display2.merge(TextStyle(fontWeight: FontWeight.w300)),
                 ),
@@ -103,13 +103,13 @@ class _EmptyNotificationsWidgetState extends State<EmptyNotificationsWidget> {
               !loading
                   ? FlatButton(
                       onPressed: () {
-                        Navigator.of(context).pushNamed('/Pages', arguments: 2);
+                        Navigator.of(context).pushNamed('Pages', arguments: 2);
                       },
                       padding: EdgeInsets.symmetric(vertical: 12, horizontal: 30),
                       color: Theme.of(context).accentColor.withOpacity(1),
                       shape: StadiumBorder(),
                       child: Text(
-                        'Start Exploring',
+                        'ابدأ بتصفح التطبيق',
                         style: Theme.of(context)
                             .textTheme
                             .title

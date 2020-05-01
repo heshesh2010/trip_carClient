@@ -1,7 +1,10 @@
-import 'package:restaurant_rlutter_ui/src/models/media.dart';
+import 'dart:convert';
+
+import 'package:order_client_app/src/models/media.dart';
+import 'package:order_client_app/src/models/restaurant.dart';
 
 class User {
-  String id;
+  int id;
   String name;
   String email;
   String password;
@@ -11,13 +14,14 @@ class User {
   String address;
   String bio;
   Media image;
-
+  String message;
+  Restaurant restaurant;
 //  String role;
 
   User();
 
   User.fromJSON(Map<String, dynamic> jsonMap) {
-    id = jsonMap['id'].toString();
+    id = jsonMap['id'];
     name = jsonMap['name'];
     email = jsonMap['email'];
     apiToken = jsonMap['api_token'];
@@ -37,8 +41,14 @@ class User {
     } catch (e) {
       bio = "";
     }
-    image = jsonMap['media'] != null ? Media.fromJSON(jsonMap['media'][0]) : null;
+    image =
+        jsonMap['media'] != null ? Media.fromJSON(jsonMap['media'][0]) : null;
+    restaurant = jsonMap['resturant'] != null
+        ? Restaurant.fromJSON(jsonMap['resturant'])
+        : null;
   }
+
+  String toJson() => json.encode(toMap());
 
   Map toMap() {
     var map = new Map<String, dynamic>();

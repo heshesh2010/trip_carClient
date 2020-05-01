@@ -1,6 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:restaurant_rlutter_ui/src/models/favorite.dart';
-import 'package:restaurant_rlutter_ui/src/models/route_argument.dart';
+import 'package:order_client_app/src/models/favorite.dart';
+import 'package:order_client_app/src/models/route_argument.dart';
 
 class FavoriteGridItemWidget extends StatelessWidget {
   String heroTag;
@@ -14,7 +15,7 @@ class FavoriteGridItemWidget extends StatelessWidget {
       splashColor: Theme.of(context).accentColor.withOpacity(0.08),
       onTap: () {
         Navigator.of(context)
-            .pushNamed('/Food', arguments: new RouteArgument(heroTag: this.heroTag, id: this.favorite.food.id));
+            .pushNamed('Food', arguments: new RouteArgument(heroTag: this.heroTag, food: this.favorite.food));
       },
       child: Stack(
         alignment: AlignmentDirectional.topEnd,
@@ -27,7 +28,7 @@ class FavoriteGridItemWidget extends StatelessWidget {
                   tag: heroTag + favorite.food.id,
                   child: Container(
                     decoration: BoxDecoration(
-                      image: DecorationImage(image: NetworkImage(this.favorite.food.image.thumb), fit: BoxFit.cover),
+                      image: DecorationImage(image: CachedNetworkImageProvider(this.favorite.food.image.thumb), fit: BoxFit.cover),
                       borderRadius: BorderRadius.circular(5),
                     ),
                   ),

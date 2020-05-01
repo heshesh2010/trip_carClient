@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant_rlutter_ui/src/helpers/helper.dart';
-import 'package:restaurant_rlutter_ui/src/models/restaurant.dart';
-import 'package:restaurant_rlutter_ui/src/models/route_argument.dart';
+import 'package:order_client_app/src/helpers/helper.dart';
+import 'package:order_client_app/src/models/restaurant.dart';
+import 'package:order_client_app/src/models/route_argument.dart';
 
 class GridItemWidget extends StatelessWidget {
   Restaurant restaurant;
@@ -15,16 +15,20 @@ class GridItemWidget extends StatelessWidget {
       highlightColor: Colors.transparent,
       splashColor: Theme.of(context).accentColor.withOpacity(0.08),
       onTap: () {
-        Navigator.of(context).pushNamed('/Details', arguments: RouteArgument(id: restaurant.id, heroTag: heroTag));
+        Navigator.of(context).pushNamed('Details',
+            arguments: RouteArgument(id: restaurant.id, heroTag: heroTag));
       },
       child: Container(
         margin: EdgeInsets.all(5),
         padding: EdgeInsets.all(16),
         decoration: BoxDecoration(
-         //   color: Theme.of(context).c,
+            //   color: Theme.of(context).c,
             borderRadius: BorderRadius.all(Radius.circular(5)),
             boxShadow: [
-              BoxShadow(color: Theme.of(context).focusColor.withOpacity(0.05), offset: Offset(0, 5), blurRadius: 5)
+              BoxShadow(
+                  color: Theme.of(context).focusColor.withOpacity(0.05),
+                  offset: Offset(0, 5),
+                  blurRadius: 5)
             ]),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -32,7 +36,7 @@ class GridItemWidget extends StatelessWidget {
           children: <Widget>[
             Container(
               child: Hero(
-                tag: heroTag + restaurant.id,
+                tag: heroTag + restaurant.id.toString(),
                 child: Image.network(
                   restaurant.image.thumb,
                   fit: BoxFit.cover,
@@ -50,7 +54,7 @@ class GridItemWidget extends StatelessWidget {
             ),
             SizedBox(height: 2),
             Row(
-              children: Helper.getStarsList(double.parse(restaurant.rate)),
+              children: Helper.getStarsList(restaurant.rate),
             ),
           ],
         ),

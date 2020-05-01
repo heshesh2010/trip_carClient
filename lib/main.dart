@@ -1,149 +1,158 @@
 import 'package:dynamic_theme/dynamic_theme.dart';
-import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:firebase_analytics/observer.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:global_configuration/global_configuration.dart';
-import 'package:restaurant_rlutter_ui/config/app_config.dart' as config;
-import 'package:restaurant_rlutter_ui/generated/i18n.dart';
-import 'package:restaurant_rlutter_ui/route_generator.dart';
-import 'package:restaurant_rlutter_ui/src/repository/settings_repository.dart'
+import 'package:order_client_app/config/app_config.dart' as config;
+import 'package:order_client_app/generated/i18n.dart';
+import 'package:order_client_app/route_generator.dart';
+import 'package:order_client_app/src/repository/settings_repository.dart'
     as settingRepo;
+import 'package:overlay_support/overlay_support.dart';
 
-FirebaseAnalytics analytics = FirebaseAnalytics();
-
-void  main() async {
-
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await GlobalConfiguration().loadFromAsset("configurations");
   runApp(MyApp());
-
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
-//  /// Supply 'th  e Controller' for this application.
-//  MyApp({Key key}) : super(con: Controller(), key: key);
-
   @override
   Widget build(BuildContext context) {
-    return DynamicTheme(
-        defaultBrightness: Brightness.light,
-        data: (brightness) {
-          if (brightness == Brightness.light) {
-            return ThemeData(
-              fontFamily: 'Tajawal',
-              primaryColor: Colors.white,
-              brightness: brightness,
-              accentColor: config.Colors().mainColor(1), // yellow
-              focusColor: config.Colors().accentColor(1), // red
-              hintColor: config.Colors().secondColor(1), // red
-              textTheme: TextTheme(
-                headline: TextStyle(
-                    fontSize: 20.0, color: config.Colors().secondColor(1)),
-                display1: TextStyle(
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.w600,
-                    color: config.Colors().accentColor(1)),
-                display2: TextStyle(
-                    fontSize: 20.0,
-                    fontWeight: FontWeight.w600,
-                    color: config.Colors().secondColor(1)),
-                display3: TextStyle(
-                    fontSize: 22.0,
-                    fontWeight: FontWeight.w700,
-                    color: config.Colors().mainColor(1)),
-                display4: TextStyle(
-                    fontSize: 22.0,
-                    fontWeight: FontWeight.w300,
-                    color: config.Colors().secondColor(1)),
-                subhead: TextStyle(
-                    fontSize: 15.0,
-                    fontWeight: FontWeight.w500,
-                    color: config.Colors().secondColor(1)),
-                title: TextStyle(
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.w600,
-                    color: config.Colors().mainColor(1)),
-                body1: TextStyle(
-                    fontSize: 12.0, color: config.Colors().secondColor(1)),
-                body2: TextStyle(
-                    fontSize: 14.0, color: config.Colors().secondColor(1)),
-                caption: TextStyle(
-                    fontSize: 12.0, color: config.Colors().accentColor(1)),
-              ),
-            );
-          } else {
-            return ThemeData(
-              fontFamily: 'Tajawal',
-              primaryColor: Color(0xFF252525),
-              brightness: Brightness.dark,
-              scaffoldBackgroundColor: Color(0xFF2C2C2C),
-              accentColor: config.Colors().mainDarkColor(1),
-              hintColor: config.Colors().secondDarkColor(1),
-              focusColor: config.Colors().accentDarkColor(1),
-              textTheme: TextTheme(
-                headline: TextStyle(
-                    fontSize: 20.0, color: config.Colors().secondDarkColor(1)),
-                display1: TextStyle(
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.w600,
-                    color: config.Colors().secondDarkColor(1)),
-                display2: TextStyle(
-                    fontSize: 20.0,
-                    fontWeight: FontWeight.w600,
-                    color: config.Colors().secondDarkColor(1)),
-                display3: TextStyle(
-                    fontSize: 22.0,
-                    fontWeight: FontWeight.w700,
-                    color: config.Colors().mainDarkColor(1)),
-                display4: TextStyle(
-                    fontSize: 22.0,
-                    fontWeight: FontWeight.w300,
-                    color: config.Colors().secondDarkColor(1)),
-                subhead: TextStyle(
-                    fontSize: 15.0,
-                    fontWeight: FontWeight.w500,
-                    color: config.Colors().secondDarkColor(1)),
-                title: TextStyle(
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.w600,
-                    color: config.Colors().mainDarkColor(1)),
-                body1: TextStyle(
-                    fontSize: 12.0, color: config.Colors().secondDarkColor(1)),
-                body2: TextStyle(
-                    fontSize: 14.0, color: config.Colors().secondDarkColor(1)),
-                caption: TextStyle(
-                    fontSize: 12.0,
-                    color: config.Colors().secondDarkColor(0.6)),
-              ),
-            );
-          }
-        },
-        themedWidgetBuilder: (context, theme) {
-          return ValueListenableBuilder(
-              valueListenable: settingRepo.locale,
-              builder: (context, Locale value, _) {
-                print(value);
-                return MaterialApp(
-                  title: 'تطبيق اوردر',
-                  initialRoute: '/Splash',
-                  onGenerateRoute: RouteGenerator.generateRoute,
-                  debugShowCheckedModeBanner: false,
-                  locale: value,
-                  localizationsDelegates: [
-                    S.delegate,
-                    GlobalMaterialLocalizations.delegate,
-                    GlobalWidgetsLocalizations.delegate,
-                  ],
-                  supportedLocales: S.delegate.supportedLocales,
-                  localeListResolutionCallback: S.delegate
-                      .listResolution(fallback: const Locale('ar', '')),
-                  navigatorObservers: [],
-                  theme: theme,
+    return OverlaySupport(
+        child: DynamicTheme(
+            defaultBrightness: Brightness.light,
+            data: (brightness) {
+              if (brightness == Brightness.light) {
+                return ThemeData(
+                  fontFamily: 'Tajawal',
+                  primaryColor: Colors.white,
+                  brightness: brightness,
+                  //  primaryIconTheme: IconThemeData(color: Colors.red),
+                  accentColor: config.AppColors().mainColor(1), // yellow
+                  focusColor: config.AppColors().secondColor(1), // black
+                  hintColor: config.AppColors().accentColor(1), // red
+                  unselectedWidgetColor:
+                      config.AppColors().nonActiveColorLight(1),
+                  highlightColor: config.AppColors().shimmerLight(1),
+                  textTheme: TextTheme(
+                    headline5: TextStyle(
+                        fontSize: 20.0,
+                        color: config.AppColors().secondColor(1)),
+                    headline4: TextStyle(
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.w600,
+                        color: config.AppColors().secondColor(1)),
+                    headline3: TextStyle(
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.w600,
+                        color: config.AppColors().secondColor(1)),
+                    headline2: TextStyle(
+                        fontSize: 22.0,
+                        fontWeight: FontWeight.w700,
+                        color: config.AppColors().secondColor(1)),
+                    headline1: TextStyle(
+                        fontSize: 22.0,
+                        fontWeight: FontWeight.w300,
+                        color: config.AppColors().secondColor(1)),
+                    subtitle1: TextStyle(
+                        fontSize: 15.0,
+                        fontWeight: FontWeight.w500,
+                        color: config.AppColors().secondColor(1)),
+                    headline6: TextStyle(
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black),
+                    bodyText2: TextStyle(
+                        fontSize: 12.0,
+                        color: config.AppColors().accentColor(1)),
+                    bodyText1: TextStyle(
+                        fontSize: 14.0,
+                        color: config.AppColors().secondColor(1)),
+                    caption: TextStyle(
+                        fontSize: 12.0,
+                        color: config.AppColors().secondColor(1)),
+                  ),
                 );
-              });
-        });
+              } else {
+                return ThemeData(
+                  fontFamily: 'Tajawal',
+                  primaryColor: Color(0xFF121212),
+                  brightness: Brightness.dark,
+                  scaffoldBackgroundColor: Color(0xFF2C2C2C),
+                  accentColor: config.AppColors().mainDarkColor(1),
+                  focusColor: config.AppColors().secondDarkColor(1),
+                  hintColor: config.AppColors().accentDarkColor(1),
+                  highlightColor: config.AppColors().shimmerLight(1),
+                  primaryIconTheme: IconThemeData(
+                      color: config.AppColors().secondDarkColor(1)),
+                  textTheme: TextTheme(
+                    headline5: TextStyle(
+                        fontSize: 20.0,
+                        color: config.AppColors().secondDarkColor(1)),
+                    headline4: TextStyle(
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.w600,
+                        color: config.AppColors().secondDarkColor(1)),
+                    headline3: TextStyle(
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.w600,
+                        color: config.AppColors().secondDarkColor(1)),
+                    headline2: TextStyle(
+                        fontSize: 22.0,
+                        fontWeight: FontWeight.w700,
+                        color: config.AppColors().mainDarkColor(1)),
+                    headline1: TextStyle(
+                        fontSize: 24.0,
+                        fontWeight: FontWeight.w700,
+                        color: config.AppColors().secondDarkColor(1)),
+                    subtitle1: TextStyle(
+                        fontSize: 15.0,
+                        fontWeight: FontWeight.w500,
+                        color: config.AppColors().secondDarkColor(1)),
+                    headline6: TextStyle(
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white),
+                    bodyText2: TextStyle(
+                        fontSize: 12.0,
+                        color: config.AppColors().accentDarkColor(1)),
+                    bodyText1: TextStyle(
+                        fontSize: 14.0,
+                        color: config.AppColors().secondDarkColor(1)),
+                    caption: TextStyle(
+                        fontSize: 12.0,
+                        color: config.AppColors().secondDarkColor(0.6)),
+                  ),
+                );
+              }
+            },
+            themedWidgetBuilder: (context, theme) {
+              return ValueListenableBuilder(
+                  valueListenable: settingRepo.locale,
+                  builder: (context, Locale value, _) {
+                    print(value);
+                    return MaterialApp(
+                      title: 'تطبيق اوردر',
+                      initialRoute: 'Splash',
+                      onGenerateRoute: RouteGenerator.generateRoute,
+                      debugShowCheckedModeBanner: false,
+                      locale: value,
+                      localizationsDelegates: [
+                        S.delegate,
+                        GlobalMaterialLocalizations.delegate,
+                        GlobalWidgetsLocalizations.delegate,
+                        DefaultCupertinoLocalizations.delegate,
+                        GlobalCupertinoLocalizations.delegate,
+                        const FallbackCupertinoLocalisationsDelegate(),
+                      ],
+                      supportedLocales: S.delegate.supportedLocales,
+                      localeListResolutionCallback: S.delegate
+                          .listResolution(fallback: const Locale('ar', '')),
+                      navigatorObservers: [],
+                      theme: theme,
+                    );
+                  });
+            }));
   }
-
 }

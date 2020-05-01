@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
-import 'package:restaurant_rlutter_ui/generated/i18n.dart';
-import 'package:restaurant_rlutter_ui/src/controllers/favorite_controller.dart';
-import 'package:restaurant_rlutter_ui/src/elements/CircularLoadingWidget.dart';
-import 'package:restaurant_rlutter_ui/src/elements/FavoriteGridItemWidget.dart';
-import 'package:restaurant_rlutter_ui/src/elements/FavoriteListItemWidget.dart';
-import 'package:restaurant_rlutter_ui/src/elements/SearchBarWidget.dart';
+import 'package:order_client_app/generated/i18n.dart';
+import 'package:order_client_app/src/controllers/favorite_controller.dart';
+import 'package:order_client_app/src/elements/CircularLoadingWidget.dart';
+import 'package:order_client_app/src/elements/FavoriteGridItemWidget.dart';
+import 'package:order_client_app/src/elements/FavoriteListItemWidget.dart';
+import 'package:order_client_app/src/elements/SearchBarWidget.dart';
+import 'package:order_client_app/src/helpers/shimmer_helper.dart';
 
 class FavoritesWidget extends StatefulWidget {
   @override
@@ -13,7 +14,7 @@ class FavoritesWidget extends StatefulWidget {
 }
 
 class _FavoritesWidgetState extends StateMVC<FavoritesWidget> {
-  String layout = 'grid';
+  String layout = 'list';
 
   FavoriteController _con;
 
@@ -64,7 +65,9 @@ class _FavoritesWidgetState extends StateMVC<FavoritesWidget> {
                         },
                         icon: Icon(
                           Icons.format_list_bulleted,
-                          color: this.layout == 'list' ? Theme.of(context).accentColor : Theme.of(context).focusColor,
+                          color: this.layout == 'list'
+                              ? Theme.of(context).hintColor
+                              : Theme.of(context).focusColor,
                         ),
                       ),
                       IconButton(
@@ -75,7 +78,9 @@ class _FavoritesWidgetState extends StateMVC<FavoritesWidget> {
                         },
                         icon: Icon(
                           Icons.apps,
-                          color: this.layout == 'grid' ? Theme.of(context).accentColor : Theme.of(context).focusColor,
+                          color: this.layout == 'grid'
+                              ? Theme.of(context).hintColor
+                              : Theme.of(context).focusColor,
                         ),
                       )
                     ],
@@ -83,7 +88,7 @@ class _FavoritesWidgetState extends StateMVC<FavoritesWidget> {
                 ),
               ),
               _con.favorites.isEmpty
-                  ? CircularLoadingWidget(height: 500)
+                  ? ShimmerHelper(type: Type.orders)
                   : Offstage(
                       offstage: this.layout != 'list',
                       child: ListView.separated(
@@ -96,7 +101,7 @@ class _FavoritesWidgetState extends StateMVC<FavoritesWidget> {
                         },
                         itemBuilder: (context, index) {
                           return FavoriteListItemWidget(
-                            heroTag: 'favorites_list',
+                            heroTag: 'favorites_list$index',
                             favorite: _con.favorites.elementAt(index),
                           );
                         },
@@ -115,11 +120,14 @@ class _FavoritesWidgetState extends StateMVC<FavoritesWidget> {
                         padding: EdgeInsets.symmetric(horizontal: 20),
                         // Create a grid with 2 columns. If you change the scrollDirection to
                         // horizontal, this produces 2 rows.
-                        crossAxisCount: MediaQuery.of(context).orientation == Orientation.portrait ? 2 : 4,
+                        crossAxisCount: MediaQuery.of(context).orientation ==
+                                Orientation.portrait
+                            ? 2
+                            : 4,
                         // Generate 100 widgets that display their index in the List.
                         children: List.generate(_con.favorites.length, (index) {
                           return FavoriteGridItemWidget(
-                            heroTag: 'favorites_grid',
+                            heroTag: 'favorites_grid$index',
                             favorite: _con.favorites.elementAt(index),
                           );
                         }),

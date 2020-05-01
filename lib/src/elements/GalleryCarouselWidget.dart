@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant_rlutter_ui/src/elements/GalleryItemWidget.dart';
-import 'package:restaurant_rlutter_ui/src/models/gallery.dart';
+import 'package:order_client_app/src/elements/GalleryItemWidget.dart';
+import 'package:order_client_app/src/models/gallery.dart';
 
 class ImageThumbCarouselWidget extends StatefulWidget {
   List<Gallery> galleriesList;

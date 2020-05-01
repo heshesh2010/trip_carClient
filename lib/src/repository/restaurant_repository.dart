@@ -3,11 +3,11 @@ import 'dart:convert';
 import 'package:global_configuration/global_configuration.dart';
 import 'package:http/http.dart' as http;
 import 'package:location/location.dart';
-import 'package:restaurant_rlutter_ui/src/helpers/helper.dart';
-import 'package:restaurant_rlutter_ui/src/models/restaurant.dart';
-import 'package:restaurant_rlutter_ui/src/models/review.dart';
-import 'package:restaurant_rlutter_ui/src/models/user.dart';
-import 'package:restaurant_rlutter_ui/src/repository/user_repository.dart';
+import 'package:order_client_app/src/helpers/helper.dart';
+import 'package:order_client_app/src/models/restaurant.dart';
+import 'package:order_client_app/src/models/review.dart';
+import 'package:order_client_app/src/models/user.dart';
+import 'package:order_client_app/src/repository/user_repository.dart';
 
 Future<Stream<Restaurant>> getTopRestaurants() async {
   User _user = await getCurrentUser();
@@ -76,7 +76,7 @@ Future<Stream<Restaurant>> searchRestaurants(String search, LocationData locatio
   });
 }
 
-Future<Stream<Restaurant>> getRestaurant(String id) async {
+Future<Stream<Restaurant>> getRestaurant(int id) async {
   User _user = await getCurrentUser();
   final String _apiToken = 'api_token=${_user.apiToken}';
   final String url = '${GlobalConfiguration().getString('api_base_url')}restaurants/$id?$_apiToken';
@@ -91,7 +91,7 @@ Future<Stream<Restaurant>> getRestaurant(String id) async {
       .map((data) => Restaurant.fromJSON(data));
 }
 
-Future<Stream<Review>> getRestaurantReviews(String id) async {
+Future<Stream<Review>> getRestaurantReviews(int id) async {
   User _user = await getCurrentUser();
   final String _apiToken = 'api_token=${_user.apiToken}&';
   final String url =

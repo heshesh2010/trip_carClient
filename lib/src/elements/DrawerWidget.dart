@@ -1,10 +1,11 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
-import 'package:restaurant_rlutter_ui/src/controllers/profile_controller.dart';
-import 'package:restaurant_rlutter_ui/src/elements/CircularLoadingWidget.dart';
-import 'package:restaurant_rlutter_ui/src/repository/settings_repository.dart';
-import 'package:restaurant_rlutter_ui/src/repository/user_repository.dart';
+import 'package:order_client_app/src/controllers/profile_controller.dart';
+import 'package:order_client_app/src/elements/CircularLoadingWidget.dart';
+import 'package:order_client_app/src/repository/settings_repository.dart';
+import 'package:order_client_app/src/repository/user_repository.dart';
 
 class DrawerWidget extends StatefulWidget {
   @override
@@ -27,7 +28,7 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
               children: <Widget>[
                 GestureDetector(
                   onTap: () {
-                    Navigator.of(context).pushNamed('/Pages', arguments: 1);
+                    Navigator.of(context).pushNamed('Profile');
                   },
                   child: UserAccountsDrawerHeader(
                     decoration: BoxDecoration(
@@ -44,13 +45,17 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
                     ),
                     currentAccountPicture: CircleAvatar(
                       backgroundColor: Theme.of(context).accentColor,
-                      backgroundImage: NetworkImage(_con.user.image.thumb),
+                      backgroundImage: _con.user.image!=null?
+
+                          CachedNetworkImageProvider(
+                              _con.user.image.thumb)
+                          : Image.asset('assets/img/default.png').image
                     ),
                   ),
                 ),
                 ListTile(
                   onTap: () {
-                    Navigator.of(context).pushNamed('/Pages', arguments: 2);
+                    Navigator.of(context).pushNamed('Pages', arguments: 2);
                   },
                   leading: Icon(
                     Icons.home,
@@ -62,42 +67,15 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
                   ),
                 ),
                 ListTile(
-                  onTap: () async {
-                    await Navigator.of(context)
-                        .pushNamed('/Pages', arguments: 0);
-                  },
+                onTap: () {
+                 Navigator.of(context).pushNamed('Profile');
+                           },
                   leading: Icon(
-                    Icons.notifications,
+                    Icons.person,
                     color: Theme.of(context).focusColor.withOpacity(1),
                   ),
                   title: Text(
-                    "الاشعارات",
-                    style: Theme.of(context).textTheme.subhead,
-                  ),
-                ),
-                ListTile(
-                  onTap: () {
-                    Navigator.of(context).pushNamed('/Pages', arguments: 3);
-                  },
-                  leading: Icon(
-                    Icons.fastfood,
-                    color: Theme.of(context).focusColor.withOpacity(1),
-                  ),
-                  title: Text(
-                    "طلباتي",
-                    style: Theme.of(context).textTheme.subhead,
-                  ),
-                ),
-                ListTile(
-                  onTap: () {
-                    Navigator.of(context).pushNamed('/Pages', arguments: 4);
-                  },
-                  leading: Icon(
-                    Icons.favorite,
-                    color: Theme.of(context).focusColor.withOpacity(1),
-                  ),
-                  title: Text(
-                    "المفضلة",
+                    "الملف الشخصي",
                     style: Theme.of(context).textTheme.subhead,
                   ),
                 ),
@@ -114,7 +92,7 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
                 ),
                 ListTile(
                   onTap: () {
-                    Navigator.of(context).pushNamed('/Help');
+                    Navigator.of(context).pushNamed('Help');
                   },
                   leading: Icon(
                     Icons.help,
@@ -127,7 +105,7 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
                 ),
                 ListTile(
                   onTap: () {
-                    Navigator.of(context).pushNamed('/Settings');
+                    Navigator.of(context).pushNamed('Settings');
                   },
                   leading: Icon(
                     Icons.settings,
@@ -135,19 +113,6 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
                   ),
                   title: Text(
                     "الاعدادت",
-                    style: Theme.of(context).textTheme.subhead,
-                  ),
-                ),
-               ListTile(
-                  onTap: () {
-                    Navigator.of(context).pushNamed('/Languages');
-                  },
-                  leading: Icon(
-                    Icons.translate,
-                    color: Theme.of(context).focusColor.withOpacity(1),
-                  ),
-                  title: Text(
-                    "Languages",
                     style: Theme.of(context).textTheme.subhead,
                   ),
                 ),
@@ -176,7 +141,7 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
                   onTap: () {
                     logout().then((value) {
                       Navigator.of(context).pushNamedAndRemoveUntil(
-                          '/Login', (Route<dynamic> route) => false);
+                          'Login', (Route<dynamic> route) => false);
                     });
                   },
                   leading: Icon(

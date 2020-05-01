@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
-import 'package:restaurant_rlutter_ui/generated/i18n.dart';
-import 'package:restaurant_rlutter_ui/src/controllers/order_controller.dart';
-import 'package:restaurant_rlutter_ui/src/elements/CircularLoadingWidget.dart';
-import 'package:restaurant_rlutter_ui/src/elements/OrderItemWidget.dart';
-import 'package:restaurant_rlutter_ui/src/elements/SearchBarWidget.dart';
+import 'package:order_client_app/src/controllers/order_controller.dart';
+import 'package:order_client_app/src/elements/EmptyReviewsWidget.dart';
+import 'package:order_client_app/src/elements/OrderItemWidget.dart';
+import 'package:order_client_app/src/helpers/shimmer_helper.dart';
 
 class OrdersWidget extends StatefulWidget {
   @override
@@ -20,58 +20,31 @@ class _OrdersWidgetState extends StateMVC<OrdersWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context).copyWith(dividerColor: Colors.transparent);
+    final theme = Theme.of(context).copyWith(dividerColor: Colors.grey);
     return Scaffold(
       key: _con.scaffoldKey,
-      body: RefreshIndicator(
-        onRefresh: _con.refreshOrders,
-        child: SingleChildScrollView(
-          padding: EdgeInsets.symmetric(vertical: 10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            mainAxisSize: MainAxisSize.max,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: SearchBarWidget(),
-              ),
-              SizedBox(height: 10),
-              _con.orders.isEmpty
-                  ? CircularLoadingWidget(height: 500)
-                  : ListView.builder(
-                      scrollDirection: Axis.vertical,
-                      shrinkWrap: true,
-                      primary: false,
-                      itemCount: _con.orders.length,
-                      itemBuilder: (context, index) {
-                        return Theme(
+      body: _con.isLoading
+          ? ShimmerHelper(type: Type.complex)
+          : _con.orders.isEmpty
+              ? EmptyReviewsWidget()
+              : LiquidPullToRefresh(
+                  //   key: _refreshIndicatorKey,
+                  onRefresh: _con.refreshOrders,
+
+                  child: ListView.builder(
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    primary: false,
+                    itemCount: _con.orders.length,
+                    itemBuilder: (context, index) {
+                      return Theme(
                           data: theme,
-                          child: ExpansionTile(
-                            initiallyExpanded: true,
-                            title: Row(
-                              children: <Widget>[
-                                Expanded(child: Text('${S.of(context).order_id}: #${_con.orders.elementAt(index).id}')),
-                                Text(
-                                  '${_con.orders.elementAt(index).orderStatus.status}',
-                                  style: Theme.of(context).textTheme.caption,
-                                ),
-                              ],
-                            ),
-                            children: List.generate(_con.orders.elementAt(index).foodOrders.length, (indexFood) {
-                              return OrderItemWidget(
-                                  heroTag: 'my_orders',
-                                  order: _con.orders.elementAt(index),
-                                  foodOrder: _con.orders.elementAt(index).foodOrders.elementAt(indexFood));
-                            }),
-                          ),
-                        );
-                      },
-                    ),
-            ],
-          ),
-        ),
-      ),
+                          child: OrderItemWidget(
+                              order: _con.orders.elementAt(index),
+                              orderStatus: _con.orderStatus));
+                    },
+                  ),
+                ),
     );
   }
 }

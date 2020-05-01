@@ -169,7 +169,7 @@ The navigation mode in Multi Restaurants App UI Kit is route aspect it's easy an
     switch (settings.name) {
       case '/':
         return MaterialPageRoute(builder: (_) => Walkthrough());
-      case '/Login':
+      case 'Login':
         return MaterialPageRoute(builder: (_) => LoginWidget());
         //...
 ```
