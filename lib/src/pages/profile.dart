@@ -19,6 +19,11 @@ class _ProfileWidgetState extends StateMVC<ProfileWidget> {
   }
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context).copyWith(dividerColor: Colors.transparent);
     return Scaffold(

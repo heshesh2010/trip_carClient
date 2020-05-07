@@ -42,7 +42,8 @@ class Order {
     // paymentId: json["payment_id"] == null ? null : json["payment_id"],
     //  foodType = json["food_type"];
     payment = json["payment"] == null ? null : Payment.fromMap(json["payment"]);
-  
+
+    tax = double.parse(json["tax"].toString());
 
     // customFields: List<dynamic>.from(json["custom_fields"].map((x) => x)),
     user = json['user'] != null ? User.fromJSON(json['user']) : new User();
@@ -61,25 +62,21 @@ class Order {
 
   Map toMap() {
     var map = new Map<String, dynamic>();
-    map["tax"] = tax??null; // array
-    map["reference_id"] = payment?.referenceId??null; // array
-    map["method"] = payment?.method??null; // array
+    map["tax"] = tax ?? null; // array
+    map["reference_id"] = payment?.referenceId ?? null; // array
+    map["method"] = payment?.method ?? null; // array
 //  map["payment"] = payment.toMap(); // object
     return map;
   }
 
- Map toMapUpdateStatus() {
+  Map toMapUpdateStatus() {
     var map = new Map<String, dynamic>();
-  //   map["user_id"] = user.id;
-  //  map["order_id"] = orderNumber;
+    //   map["user_id"] = user.id;
+    //  map["order_id"] = orderNumber;
     map["status_id"] = orderStatus.id;
 //  map["payment"] = payment.toMap(); // object
     return map;
   }
-
-
-   
-
 }
 
 enum Status { ORDER_RECEIVED, DELIVERED }

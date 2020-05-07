@@ -50,9 +50,9 @@ class TrackingFoodItemWidget extends StatelessWidget {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(5)),
                         image: DecorationImage(
-                            image: foodOrder.hasMedia
+                            image: foodOrder.food.hasMedia
                                 ? CachedNetworkImageProvider(
-                                    foodOrder.media.first.thumb)
+                                    foodOrder.food.image.thumb)
                                 : Image.asset('assets/img/default_food.png')
                                     .image,
                             fit: BoxFit.cover),
@@ -68,7 +68,7 @@ class TrackingFoodItemWidget extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Text(
-                                  foodOrder.name,
+                                  foodOrder.food.name,
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1,
                                   style: Theme.of(context).textTheme.subhead,
@@ -85,7 +85,7 @@ class TrackingFoodItemWidget extends StatelessWidget {
                                   Helper.getTotalOrderPrice(foodOrder),
                                   style: Theme.of(context).textTheme.display1),
                               Text(
-                                foodOrder.pivot.foodType,
+                                foodOrder.food?.foodType ?? "",
                                 //  DateFormat('yyyy-MM-dd').format(foodOrder.dateTime),
                                 style: Theme.of(context).textTheme.caption,
                               ),
@@ -97,14 +97,17 @@ class TrackingFoodItemWidget extends StatelessWidget {
                   ],
                 ),
                 children: List.generate(
-                    order.foodOrders.elementAt(index).extras.length == 0
+                    order.foodOrders.elementAt(index).orderFoodsExtras.length ==
+                            0
                         ? 0
-                        : order.foodOrders.elementAt(index).extras.length,
-                    (indexFood) {
+                        : order.foodOrders
+                            .elementAt(index)
+                            .orderFoodsExtras
+                            .length, (indexFood) {
                   return ExtrasFoodOrderItemWidget(
                       extraFoodItem: order.foodOrders
                           .elementAt(index)
-                          .extras
+                          .orderFoodsExtras
                           .elementAt(indexFood));
                 }),
               ),

@@ -9,7 +9,8 @@ class FoodsCarouselItemWidget extends StatelessWidget {
   Food food;
   String heroTag;
 
-  FoodsCarouselItemWidget({Key key, this.heroTag, this.marginLeft, this.food}) : super(key: key);
+  FoodsCarouselItemWidget({Key key, this.heroTag, this.marginLeft, this.food})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +18,8 @@ class FoodsCarouselItemWidget extends StatelessWidget {
       splashColor: Theme.of(context).accentColor.withOpacity(0.08),
       highlightColor: Colors.white10,
       onTap: () {
-        Navigator.of(context).pushNamed('Food', arguments: RouteArgument(food: food, heroTag: heroTag));
+        Navigator.of(context).pushNamed('Food',
+            arguments: RouteArgument(food: food, heroTag: heroTag));
       },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -32,23 +34,28 @@ class FoodsCarouselItemWidget extends StatelessWidget {
                   width: 100,
                   height: 130,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(5)),
-                    image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image: CachedNetworkImageProvider(food.image.thumb),
-                    ),
-                  ),
+                      borderRadius: BorderRadius.all(Radius.circular(5)),
+                      image: DecorationImage(
+                          fit: BoxFit.cover,
+                          image: food.image != null
+                              ? CachedNetworkImageProvider(food.image.thumb)
+                              : Image.asset('assets/img/default_food.png')
+                                  .image)),
                 ),
               ),
               Container(
                 margin: EdgeInsets.only(right: 25, top: 5),
                 padding: EdgeInsets.symmetric(horizontal: 10, vertical: 3),
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(100)), color: Theme.of(context).accentColor),
+                    borderRadius: BorderRadius.all(Radius.circular(100)),
+                    color: Theme.of(context).accentColor),
                 alignment: AlignmentDirectional.topEnd,
                 child: Helper.getPrice(
                   food.price,
-                  style: Theme.of(context).textTheme.body2.merge(TextStyle(color: Theme.of(context).focusColor)),
+                  style: Theme.of(context)
+                      .textTheme
+                      .body2
+                      .merge(TextStyle(color: Theme.of(context).focusColor)),
                 ),
               ),
             ],
@@ -66,7 +73,7 @@ class FoodsCarouselItemWidget extends StatelessWidget {
                     style: Theme.of(context).textTheme.body1,
                   ),
                   Text(
-                    food.restaurant.name,
+                    food.restaurantName ?? "",
                     overflow: TextOverflow.fade,
                     softWrap: false,
                     style: Theme.of(context).textTheme.caption,

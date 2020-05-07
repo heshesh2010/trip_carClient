@@ -2,7 +2,6 @@ import 'package:order_client_app/src/models/category.dart';
 import 'package:order_client_app/src/models/extra.dart';
 import 'package:order_client_app/src/models/favorite.dart';
 import 'package:order_client_app/src/models/media.dart';
-import 'package:order_client_app/src/models/restaurant.dart';
 import 'package:order_client_app/src/models/review.dart';
 import 'package:order_client_app/src/models/size.dart';
 
@@ -15,7 +14,6 @@ class Food {
   String description;
   String ingredients;
   bool featured;
-  Restaurant restaurant;
   Category category;
   List<Extra> extras;
   List<Extra> selectedExtras = [];
@@ -24,33 +22,36 @@ class Food {
   String preparationTime;
   String foodType;
   Favorite favorite;
-
+  bool hasMedia;
+  int restaurantId;
+  String restaurantName;
   Food();
 
   Food.fromJSON(Map<String, dynamic> jsonMap) {
     id = jsonMap['id'].toString();
     name = jsonMap['name'];
-    price = jsonMap['price'].toDouble();
+    price = double.parse(jsonMap["price"]);
     discountPrice = jsonMap['discount_price'] != null
-        ? jsonMap['discount_price'].toDouble()
+        ? double.parse(jsonMap["discount_price"])
         : null;
     description = jsonMap['description'];
     ingredients = jsonMap['ingredients'];
     featured = jsonMap['featured'] ?? false;
-    restaurant = jsonMap['restaurant'] != null
-        ? Restaurant.fromJSON(jsonMap['restaurant'])
-        : null;
     category = jsonMap['category'] != null
         ? Category.fromJSON(jsonMap['category'])
         : null;
-    image =
-        jsonMap['media'] != null ? Media.fromJSON(jsonMap['media'][0]) : null;
+    try {
+      image =
+          jsonMap['media'] != null ? Media.fromMap(jsonMap['media'][0]) : null;
+    } catch (e) {
+      image = null;
+    }
     extras = jsonMap['extras'] != null
         ? List.from(jsonMap['extras'])
             .map((element) => Extra.fromJSON(element))
             .toList()
         : null;
-    selectedExtras.addAll(extras);
+    if (extras != null) selectedExtras.addAll(extras);
     foodReviews = jsonMap['food_reviews'] != null
         ? List.from(jsonMap['food_reviews'])
             .map((element) => Review.fromJSON(element))
@@ -59,6 +60,9 @@ class Food {
     size = jsonMap['size'] != null ? Size.fromJSON(jsonMap['size']) : null;
     preparationTime = jsonMap['preparation_time'];
     foodType = jsonMap['food_type'];
+    hasMedia = jsonMap['has_media'];
+    restaurantId = jsonMap['restaurant_id'];
+    restaurantName = jsonMap['restaurant_name'];
     //favorite = jsonMap['favorite'] != null
     //    ? Favorite.fromJSON(jsonMap['favorite'])
     //    : null;

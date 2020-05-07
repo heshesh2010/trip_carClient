@@ -13,16 +13,18 @@ class Restaurant {
   String latitude;
   String longitude;
   double distance;
- int userId;
+  int userId;
   Restaurant();
 
   Restaurant.fromJSON(Map<String, dynamic> jsonMap)
       : id = jsonMap['id'],
         name = jsonMap['name'],
         image = jsonMap['media'] != null
-            ? Media.fromJSON(jsonMap['media'][0])
+            ? Media.fromMap(jsonMap['media'][0])
             : null,
-        rate = double.parse(jsonMap['rate'].toString()) ?? 0.0,
+        rate = jsonMap['rate'] != null
+            ? double.parse(jsonMap['rate'].toString()) ?? 0.0
+            : 0.0,
         address = jsonMap['address'] ?? "",
         description = jsonMap['description'] ?? "",
         phone = jsonMap['phone'] ?? "",
@@ -33,7 +35,7 @@ class Restaurant {
         distance = jsonMap['distance'] != null
             ? double.parse(jsonMap['distance'].toString())
             : 0.0,
-userId = jsonMap['user_id'] ?? null;
+        userId = jsonMap['user_id'] ?? null;
 
   Map<String, dynamic> toMap() {
     return {

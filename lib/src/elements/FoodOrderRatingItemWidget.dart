@@ -15,8 +15,6 @@ class FoodOrderRatingItemWidget extends StatelessWidget {
   FoodOrderRatingItemWidget({Key key, this.foodOrder, this.con, this.listIndex})
       : super(key: key);
 
-
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -44,7 +42,7 @@ class FoodOrderRatingItemWidget extends StatelessWidget {
               mainAxisSize: MainAxisSize.max,
               children: <Widget>[
                 Text(
-                  foodOrder.name,
+                  foodOrder.food.name,
                   style: Theme.of(context)
                       .textTheme
                       .headline6
@@ -69,7 +67,6 @@ class FoodOrderRatingItemWidget extends StatelessWidget {
                   itemBuilder: (context, index) {
                     switch (index) {
                       case 0:
-                      
                         return Icon(
                           Icons.sentiment_very_dissatisfied,
                           color: Colors.red,
@@ -90,7 +87,6 @@ class FoodOrderRatingItemWidget extends StatelessWidget {
                           color: Colors.lightGreen,
                         );
                       case 4:
-                
                         return Icon(
                           Icons.sentiment_very_satisfied,
                           color: Colors.green,
@@ -160,8 +156,9 @@ class FoodOrderRatingItemWidget extends StatelessWidget {
                     controller: btnControllerSave,
                     color: Theme.of(context).accentColor,
                     onPressed: () {
-                      con.addFoodRating(foodOrder, btnControllerSave,listIndex);
-                     // btnControllerSave.stop();
+                      con.addFoodRating(
+                          foodOrder, btnControllerSave, listIndex);
+                      // btnControllerSave.stop();
                     },
                   ),
                 ),

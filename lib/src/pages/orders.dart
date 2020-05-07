@@ -19,6 +19,11 @@ class _OrdersWidgetState extends StateMVC<OrdersWidget> {
   }
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context).copyWith(dividerColor: Colors.grey);
     return Scaffold(

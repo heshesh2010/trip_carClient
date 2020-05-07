@@ -17,14 +17,18 @@ class S implements WidgetsLocalizations {
   static const GeneratedLocalizationsDelegate delegate =
       GeneratedLocalizationsDelegate();
 
-  String get food => 'food';
-
-  String get chat => "chat";
-
   static S of(BuildContext context) => Localizations.of<S>(context, S);
 
   @override
   TextDirection get textDirection => TextDirection.ltr;
+
+  String get food => 'food';
+
+  String get chat => "chat";
+
+  String get ads => "ads";
+
+  String get ads_desc => "ordered by new adds ";
 
   String get about => "About";
   String get add_to_cart => "Add to Cart";
@@ -130,6 +134,8 @@ class $ar extends S {
   const $ar();
   @override
   String get food => 'مشاهدة تفاصيل الوجبة';
+  String get ads => "اعلانات من الاداره";
+  String get ads_desc => "مرتبة حسب الأحدث اولاً";
 
   @override
   String get chat => "المحادثات";
@@ -145,7 +151,7 @@ class $ar extends S {
   String get app_language => "App Language";
   @override
   String get longpress_on_the_food_to_add_suplements =>
-      "اضغط ضغطة مطولة للاضافة الى سلة المشتريات ";
+      " مرتبة من الاعلى للاقل طلباً ";
   @override
   String get help_support => "الدعم  والمساعدة";
   @override

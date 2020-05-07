@@ -14,7 +14,9 @@ class FoodGridItemWidget extends StatelessWidget {
       highlightColor: Colors.transparent,
       splashColor: Theme.of(context).accentColor.withOpacity(0.08),
       onTap: () {
-        Navigator.of(context).pushNamed('Food', arguments: new RouteArgument(heroTag: this.heroTag, food: this.food));
+        Navigator.of(context).pushNamed('Food',
+            arguments:
+                new RouteArgument(heroTag: this.heroTag, food: this.food));
       },
       child: Stack(
         alignment: AlignmentDirectional.topEnd,
@@ -27,7 +29,11 @@ class FoodGridItemWidget extends StatelessWidget {
                   tag: heroTag + food.id,
                   child: Container(
                     decoration: BoxDecoration(
-                      image: DecorationImage(image: CachedNetworkImageProvider(this.food.image.thumb), fit: BoxFit.cover),
+                      image: DecorationImage(
+                          image: food.image != null
+                              ? CachedNetworkImageProvider(food.image.thumb)
+                              : Image.asset('assets/img/default_food.png').image,
+                          fit: BoxFit.cover),
                       borderRadius: BorderRadius.circular(5),
                     ),
                   ),
@@ -35,13 +41,13 @@ class FoodGridItemWidget extends StatelessWidget {
               ),
               SizedBox(height: 5),
               Text(
-                food.name,
+                food?.name ?? "",
                 style: Theme.of(context).textTheme.body2,
                 overflow: TextOverflow.ellipsis,
               ),
               SizedBox(height: 2),
               Text(
-                food.restaurant.name,
+                food.restaurantName ?? "",
                 style: Theme.of(context).textTheme.caption,
                 overflow: TextOverflow.ellipsis,
               )

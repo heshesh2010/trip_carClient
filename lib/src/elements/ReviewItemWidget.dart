@@ -28,9 +28,9 @@ class ReviewItemWidget extends StatelessWidget {
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(100)),
                     image: DecorationImage(
-                        image: this.review.user.image != null
+                        image: this.review.user.media != null
                             ? CachedNetworkImageProvider(
-                                this.review.user.image.thumb)
+                                this.review.user.media.first.thumb)
                             : Image.asset('assets/img/default.png').image)),
               ),
               SizedBox(width: 15),

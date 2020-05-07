@@ -7,7 +7,6 @@ import 'package:my_fatoorah/my_fatoorah.dart';
 import 'package:order_client_app/src/models/cart.dart';
 import 'package:order_client_app/src/models/order.dart';
 import 'package:order_client_app/src/models/payment.dart';
-import 'package:order_client_app/src/models/route_argument.dart';
 import 'package:order_client_app/src/models/user.dart';
 import 'package:order_client_app/src/repository/cart_repository.dart';
 import 'package:order_client_app/src/repository/order_repository.dart'
@@ -19,15 +18,15 @@ import 'package:order_client_app/src/repository/user_repository.dart';
 
 class CheckoutController extends ControllerMVC {
   List<Cart> carts = <Cart>[];
-     Payment  payment ;
+  Payment payment;
   double taxAmount = 0.0;
   double subTotal = 0.0;
   double total = 0.0;
   bool loading = true;
   GlobalKey<ScaffoldState> scaffoldKey;
-  User user;
+  User currentUser;
   getUser() async {
-    this.user = await getCurrentUser();
+    this.currentUser = await getCurrentUser();
   }
 
   CheckoutController() {
@@ -66,9 +65,8 @@ class CheckoutController extends ControllerMVC {
     _order.payment = payment;
     orderRepo.addOrder(_order).then((value) {
       if (value is Payment) {
-      
         setState(() {
-            payment=value;
+          payment = value;
           loading = false;
         });
       }
@@ -91,9 +89,9 @@ class CheckoutController extends ControllerMVC {
       context: scaffoldKey.currentState.context,
       request: MyfatoorahRequest(
         currencyIso: Country.SaudiArabia,
-        customerEmail: user.email,
-        customerMobile: user.phone,
-        customerName: user.name,
+        customerEmail: currentUser.email,
+        customerMobile: currentUser.phone,
+        customerName: currentUser.name,
         successUrl:
             "https://assets.materialup.com/uploads/473ef52c-8b96-46f7-9771-cac4b112ae28/preview.png",
         errorUrl:
@@ -107,15 +105,15 @@ class CheckoutController extends ControllerMVC {
     ).then((response) {
       print(response);
       //if response == sucess
-      if(response.status.toString().contains("PaymentStatus.Success")){
-      payment=new Payment();
-      payment.referenceId = response.paymentId;
-      payment.method = "دقع الكتروني";
-      
-      //payment.tax = taxAmount;
-      Navigator.of(context).pushReplacementNamed('OrderSuccess',
-          arguments: payment);
-          }
+      if (response.status.toString().contains("PaymentStatus.Success")) {
+        payment = new Payment();
+        payment.referenceId = response.paymentId;
+        payment.method = "دقع الكتروني";
+
+        //payment.tax = taxAmount;
+        Navigator.of(context)
+            .pushReplacementNamed('OrderSuccess', arguments: payment);
+      }
     }).catchError((error, stackTrace) {
       print("inner: $error");
       print(stackTrace);

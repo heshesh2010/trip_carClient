@@ -2,9 +2,11 @@ import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:order_client_app/src/models/cart.dart';
+import 'package:order_client_app/src/models/user.dart';
 import 'package:order_client_app/src/repository/cart_repository.dart';
 import 'package:order_client_app/src/repository/settings_repository.dart'
     as settingRepo;
+import 'package:order_client_app/src/repository/user_repository.dart';
 
 class CartController extends ControllerMVC {
   List<Cart> carts = <Cart>[];
@@ -13,9 +15,19 @@ class CartController extends ControllerMVC {
   double subTotal = 0.0;
   double total = 0.0;
   GlobalKey<ScaffoldState> scaffoldKey;
+  User user = new User();
 
   CartController() {
     this.scaffoldKey = new GlobalKey<ScaffoldState>();
+    listenForUser();
+  }
+
+  void listenForUser() {
+    getCurrentUser().then((_user) {
+      setState(() {
+        user = _user;
+      });
+    });
   }
 
   void listenForCarts({String message}) async {

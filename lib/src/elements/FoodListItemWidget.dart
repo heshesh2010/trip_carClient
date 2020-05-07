@@ -18,14 +18,19 @@ class FoodListItemWidget extends StatelessWidget {
       focusColor: Theme.of(context).accentColor,
       highlightColor: Theme.of(context).primaryColor,
       onTap: () {
-        Navigator.of(context).pushNamed('Food', arguments: new RouteArgument(heroTag: this.heroTag, food: this.food));
+        Navigator.of(context).pushNamed('Food',
+            arguments:
+                new RouteArgument(heroTag: this.heroTag, food: this.food));
       },
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
         decoration: BoxDecoration(
           color: Theme.of(context).primaryColor.withOpacity(0.9),
           boxShadow: [
-            BoxShadow(color: Theme.of(context).focusColor.withOpacity(0.1), blurRadius: 5, offset: Offset(0, 2)),
+            BoxShadow(
+                color: Theme.of(context).focusColor.withOpacity(0.1),
+                blurRadius: 5,
+                offset: Offset(0, 2)),
           ],
         ),
         child: Row(
@@ -38,7 +43,11 @@ class FoodListItemWidget extends StatelessWidget {
                 width: 60,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(5)),
-                  image: DecorationImage(image: CachedNetworkImageProvider(food.image.thumb), fit: BoxFit.cover),
+                  image: DecorationImage(
+                      image: food.image != null
+                          ? CachedNetworkImageProvider(food.image.thumb)
+                          : Image.asset('assets/img/default_food.png').image,
+                      fit: BoxFit.cover),
                 ),
               ),
             ),
@@ -58,7 +67,7 @@ class FoodListItemWidget extends StatelessWidget {
                           style: Theme.of(context).textTheme.subhead,
                         ),
                         Text(
-                          food.restaurant.name,
+                          food.restaurantName ?? "",
                           overflow: TextOverflow.fade,
                           softWrap: false,
                           style: Theme.of(context).textTheme.caption,
@@ -67,7 +76,8 @@ class FoodListItemWidget extends StatelessWidget {
                     ),
                   ),
                   SizedBox(width: 8),
-                  Helper.getPrice(food.price, style: Theme.of(context).textTheme.display1),
+                  Helper.getPrice(food.price,
+                      style: Theme.of(context).textTheme.display1),
                 ],
               ),
             )

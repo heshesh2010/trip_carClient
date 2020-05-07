@@ -11,11 +11,11 @@ import 'package:order_client_app/src/repository/user_repository.dart';
 class MessagesController extends ControllerMVC {
   List<Message> messages = <Message>[];
   GlobalKey<ScaffoldState> scaffoldKey;
-  User user;
+  User currentUser;
   bool isLoading = false;
 
   getUser() async {
-    this.user = await getCurrentUser();
+    this.currentUser = await getCurrentUser();
   }
 
   MessagesController({conversationId}) {
@@ -38,8 +38,7 @@ class MessagesController extends ControllerMVC {
       setState(() {
         isLoading = false;
       });
-      FlushbarHelper.createError(message: "حدث خطأ بالاتصال")
-          .show(scaffoldKey.currentState.context);
+      FlushbarHelper.createError(message: "حدث خطأ بالاتصال").show(context);
     }, onDone: () {
       setState(() {
         isLoading = false;
@@ -47,21 +46,18 @@ class MessagesController extends ControllerMVC {
     });
   }
 
-  void sendMessage(String message, int senderId, int receiverId, int orderId) {
+  void sendMessage(String message, int orderId) {
     setState(() {
       isLoading = true;
     });
-    messageRepo
-        .updateMessages(message, senderId, receiverId, orderId)
-        .then((value) {
+    messageRepo.updateMessages(message, orderId).then((value) {
       if (value is Message) {
         setState(() {
           isLoading = false;
           //refreshRecentConversations(value.conversationId);
         });
       } else {
-        FlushbarHelper.createError(message: "حدث خطأ بالاتصال")
-            .show(scaffoldKey.currentState.context);
+        FlushbarHelper.createError(message: "حدث خطأ بالاتصال").show(context);
         setState(() {
           isLoading = false;
         });

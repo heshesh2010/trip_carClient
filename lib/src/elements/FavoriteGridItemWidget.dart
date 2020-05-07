@@ -7,15 +7,17 @@ class FavoriteGridItemWidget extends StatelessWidget {
   String heroTag;
   Favorite favorite;
 
-  FavoriteGridItemWidget({Key key, this.heroTag, this.favorite}) : super(key: key);
+  FavoriteGridItemWidget({Key key, this.heroTag, this.favorite})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return InkWell(
       highlightColor: Colors.transparent,
       splashColor: Theme.of(context).accentColor.withOpacity(0.08),
       onTap: () {
-        Navigator.of(context)
-            .pushNamed('Food', arguments: new RouteArgument(heroTag: this.heroTag, food: this.favorite.food));
+        Navigator.of(context).pushNamed('Food',
+            arguments: new RouteArgument(
+                heroTag: this.heroTag, food: this.favorite.food));
       },
       child: Stack(
         alignment: AlignmentDirectional.topEnd,
@@ -28,7 +30,10 @@ class FavoriteGridItemWidget extends StatelessWidget {
                   tag: heroTag + favorite.food.id,
                   child: Container(
                     decoration: BoxDecoration(
-                      image: DecorationImage(image: CachedNetworkImageProvider(this.favorite.food.image.thumb), fit: BoxFit.cover),
+                      image: DecorationImage(
+                          image: CachedNetworkImageProvider(
+                              this.favorite.food.image.thumb),
+                          fit: BoxFit.cover),
                       borderRadius: BorderRadius.circular(5),
                     ),
                   ),
@@ -42,7 +47,7 @@ class FavoriteGridItemWidget extends StatelessWidget {
               ),
               SizedBox(height: 2),
               Text(
-                favorite.food.restaurant.name,
+                favorite.food.restaurantName,
                 style: Theme.of(context).textTheme.caption,
                 overflow: TextOverflow.ellipsis,
               )

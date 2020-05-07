@@ -115,6 +115,8 @@ class _SignUpWidgetState extends StateMVC<SignUpWidget> {
                                       .withOpacity(0.2))),
                         ),
                       ),
+                                            SizedBox(height: 30),
+
                       TextFormField(
                         keyboardType: TextInputType.phone,
                         onSaved: (input) => _con.user.phone = input,
@@ -300,7 +302,7 @@ class _SignUpWidgetState extends StateMVC<SignUpWidget> {
               bottom: 10,
               child: FlatButton(
                 onPressed: () {
-                  Navigator.of(context).pushNamed('Login');
+                  Navigator.of(context).pop();
                 },
                 textColor: Theme.of(context).hintColor,
                 child: Text(S.of(context).i_have_account_back_to_login),

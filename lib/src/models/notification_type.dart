@@ -10,6 +10,7 @@ class NotificationType {
   NotificationType.fromJSON(Map<String, dynamic> jsonMap) {
     id = jsonMap['id'].toString();
     type = jsonMap['type'] != null ? jsonMap['type'].toString() : '';
-    image = jsonMap['media'] != null ? Media.fromJSON(jsonMap['media'][0]) : null;
+    image =
+        jsonMap['media'] != null ? Media.fromMap(jsonMap['media'][0]) : null;
   }
 }

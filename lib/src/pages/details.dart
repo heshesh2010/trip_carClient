@@ -353,7 +353,9 @@ class _DetailsWidgetState extends StateMVC<DetailsWidget> {
                     Positioned(
                       top: 32,
                       left: 40,
-                      child: ShoppingCartFloatButtonWidget(),
+                      child: _con.user?.apiToken != null
+                          ? ShoppingCartFloatButtonWidget()
+                          : Container(),
                     ),
                   ],
                 ),

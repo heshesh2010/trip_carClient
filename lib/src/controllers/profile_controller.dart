@@ -13,8 +13,10 @@ class ProfileController extends ControllerMVC {
 
   ProfileController() {
     this.scaffoldKey = new GlobalKey<ScaffoldState>();
-    listenForRecentOrders();
     listenForUser();
+    if (user.apiToken != null) {
+      listenForRecentOrders();
+    }
   }
 
   void listenForUser() {

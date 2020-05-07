@@ -20,9 +20,8 @@ class _PaymentMethodsWidgetState extends State<PaymentMethodsWidget> {
 
   @override
   void initState() {
-    list = new PaymentMethodList();
-
     super.initState();
+    list = new PaymentMethodList();
   }
 
   @override

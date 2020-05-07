@@ -1,3 +1,4 @@
+import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:order_client_app/src/controllers/cart_controller.dart';
@@ -28,6 +29,7 @@ class _ShoppingCartFloatButtonWidgetState
   @override
   void initState() {
     _con.listenForCartsCount();
+
     super.initState();
   }
 
@@ -41,8 +43,14 @@ class _ShoppingCartFloatButtonWidgetState
         color: Theme.of(context).accentColor,
         shape: StadiumBorder(),
         onPressed: () {
-          Navigator.of(context).pushReplacementNamed('Cart',
-              arguments: RouteArgument(param: 'Food', food: widget.food));
+          if (_con.user.apiToken != null) {
+            Navigator.of(context).pushReplacementNamed('Cart',
+                arguments: RouteArgument(param: 'Food', food: widget.food));
+          } else {
+            FlushbarHelper.createError(
+                    message: "يجب تسجيل الدخول اولاً من القائمة اليمنى ")
+                .show(context);
+          }
         },
         child: Stack(
           alignment: AlignmentDirectional.bottomEnd,

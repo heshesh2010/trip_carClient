@@ -3,11 +3,11 @@ import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:order_client_app/generated/i18n.dart';
 import 'package:order_client_app/src/controllers/category_controller.dart';
 import 'package:order_client_app/src/elements/CircularLoadingWidget.dart';
-import 'package:order_client_app/src/elements/DrawerWidget.dart';
 import 'package:order_client_app/src/elements/FoodGridItemWidget.dart';
 import 'package:order_client_app/src/elements/FoodListItemWidget.dart';
 import 'package:order_client_app/src/elements/SearchBarWidget.dart';
 import 'package:order_client_app/src/elements/ShoppingCartButtonWidget.dart';
+import 'package:order_client_app/src/helpers/shimmer_helper.dart';
 import 'package:order_client_app/src/models/route_argument.dart';
 
 class CategoryWidget extends StatefulWidget {
@@ -20,7 +20,7 @@ class CategoryWidget extends StatefulWidget {
 }
 
 class _CategoryWidgetState extends StateMVC<CategoryWidget> {
-  String layout = 'grid';
+  String layout = 'list';
 
   CategoryController _con;
 
@@ -38,7 +38,6 @@ class _CategoryWidgetState extends StateMVC<CategoryWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _con.scaffoldKey,
-      drawer: DrawerWidget(),
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -46,11 +45,17 @@ class _CategoryWidgetState extends StateMVC<CategoryWidget> {
         title: Text(
 //    _con.ca.isNotEmpty ? _con.foods[0].restaurant.name : '',
           S.of(context).category,
-          style: Theme.of(context).textTheme.title.merge(TextStyle(letterSpacing: 0)),
+          style: Theme.of(context)
+              .textTheme
+              .title
+              .merge(TextStyle(letterSpacing: 0)),
         ),
         actions: <Widget>[
-          new ShoppingCartButtonWidget(
-              iconColor: Theme.of(context).hintColor, labelColor: Theme.of(context).accentColor),
+          _con.user.apiToken != null
+              ? new ShoppingCartButtonWidget(
+                  iconColor: Theme.of(context).hintColor,
+                  labelColor: Theme.of(context).accentColor)
+              : Container(),
         ],
       ),
       body: RefreshIndicator(
@@ -92,7 +97,9 @@ class _CategoryWidgetState extends StateMVC<CategoryWidget> {
                         },
                         icon: Icon(
                           Icons.format_list_bulleted,
-                          color: this.layout == 'list' ? Theme.of(context).accentColor : Theme.of(context).focusColor,
+                          color: this.layout == 'list'
+                              ? Theme.of(context).accentColor
+                              : Theme.of(context).focusColor,
                         ),
                       ),
                       IconButton(
@@ -103,7 +110,9 @@ class _CategoryWidgetState extends StateMVC<CategoryWidget> {
                         },
                         icon: Icon(
                           Icons.apps,
-                          color: this.layout == 'grid' ? Theme.of(context).accentColor : Theme.of(context).focusColor,
+                          color: this.layout == 'grid'
+                              ? Theme.of(context).accentColor
+                              : Theme.of(context).focusColor,
                         ),
                       )
                     ],
@@ -111,7 +120,7 @@ class _CategoryWidgetState extends StateMVC<CategoryWidget> {
                 ),
               ),
               _con.foods.isEmpty
-                  ? CircularLoadingWidget(height: 500)
+                  ? ShimmerHelper(type: Type.orders)
                   : Offstage(
                       offstage: this.layout != 'list',
                       child: ListView.separated(
@@ -143,7 +152,10 @@ class _CategoryWidgetState extends StateMVC<CategoryWidget> {
                         padding: EdgeInsets.symmetric(horizontal: 20),
                         // Create a grid with 2 columns. If you change the scrollDirection to
                         // horizontal, this produces 2 rows.
-                        crossAxisCount: MediaQuery.of(context).orientation == Orientation.portrait ? 2 : 4,
+                        crossAxisCount: MediaQuery.of(context).orientation ==
+                                Orientation.portrait
+                            ? 2
+                            : 4,
                         // Generate 100 widgets that display their index in the List.
                         children: List.generate(_con.foods.length, (index) {
                           return FoodGridItemWidget(

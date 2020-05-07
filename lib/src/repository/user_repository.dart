@@ -3,7 +3,6 @@ import 'dart:io';
 
 import 'package:global_configuration/global_configuration.dart';
 import 'package:http/http.dart' as http;
-import 'package:order_client_app/src/models/credit_card.dart';
 import 'package:order_client_app/src/models/tos.dart';
 import 'package:order_client_app/src/models/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -19,7 +18,7 @@ Future<User> loginUser(User user) async {
   final response = await client.post(
     url,
     headers: {HttpHeaders.contentTypeHeader: 'application/json'},
-    body: json.encode(user.toMap()),
+    body: json.encode(user.toMapLogin()),
   );
 
   if (response.statusCode == 200 &&
@@ -125,13 +124,6 @@ void setCurrentUser(jsonString) async {
   await prefs.setString('current_user', jsonString);
 }
 
-Future<void> setCreditCard(CreditCard creditCard) async {
-  if (creditCard != null) {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('credit_card', json.encode(creditCard.toMap()));
-  }
-}
-
 Future<User> getCurrentUser() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
 //  prefs.clear();
@@ -139,16 +131,6 @@ Future<User> getCurrentUser() async {
     currentUser = User.fromJSON(json.decode(await prefs.get('current_user')));
   }
   return currentUser;
-}
-
-Future<CreditCard> getCreditCard() async {
-  CreditCard _creditCard = new CreditCard();
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  if (prefs.containsKey('credit_card')) {
-    _creditCard =
-        CreditCard.fromJSON(json.decode(await prefs.get('credit_card')));
-  }
-  return _creditCard;
 }
 
 Future<User> saveToken(String token) async {
@@ -172,14 +154,13 @@ Future<User> saveToken(String token) async {
 Future<User> update(User user) async {
   final String _apiToken = 'api_token=${currentUser.apiToken}';
   final String url =
-      '${GlobalConfiguration().getString('api_base_url')}users/${currentUser.id}?$_apiToken';
+      '${GlobalConfiguration().getString('api_base_url')}users?$_apiToken';
   final client = new http.Client();
   final response = await client.post(
     url,
     headers: {HttpHeaders.contentTypeHeader: 'application/json'},
-    body: json.encode(user.toMap()),
+    body: json.encode(user.toMapUploadImage()),
   );
-  setCurrentUser(response.body);
-  currentUser = User.fromJSON(json.decode(response.body)['data']);
-  return currentUser;
+  // setCurrentUser(response.body);
+  return User.fromJSON(json.decode(response.body)['data']);
 }

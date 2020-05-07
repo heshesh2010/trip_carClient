@@ -10,9 +10,9 @@ class ChatController extends ControllerMVC {
   List<RecentConversations> recentConversation = <RecentConversations>[];
   GlobalKey<ScaffoldState> scaffoldKey;
   bool isLoading = true;
-  User user;
+  User currentUser;
   getUser() async {
-    this.user = await getCurrentUser();
+    this.currentUser = await getCurrentUser();
   }
 
   ChatController() {
@@ -28,8 +28,7 @@ class ChatController extends ControllerMVC {
         recentConversation.add(_recentConversation);
       });
     }, onError: (a) {
-      FlushbarHelper.createError(message: a.toString())
-          .show(scaffoldKey.currentState.context);
+      FlushbarHelper.createError(message: a.toString()).show(context);
       setState(() {
         isLoading = false;
       });

@@ -1,10 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:order_client_app/src/helpers/helper.dart';
-import 'package:order_client_app/src/models/extra.dart';
+import 'package:order_client_app/src/models/orderFoodExtras.dart';
 
 class ExtrasFoodOrderItemWidget extends StatelessWidget {
-  final Extra extraFoodItem;
+  final OrderFoodExtras extraFoodItem;
 
   const ExtrasFoodOrderItemWidget({Key key, this.extraFoodItem})
       : super(key: key);
@@ -35,8 +35,9 @@ class ExtrasFoodOrderItemWidget extends StatelessWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(5)),
                 image: DecorationImage(
-                    image: extraFoodItem.image != null
-                        ? CachedNetworkImageProvider(extraFoodItem.image.thumb)
+                    image: extraFoodItem.extra.image != null
+                        ? CachedNetworkImageProvider(
+                            extraFoodItem.extra.image.thumb)
                         : Image.asset('assets/img/default_food.png').image,
                     fit: BoxFit.cover),
               ),
@@ -51,7 +52,7 @@ class ExtrasFoodOrderItemWidget extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          extraFoodItem.name,
+                          extraFoodItem.extra.name,
                           overflow: TextOverflow.ellipsis,
                           maxLines: 2,
                           style: Theme.of(context).textTheme.subhead,
@@ -70,7 +71,7 @@ class ExtrasFoodOrderItemWidget extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: <Widget>[
-                      Helper.getPrice(extraFoodItem.price.toDouble(),
+                      Helper.getPrice(extraFoodItem.price,
                           style: Theme.of(context).textTheme.display1),
                     ],
                   ),

@@ -1,10 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:order_client_app/generated/i18n.dart';
 import 'package:order_client_app/src/controllers/settings_controller.dart';
 import 'package:order_client_app/src/elements/CircularLoadingWidget.dart';
-import 'package:order_client_app/src/elements/PaymentSettingsDialog.dart';
 import 'package:order_client_app/src/elements/ProfileSettingsDialog.dart';
 import 'package:order_client_app/src/elements/SearchBarWidget.dart';
 import 'package:order_client_app/src/helpers/helper.dart';
@@ -31,7 +32,10 @@ class _SettingsWidgetState extends StateMVC<SettingsWidget> {
           centerTitle: true,
           title: Text(
             S.of(context).settings,
-            style: Theme.of(context).textTheme.title.merge(TextStyle(letterSpacing: 1.3)),
+            style: Theme.of(context)
+                .textTheme
+                .title
+                .merge(TextStyle(letterSpacing: 1.3)),
           ),
         ),
         body: _con.user.id == null
@@ -45,7 +49,8 @@ class _SettingsWidgetState extends StateMVC<SettingsWidget> {
                       child: SearchBarWidget(),
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 20),
                       child: Row(
                         children: <Widget>[
                           Expanded(
@@ -64,33 +69,44 @@ class _SettingsWidgetState extends StateMVC<SettingsWidget> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                             ),
                           ),
+
+                          _con.isLoading?
+                                SizedBox(
+                        width: 55,
+                        height: 55,
+                        child: RefreshProgressIndicator(),
+                      ):
                           SizedBox(
                               width: 55,
                               height: 55,
                               child: InkWell(
                                 borderRadius: BorderRadius.circular(300),
                                 onTap: () {
-                                  Navigator.of(context).pushNamed('Tabs', arguments: 1);
+                                  _openImagePickerModal(context);
                                 },
-                                child: CircleAvatar(
-                                  backgroundImage: _con.user.image!=null?
-
-                                  CachedNetworkImageProvider(
-                                      _con.user.image.thumb)
-                                      : Image.asset('assets/img/default.png').image,
+                                child: 
+                                
+                                CircleAvatar(
+                                  backgroundImage: _con.user.media != null
+                                      ? CachedNetworkImageProvider(
+                                          _con.user.media.first.thumb)
+                                      : Image.asset('assets/img/default.png')
+                                          .image,
                                 ),
                               )),
                         ],
                       ),
                     ),
                     Container(
-                      margin: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                      margin:
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 15),
                       decoration: BoxDecoration(
                         color: Theme.of(context).primaryColor,
                         borderRadius: BorderRadius.circular(6),
                         boxShadow: [
                           BoxShadow(
-                              color: Theme.of(context).hintColor.withOpacity(0.15),
+                              color:
+                                  Theme.of(context).hintColor.withOpacity(0.15),
                               offset: Offset(0, 3),
                               blurRadius: 10)
                         ],
@@ -112,8 +128,10 @@ class _SettingsWidgetState extends StateMVC<SettingsWidget> {
                               child: ProfileSettingsDialog(
                                 user: _con.user,
                                 onChanged: () {
-                                  _con.update(_con.user);
-                                  //setState(() {});
+                                  _con.updateUser();
+                            
+                                    _con.isLoading=true;
+                                 
                                 },
                               ),
                             ),
@@ -127,7 +145,8 @@ class _SettingsWidgetState extends StateMVC<SettingsWidget> {
                             ),
                             trailing: Text(
                               _con.user.name,
-                              style: TextStyle(color: Theme.of(context).focusColor),
+                              style: TextStyle(
+                                  color: Theme.of(context).focusColor),
                             ),
                           ),
                           ListTile(
@@ -139,7 +158,8 @@ class _SettingsWidgetState extends StateMVC<SettingsWidget> {
                             ),
                             trailing: Text(
                               _con.user.email,
-                              style: TextStyle(color: Theme.of(context).focusColor),
+                              style: TextStyle(
+                                  color: Theme.of(context).focusColor),
                             ),
                           ),
                           ListTile(
@@ -151,7 +171,8 @@ class _SettingsWidgetState extends StateMVC<SettingsWidget> {
                             ),
                             trailing: Text(
                               _con.user.phone,
-                              style: TextStyle(color: Theme.of(context).focusColor),
+                              style: TextStyle(
+                                  color: Theme.of(context).focusColor),
                             ),
                           ),
                           ListTile(
@@ -165,7 +186,8 @@ class _SettingsWidgetState extends StateMVC<SettingsWidget> {
                               Helper.limitString(_con.user.address),
                               overflow: TextOverflow.fade,
                               softWrap: false,
-                              style: TextStyle(color: Theme.of(context).focusColor),
+                              style: TextStyle(
+                                  color: Theme.of(context).focusColor),
                             ),
                           ),
                           ListTile(
@@ -179,128 +201,8 @@ class _SettingsWidgetState extends StateMVC<SettingsWidget> {
                               Helper.limitString(_con.user.bio),
                               overflow: TextOverflow.fade,
                               softWrap: false,
-                              style: TextStyle(color: Theme.of(context).focusColor),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).primaryColor,
-                        borderRadius: BorderRadius.circular(6),
-                        boxShadow: [
-                          BoxShadow(
-                              color: Theme.of(context).hintColor.withOpacity(0.15),
-                              offset: Offset(0, 3),
-                              blurRadius: 10)
-                        ],
-                      ),
-                      child: ListView(
-                        shrinkWrap: true,
-                        primary: false,
-                        children: <Widget>[
-                          ListTile(
-                            leading: Icon(Icons.credit_card),
-                            title: Text(
-                              S.of(context).payments_settings,
-                              style: Theme.of(context).textTheme.body2,
-                            ),
-                            trailing: ButtonTheme(
-                              padding: EdgeInsets.all(0),
-                              minWidth: 50.0,
-                              height: 25.0,
-                              child: PaymentSettingsDialog(
-                                creditCard: _con.creditCard,
-                                onChanged: () {
-                                  _con.updateCreditCard(_con.creditCard);
-                                  //setState(() {});
-                                },
-                              ),
-                            ),
-                          ),
-                          ListTile(
-                            dense: true,
-                            title: Text(
-                              S.of(context).default_credit_card,
-                              style: Theme.of(context).textTheme.body1,
-                            ),
-                            trailing: Text(
-                              _con.creditCard.number.isNotEmpty
-                                  ? _con.creditCard.number.replaceRange(0, _con.creditCard.number.length - 4, '...')
-                                  : '',
-                              style: TextStyle(color: Theme.of(context).focusColor),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).primaryColor,
-                        borderRadius: BorderRadius.circular(6),
-                        boxShadow: [
-                          BoxShadow(
-                              color: Theme.of(context).hintColor.withOpacity(0.15),
-                              offset: Offset(0, 3),
-                              blurRadius: 10)
-                        ],
-                      ),
-                      child: ListView(
-                        shrinkWrap: true,
-                        primary: false,
-                        children: <Widget>[
-                          ListTile(
-                            leading: Icon(Icons.settings),
-                            title: Text(
-                              S.of(context).app_settings,
-                              style: Theme.of(context).textTheme.body2,
-                            ),
-                          ),
-                          ListTile(
-                            onTap: () {
-                              Navigator.of(context).pushNamed('Languages');
-                            },
-                            dense: true,
-                            title: Row(
-                              children: <Widget>[
-                                Icon(
-                                  Icons.translate,
-                                  size: 22,
-                                  color: Theme.of(context).focusColor,
-                                ),
-                                SizedBox(width: 10),
-                                Text(
-                                  S.of(context).languages,
-                                  style: Theme.of(context).textTheme.body1,
-                                ),
-                              ],
-                            ),
-                            trailing: Text(
-                              S.of(context).english,
-                              style: TextStyle(color: Theme.of(context).focusColor),
-                            ),
-                          ),
-                          ListTile(
-                            onTap: () {
-                              Navigator.of(context).pushNamed('Help');
-                            },
-                            dense: true,
-                            title: Row(
-                              children: <Widget>[
-                                Icon(
-                                  Icons.help,
-                                  size: 22,
-                                  color: Theme.of(context).focusColor,
-                                ),
-                                SizedBox(width: 10),
-                                Text(
-                                  S.of(context).help_support,
-                                  style: Theme.of(context).textTheme.body1,
-                                ),
-                              ],
+                              style: TextStyle(
+                                  color: Theme.of(context).focusColor),
                             ),
                           ),
                         ],
@@ -309,5 +211,101 @@ class _SettingsWidgetState extends StateMVC<SettingsWidget> {
                   ],
                 ),
               ));
+  }
+
+  Future _openImagePickerModal(
+    BuildContext context,
+  ) async {
+    showModalBottomSheet(
+        context: context,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        builder: (BuildContext context) {
+          return Container(
+            decoration: new BoxDecoration(
+                color: Colors.white,
+                borderRadius: new BorderRadius.only(
+                    topLeft: const Radius.circular(40.0),
+                    topRight: const Radius.circular(40.0))),
+            height: 150.0,
+            padding: EdgeInsets.all(10.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text(
+                  'اختر صورة',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                SizedBox(
+                  height: 20.0,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    ClipOval(
+                      child: Material(
+                        //          color: colorStyles["primary"], // button color
+                        child: InkWell(
+                          splashColor: Colors.red, // inkwell color
+                          child: SizedBox(
+                              width: 56,
+                              height: 56,
+                              child: Icon(FontAwesomeIcons.image)),
+                          onTap: () {
+                            _getImage(context, ImageSource.gallery);
+                          },
+                        ),
+                      ),
+                    ),
+                    ClipOval(
+                      child: Material(
+                        //         color: colorStyles["primary"], // button color
+                        child: InkWell(
+                          splashColor: Colors.red, // inkwell color
+                          child: SizedBox(
+                              width: 56,
+                              height: 56,
+                              child: Icon(FontAwesomeIcons.camera)),
+                          onTap: () {
+                            _getImage(context, ImageSource.camera);
+                          },
+                        ),
+                      ),
+                    ),
+                    // FlatButton(
+                    //   color: Colors.red,
+                    //   textColor: flatButtonColor,
+                    //   child: Text('Use Camera'),
+                    //   onPressed: () {
+                    //     _getImage(context, index, ImageSource.camera);
+                    //   },
+                    // ),
+                    // FlatButton(
+                    //   color: Colors.red,
+                    //   textColor: flatButtonColor,
+                    //   child: Text('Use Gallery'),
+                    //   onPressed: () {
+                    //     _getImage(context, index, ImageSource.gallery);
+                    //   },
+                    // ),
+                  ],
+                ),
+              ],
+            ),
+          );
+        });
+  }
+
+  void _getImage(BuildContext context, ImageSource source) async {
+    var image = await ImagePicker.pickImage(source: source);
+
+    if (image != null) {
+      setState(() {
+        _con.user.profileImage64 = image;
+        _con.updateUser();
+      });
+    }
+    Navigator.pop(context);
   }
 }

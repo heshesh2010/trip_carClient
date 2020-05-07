@@ -42,14 +42,22 @@ class _MenuWidgetState extends StateMVC<MenuWidget> {
         elevation: 0,
         centerTitle: true,
         title: Text(
-          _con.foods.isNotEmpty ? _con.foods[0].restaurant.name : '',
+          _con.foods.isNotEmpty && _con.foods[0].restaurantName != null
+              ? _con.foods[0].restaurantName
+              : '',
           overflow: TextOverflow.fade,
           softWrap: false,
-          style: Theme.of(context).textTheme.title.merge(TextStyle(letterSpacing: 0)),
+          style: Theme.of(context)
+              .textTheme
+              .title
+              .merge(TextStyle(letterSpacing: 0)),
         ),
         actions: <Widget>[
-          new ShoppingCartButtonWidget(
-              iconColor: Theme.of(context).hintColor, labelColor: Theme.of(context).accentColor),
+          _con.user.apiToken != null
+              ? new ShoppingCartButtonWidget(
+                  iconColor: Theme.of(context).hintColor,
+                  labelColor: Theme.of(context).accentColor)
+              : Container()
         ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
@@ -66,7 +74,8 @@ class _MenuWidgetState extends StateMVC<MenuWidget> {
             ),
             ListTile(
               dense: true,
-              contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              contentPadding:
+                  EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               leading: Icon(
                 Icons.trending_up,
                 color: Theme.of(context).hintColor,
@@ -77,13 +86,18 @@ class _MenuWidgetState extends StateMVC<MenuWidget> {
               ),
               subtitle: Text(
                 S.of(context).double_click_on_the_food_to_add_it_to_the,
-                style: Theme.of(context).textTheme.caption.merge(TextStyle(fontSize: 11)),
+                style: Theme.of(context)
+                    .textTheme
+                    .caption
+                    .merge(TextStyle(fontSize: 11)),
               ),
             ),
-            FoodsCarouselWidget(heroTag: 'menu_trending_food', foodsList: _con.trendingFoods),
+            FoodsCarouselWidget(
+                heroTag: 'menu_trending_food', foodsList: _con.trendingFoods),
             ListTile(
               dense: true,
-              contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              contentPadding:
+                  EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               leading: Icon(
                 Icons.list,
                 color: Theme.of(context).hintColor,
@@ -94,7 +108,10 @@ class _MenuWidgetState extends StateMVC<MenuWidget> {
               ),
               subtitle: Text(
                 S.of(context).longpress_on_the_food_to_add_suplements,
-                style: Theme.of(context).textTheme.caption.merge(TextStyle(fontSize: 11)),
+                style: Theme.of(context)
+                    .textTheme
+                    .caption
+                    .merge(TextStyle(fontSize: 11)),
               ),
             ),
             _con.foods.isEmpty

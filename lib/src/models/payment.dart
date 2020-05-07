@@ -4,17 +4,15 @@ class Payment {
   int id;
   double price;
   int userId;
-  int status;
+  String status;
   String method;
   String referenceId;
-  double tax;
-  Payment( 
+  Payment(
       {this.id,
       this.price,
       this.userId,
       this.status,
       this.method,
-      this.tax,
       this.referenceId});
 
   factory Payment.fromJson(String str) => Payment.fromMap(json.decode(str));
@@ -24,8 +22,9 @@ class Payment {
   factory Payment.fromMap(Map<String, dynamic> json) => Payment(
         id: json["id"],
         userId: json["user_id"],
-        status: json["order_status_id"],
+        status: json["status"],
         method: json["method"],
+        price: double.parse(json["price"]),
       );
 
   Map<String, dynamic> toMap() => {

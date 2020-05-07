@@ -36,9 +36,13 @@ class ChatScreenState extends StateMVC<ChatScreen>
   ChatScreenState(RecentConversations recentConversations)
       : super(recentConversations == null
             ? MessagesController()
-            : MessagesController(
-                conversationId: recentConversations.conversation.id)) {
+            : MessagesController(conversationId: recentConversations.id)) {
     _con = controller;
+  }
+
+  @override
+  void initState() {
+    super.initState();
   }
 
   /* Modify _handleSubmitted to update _isComposing to false
@@ -55,8 +59,10 @@ class ChatScreenState extends StateMVC<ChatScreen>
 
     Message chatMessage = new Message(
       message: text,
-      userId: _con.user.id,
-      user: _con.user,
+      sentBy: "user",
+      orderId: widget.recentConversations == null
+          ? widget.order.orderNumber
+          : widget.recentConversations.orderId,
       updatedAt: formattedDate,
       animationController: new AnimationController(
         duration: new Duration(milliseconds: 700),
@@ -67,13 +73,9 @@ class ChatScreenState extends StateMVC<ChatScreen>
       _con.messages.add(chatMessage);
       _con.sendMessage(
           text,
-          _con.user.id,
-          widget.recentConversations == null
-              ? widget.order.restaurant.userId
-              : widget.recentConversations.conversation.receiver.restaurant.userId,
           widget.recentConversations == null
               ? widget.order.orderNumber
-              : widget.recentConversations.conversation.orderId);
+              : widget.recentConversations.orderId);
     });
     chatMessage.animationController.forward();
   }
@@ -140,7 +142,7 @@ class ChatScreenState extends StateMVC<ChatScreen>
         title: Text(
           widget.recentConversations == null
               ? "محادثة مع ${widget.order.restaurant.name}   اوردر رقم # ${widget.order.orderNumber}"
-              : "محادثة مع ${widget.recentConversations.conversation.receiver.restaurant.name}   اوردر رقم # ${widget.recentConversations.conversation.orderId}",
+              : "محادثة مع ${widget.recentConversations.restaurant.name}   اوردر رقم # ${widget.recentConversations.orderId}",
           style: TextStyle(
             fontSize: 15.0,
             fontWeight: FontWeight.bold,
@@ -167,7 +169,7 @@ class ChatScreenState extends StateMVC<ChatScreen>
                             itemCount: _con.messages.length,
                             itemBuilder: (BuildContext context, int index) {
                               final Message message = _con.messages[index];
-                              final bool isMe = message.userId == _con.user.id;
+                              final bool isMe = message.sentBy == 'user';
                               return buildMessage(message, isMe);
                             }),
                       ),
@@ -256,8 +258,8 @@ class ChatScreenState extends StateMVC<ChatScreen>
         children: <Widget>[
           CircleAvatar(
             radius: 35.0,
-            backgroundImage: message.user.image != null
-                ? CachedNetworkImageProvider(message.user.image.url)
+            backgroundImage: _con.currentUser.media != null
+                ? CachedNetworkImageProvider(_con.currentUser.media.first.thumb)
                 : Image.asset('assets/img/default.png').image,
           ),
           msg,
@@ -269,8 +271,9 @@ class ChatScreenState extends StateMVC<ChatScreen>
         msg,
         CircleAvatar(
           radius: 35.0,
-          backgroundImage: message.user.image != null
-              ? CachedNetworkImageProvider(message.user.image.url)
+          backgroundImage: widget.recentConversations.restaurant.image != null
+              ? CachedNetworkImageProvider(
+                  widget.recentConversations.restaurant.image.thumb)
               : Image.asset('assets/img/default.png').image,
         ),
       ],

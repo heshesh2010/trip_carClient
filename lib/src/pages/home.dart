@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:order_client_app/generated/i18n.dart';
 import 'package:order_client_app/src/controllers/home_controller.dart';
+import 'package:order_client_app/src/elements/CardsAdsCarouselWidget.dart';
 import 'package:order_client_app/src/elements/CardsCarouselWidget.dart';
 import 'package:order_client_app/src/elements/CaregoriesCarouselWidget.dart';
 import 'package:order_client_app/src/elements/FoodsCarouselWidget.dart';
@@ -40,6 +41,26 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
                 dense: true,
                 contentPadding: EdgeInsets.symmetric(vertical: 0),
                 leading: Icon(
+                  Icons.wb_incandescent,
+                  color: Theme.of(context).hintColor,
+                ),
+                title: Text(
+                  S.of(context).ads,
+                  style: Theme.of(context).textTheme.display1,
+                ),
+                subtitle: Text(
+                  S.of(context).ads_desc,
+                  style: Theme.of(context).textTheme.caption,
+                ),
+              ),
+            ),
+            CardsAdsCarouselWidget(adsList: _con.ads, heroTag: 'home_ads'),
+            Padding(
+              padding: const EdgeInsets.only(top: 15, left: 20, right: 20),
+              child: ListTile(
+                dense: true,
+                contentPadding: EdgeInsets.symmetric(vertical: 0),
+                leading: Icon(
                   Icons.stars,
                   color: Theme.of(context).hintColor,
                 ),
@@ -56,27 +77,30 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
             CardsCarouselWidget(
                 restaurantsList: _con.topRestaurants,
                 heroTag: 'home_top_restaurants'),
-            ListTile(
-              dense: true,
-              contentPadding: EdgeInsets.symmetric(horizontal: 20),
-              leading: Icon(
-                Icons.trending_up,
-                color: Theme.of(context).hintColor,
-              ),
-              title: Text(
-                S.of(context).trending_this_week,
-                style: Theme.of(context).textTheme.display1
-              ),
-              subtitle: Text(
-                S.of(context).double_click_on_the_food_to_add_it_to_the,
-                style: Theme.of(context)
-                    .textTheme
-                    .caption
-                    .merge(TextStyle(fontSize: 11)),
-              ),
-            ),
-            FoodsCarouselWidget(
-                foodsList: _con.trendingFoods, heroTag: 'home_food_carousel'),
+            _con.trendingFoodsIsEmpty
+                ? Container()
+                : ListTile(
+                    dense: true,
+                    contentPadding: EdgeInsets.symmetric(horizontal: 20),
+                    leading: Icon(
+                      Icons.trending_up,
+                      color: Theme.of(context).hintColor,
+                    ),
+                    title: Text(S.of(context).trending_this_week,
+                        style: Theme.of(context).textTheme.display1),
+                    subtitle: Text(
+                      S.of(context).double_click_on_the_food_to_add_it_to_the,
+                      style: Theme.of(context)
+                          .textTheme
+                          .caption
+                          .merge(TextStyle(fontSize: 11)),
+                    ),
+                  ),
+            _con.trendingFoodsIsEmpty
+                ? Container()
+                : FoodsCarouselWidget(
+                    foodsList: _con.trendingFoods,
+                    heroTag: 'home_food_carousel'),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: ListTile(

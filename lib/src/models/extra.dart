@@ -13,12 +13,14 @@ class Extra {
   Extra.fromJSON(Map<String, dynamic> jsonMap)
       : id = jsonMap['id'].toString(),
         name = jsonMap['name'],
-        price = jsonMap['price'] != null ? jsonMap['price'].toDouble() : null,
+        price = jsonMap['price'] != null
+            ? double.parse(jsonMap["price"].toString())
+            : null,
         description = jsonMap['description'],
         checked = false,
         image = jsonMap['media'] != null
             ? (jsonMap['media'] as List).isNotEmpty
-                ? Media.fromJSON(jsonMap['media'][0])
+                ? Media.fromMap(jsonMap['media'][0])
                 : null
             : null;
 

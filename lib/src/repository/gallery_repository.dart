@@ -11,7 +11,7 @@ Future<Stream<Gallery>> getGalleries(int idRestaurant) async {
   User _user = await getCurrentUser();
   final String _apiToken = 'api_token=${_user.apiToken}&';
   final String url =
-      '${GlobalConfiguration().getString('api_base_url')}galleries?${_apiToken}search=restaurant_id:$idRestaurant';
+      '${GlobalConfiguration().getString('api_base_url')}galleries?search=restaurant_id:$idRestaurant';
 
   final client = new http.Client();
   final streamedRest = await client.send(http.Request('get', Uri.parse(url)));

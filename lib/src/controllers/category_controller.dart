@@ -3,16 +3,28 @@ import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:order_client_app/src/models/category.dart';
 import 'package:order_client_app/src/models/food.dart';
+import 'package:order_client_app/src/models/user.dart';
 import 'package:order_client_app/src/repository/category_repository.dart';
 import 'package:order_client_app/src/repository/food_repository.dart';
+import 'package:order_client_app/src/repository/user_repository.dart';
 
 class CategoryController extends ControllerMVC {
   List<Food> foods = <Food>[];
   GlobalKey<ScaffoldState> scaffoldKey;
   Category category;
+  User user = new User();
 
   CategoryController() {
+    listenForUser();
     this.scaffoldKey = new GlobalKey<ScaffoldState>();
+  }
+
+  void listenForUser() {
+    getCurrentUser().then((_user) {
+      setState(() {
+        user = _user;
+      });
+    });
   }
 
   void listenForFoodsByCategory({int id, String message}) async {

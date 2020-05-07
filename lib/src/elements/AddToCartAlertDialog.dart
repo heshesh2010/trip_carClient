@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:order_client_app/src/models/food.dart';
 
@@ -19,7 +18,7 @@ class AddToCartAlertDialogWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: new Text("Reset Cart?"),
+      title: new Text("تنبيه !"),
 //      content: Column(
 //        mainAxisSize: MainAxisSize.min,
 //        children: <Widget>[
@@ -35,7 +34,7 @@ class AddToCartAlertDialogWidget extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(right: 20, left: 20, bottom: 20),
             child: Text(
-              "You must add foods of the same restaurants choose one restaurants only!",
+              "يجب عليك اختيار فقط المنتجات من نفس المطعم",
               style: Theme.of(context).textTheme.caption,
             ),
           ),
@@ -52,21 +51,23 @@ class AddToCartAlertDialogWidget extends StatelessWidget {
               decoration: BoxDecoration(
                 color: Theme.of(context).primaryColor.withOpacity(0.9),
                 boxShadow: [
-                  BoxShadow(color: Theme.of(context).focusColor.withOpacity(0.15), blurRadius: 5, offset: Offset(0, 2)),
+                  BoxShadow(
+                      color: Theme.of(context).focusColor.withOpacity(0.15),
+                      blurRadius: 5,
+                      offset: Offset(0, 2)),
                 ],
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   Hero(
-                    tag: 'new_restaurant' + this.newFood?.restaurant?.id.toString(),
+                    tag: 'new_restaurant' +
+                        this.newFood?.restaurantId.toString(),
                     child: Container(
                       height: 60,
                       width: 60,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(5)),
-                        image: DecorationImage(
-                            image: CachedNetworkImageProvider(this.newFood?.restaurant?.image?.thumb), fit: BoxFit.cover),
                       ),
                     ),
                   ),
@@ -80,14 +81,14 @@ class AddToCartAlertDialogWidget extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Text(
-                                this.newFood.restaurant.name,
+                                this.newFood?.restaurantName ?? "",
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 2,
                                 style: Theme.of(context).textTheme.subhead,
                               ),
                               SizedBox(height: 8),
                               Text(
-                                'Reset your cart and order meals form this restaurant',
+                                'اعاده ضبط سلة الشراء',
                                 style: Theme.of(context).textTheme.caption,
                               ),
                             ],
@@ -113,21 +114,23 @@ class AddToCartAlertDialogWidget extends StatelessWidget {
               decoration: BoxDecoration(
                 color: Theme.of(context).primaryColor.withOpacity(0.9),
                 boxShadow: [
-                  BoxShadow(color: Theme.of(context).focusColor.withOpacity(0.15), blurRadius: 5, offset: Offset(0, 2)),
+                  BoxShadow(
+                      color: Theme.of(context).focusColor.withOpacity(0.15),
+                      blurRadius: 5,
+                      offset: Offset(0, 2)),
                 ],
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   Hero(
-                    tag: 'old_restaurant' + this.oldFood.restaurant.id.toString(),
+                    tag:
+                        'old_restaurant' + this.oldFood.restaurantId.toString(),
                     child: Container(
                       height: 60,
                       width: 60,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(5)),
-                        image: DecorationImage(
-                            image: CachedNetworkImageProvider(this.oldFood.restaurant.image.thumb), fit: BoxFit.cover),
                       ),
                     ),
                   ),
@@ -141,14 +144,14 @@ class AddToCartAlertDialogWidget extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Text(
-                                this.oldFood.restaurant.name,
+                                this.oldFood.restaurantName,
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 2,
                                 style: Theme.of(context).textTheme.subhead,
                               ),
                               SizedBox(height: 8),
                               Text(
-                                'Keep your old meals of this restaurant',
+                                'الحفاظ على الوجبات القديمة من هذا المطعم',
                                 style: Theme.of(context).textTheme.caption,
                               ),
                             ],
@@ -166,14 +169,14 @@ class AddToCartAlertDialogWidget extends StatelessWidget {
       actions: <Widget>[
         // usually buttons at the bottom of the dialog
         FlatButton(
-          child: new Text("Reset"),
+          child: new Text("اعاده ضبط"),
           onPressed: () {
             onPressed(newFood, reset: true);
             Navigator.of(context).pop();
           },
         ),
         FlatButton(
-          child: new Text("Close"),
+          child: new Text("اغلاق"),
           onPressed: () {
             Navigator.of(context).pop();
           },

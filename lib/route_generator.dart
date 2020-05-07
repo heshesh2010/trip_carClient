@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:order_client_app/src/models/payment.dart';
 import 'package:order_client_app/src/models/route_argument.dart';
 import 'package:order_client_app/src/pages/cart.dart';
 import 'package:order_client_app/src/pages/category.dart';
@@ -26,6 +25,7 @@ class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     // Getting arguments passed in while calling Navigator.pushNamed
     final args = settings.arguments;
+
     switch (settings.name) {
       case 'Debug':
         return MaterialPageRoute(
@@ -74,15 +74,12 @@ class RouteGenerator {
       case 'Checkout':
         return MaterialPageRoute(builder: (_) => CheckoutWidget());
 
-  
       case 'PayOnPickup':
         return MaterialPageRoute(
-            builder: (_) => OrderSuccessWidget(
-              payment: args));
+            builder: (_) => OrderSuccessWidget(payment: args));
       case 'OrderSuccess':
         return MaterialPageRoute(
-            builder: (_) =>
-                OrderSuccessWidget(payment: args));
+            builder: (_) => OrderSuccessWidget(payment: args));
       case 'Help':
         return MaterialPageRoute(builder: (_) => HelpWidget());
       case 'Settings':

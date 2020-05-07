@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:order_client_app/generated/i18n.dart';
 import 'package:order_client_app/src/controllers/tracking_controller.dart';
@@ -24,6 +25,11 @@ class _TrackingWidgetState extends StateMVC<TrackingWidget> {
 
   _TrackingWidgetState() : super(TrackingController()) {
     _con = controller;
+  }
+
+  @override
+  void initState() {
+    super.initState();
   }
 
   @override
@@ -139,11 +145,10 @@ class _TrackingWidgetState extends StateMVC<TrackingWidget> {
                     (step + 1).toString();
                 _con.updateOrder(this.widget.routeArgument.order);
                 // post to server new id
-                 //  currentStep = step;
-                 // when step more than 2 show message there will be charge and confrmation dailog 
-                 // if in first step go
-                 // if in last step 
-                 
+                //  currentStep = step;
+                // when step more than 2 show message there will be charge and confrmation dailog
+                // if in first step go
+                // if in last step
               });
             }
           }),
@@ -193,7 +198,7 @@ class _TrackingWidgetState extends StateMVC<TrackingWidget> {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(5)),
                     image: DecorationImage(
-                        image: Image.asset('assets/img/stars.jpg').image,
+                        image: Image.asset('assets/img/rate.png').image,
                         fit: BoxFit.fitHeight),
                   ),
                 ),

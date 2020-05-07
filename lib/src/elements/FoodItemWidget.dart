@@ -17,14 +17,18 @@ class FoodItemWidget extends StatelessWidget {
       focusColor: Theme.of(context).accentColor,
       highlightColor: Theme.of(context).primaryColor,
       onTap: () {
-        Navigator.of(context).pushNamed('Food', arguments: RouteArgument(food: food, heroTag: this.heroTag));
+        Navigator.of(context).pushNamed('Food',
+            arguments: RouteArgument(food: food, heroTag: this.heroTag));
       },
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
         decoration: BoxDecoration(
           color: Theme.of(context).primaryColor.withOpacity(0.9),
           boxShadow: [
-            BoxShadow(color: Theme.of(context).focusColor.withOpacity(0.1), blurRadius: 5, offset: Offset(0, 2)),
+            BoxShadow(
+                color: Theme.of(context).focusColor.withOpacity(0.1),
+                blurRadius: 5,
+                offset: Offset(0, 2)),
           ],
         ),
         child: Row(
@@ -36,9 +40,12 @@ class FoodItemWidget extends StatelessWidget {
                 height: 60,
                 width: 60,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(5)),
-                  image: DecorationImage(image: CachedNetworkImageProvider(food.image.thumb), fit: BoxFit.cover),
-                ),
+                    borderRadius: BorderRadius.all(Radius.circular(5)),
+                    image: DecorationImage(
+                        image: food.image != null
+                            ? CachedNetworkImageProvider(food.image.thumb)
+                            : Image.asset('assets/img/default_food.png').image,
+                        fit: BoxFit.cover)),
               ),
             ),
             SizedBox(width: 15),
@@ -51,13 +58,13 @@ class FoodItemWidget extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          food.name,
+                          food?.name,
                           overflow: TextOverflow.ellipsis,
                           maxLines: 2,
                           style: Theme.of(context).textTheme.subhead,
                         ),
                         Text(
-                          food.restaurant.name,
+                          food.restaurantName ?? "",
                           overflow: TextOverflow.ellipsis,
                           maxLines: 2,
                           style: Theme.of(context).textTheme.caption,
@@ -66,7 +73,8 @@ class FoodItemWidget extends StatelessWidget {
                     ),
                   ),
                   SizedBox(width: 8),
-                  Helper.getPrice(food.price, style: Theme.of(context).textTheme.display1),
+                  Helper.getPrice(food.price,
+                      style: Theme.of(context).textTheme.display1),
                 ],
               ),
             )

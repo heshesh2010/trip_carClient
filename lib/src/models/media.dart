@@ -1,14 +1,32 @@
+import 'dart:convert';
+
 class Media {
-  String id;
-  String name;
+  int id;
   String url;
   String thumb;
   String icon;
-  String size;
 
-  Media();
+  Media({
+    this.id,
+    this.url,
+    this.thumb,
+    this.icon,
+  });
 
-  Media.fromJSON(Map<String, dynamic> jsonMap)
-      : url = jsonMap['url'] != null ? jsonMap['url'] : null,
-        thumb = jsonMap['thumb'] != null ? jsonMap['thumb'] : null;
+  factory Media.fromMap(Map<String, dynamic> json) => Media(
+        id: json["id"],
+        url: json["url"],
+        thumb: json["thumb"],
+        icon: json["icon"],
+      );
+  factory Media.fromJson(String str) => Media.fromMap(json.decode(str));
+
+  String toJson() => json.encode(toMap());
+
+  Map<String, dynamic> toMap() => {
+        "id": id,
+        "url": url,
+        "thumb": thumb,
+        "icon": icon,
+      };
 }

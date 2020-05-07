@@ -23,6 +23,11 @@ class _FavoritesWidgetState extends StateMVC<FavoritesWidget> {
   }
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: _con.scaffoldKey,

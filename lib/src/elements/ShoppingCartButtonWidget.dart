@@ -1,3 +1,4 @@
+import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:order_client_app/src/controllers/cart_controller.dart';
@@ -14,10 +15,12 @@ class ShoppingCartButtonWidget extends StatefulWidget {
   final Color labelColor;
 
   @override
-  _ShoppingCartButtonWidgetState createState() => _ShoppingCartButtonWidgetState();
+  _ShoppingCartButtonWidgetState createState() =>
+      _ShoppingCartButtonWidgetState();
 }
 
-class _ShoppingCartButtonWidgetState extends StateMVC<ShoppingCartButtonWidget> {
+class _ShoppingCartButtonWidgetState
+    extends StateMVC<ShoppingCartButtonWidget> {
   CartController _con;
 
   _ShoppingCartButtonWidgetState() : super(CartController()) {
@@ -35,7 +38,14 @@ class _ShoppingCartButtonWidgetState extends StateMVC<ShoppingCartButtonWidget> 
     return FlatButton(
       key: _con.scaffoldKey,
       onPressed: () {
-        Navigator.of(context).pushReplacementNamed('Cart', arguments: RouteArgument(param: '/Pages', id: 2));
+        if (_con.user.apiToken != null) {
+          Navigator.of(context).pushReplacementNamed('Cart',
+              arguments: RouteArgument(param: 'Pages', id: 2));
+        } else {
+          FlushbarHelper.createError(
+                  message: "يجب تسجيل الدخول اولاً من القائمة اليمنى ")
+              .show(context);
+        }
       },
       child: Stack(
         alignment: AlignmentDirectional.bottomEnd,
@@ -50,13 +60,16 @@ class _ShoppingCartButtonWidgetState extends StateMVC<ShoppingCartButtonWidget> 
               _con.cartCount.toString(),
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.caption.merge(
-                    TextStyle(color: Theme.of(context).primaryColor, fontSize: 9),
+                    TextStyle(
+                        color: Theme.of(context).primaryColor, fontSize: 9),
                   ),
             ),
             padding: EdgeInsets.all(0),
-            decoration:
-                BoxDecoration(color: this.widget.labelColor, borderRadius: BorderRadius.all(Radius.circular(10))),
-            constraints: BoxConstraints(minWidth: 15, maxWidth: 15, minHeight: 15, maxHeight: 15),
+            decoration: BoxDecoration(
+                color: this.widget.labelColor,
+                borderRadius: BorderRadius.all(Radius.circular(10))),
+            constraints: BoxConstraints(
+                minWidth: 15, maxWidth: 15, minHeight: 15, maxHeight: 15),
           ),
         ],
       ),

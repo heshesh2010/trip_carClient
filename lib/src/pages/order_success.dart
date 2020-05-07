@@ -4,7 +4,6 @@ import 'package:order_client_app/generated/i18n.dart';
 import 'package:order_client_app/src/controllers/checkout_controller.dart';
 import 'package:order_client_app/src/helpers/helper.dart';
 import 'package:order_client_app/src/models/payment.dart';
-import 'package:order_client_app/src/pages/home.dart';
 import 'package:order_client_app/src/repository/settings_repository.dart';
 
 class OrderSuccessWidget extends StatefulWidget {
@@ -26,10 +25,9 @@ class _OrderSuccessWidgetState extends StateMVC<OrderSuccessWidget> {
 
   @override
   void initState() {
-    // route param contains the payment method
+    super.initState();
     _con.payment = widget.payment;
     _con.listenForCarts(withAddOrder: true);
-    super.initState();
   }
 
   @override
@@ -138,18 +136,19 @@ class _OrderSuccessWidgetState extends StateMVC<OrderSuccessWidget> {
                           .merge(TextStyle(fontWeight: FontWeight.w300)),
                     ),
                   ),
-                  _con.loading?Container():
-                     Opacity(
-                    opacity: 0.4,
-                    child: Text(
-                    " رقم الطلب ${_con.payment.id}",
-                      textAlign: TextAlign.center,
-                      style: Theme.of(context)
-                          .textTheme
-                          .display2
-                          .merge(TextStyle(fontWeight: FontWeight.w300)),
-                    ),
-                  ),
+                  _con.loading
+                      ? Container()
+                      : Opacity(
+                          opacity: 0.4,
+                          child: Text(
+                            " رقم الطلب ${_con.payment.id}",
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context)
+                                .textTheme
+                                .display2
+                                .merge(TextStyle(fontWeight: FontWeight.w300)),
+                          ),
+                        ),
                 ],
               ),
             ),
@@ -224,8 +223,9 @@ class _OrderSuccessWidgetState extends StateMVC<OrderSuccessWidget> {
                           onPressed: () {
 //Navigator.of(context).popUntil((route) => route.navigator.widget.pages.);
 
-                   Navigator.of(context).pushNamedAndRemoveUntil('Pages', (Route r) => r == null,arguments: 3);
-
+                            Navigator.of(context).pushNamedAndRemoveUntil(
+                                'Pages', (Route r) => r == null,
+                                arguments: 3);
                           },
                           padding: EdgeInsets.symmetric(vertical: 14),
                           color: Theme.of(context).accentColor,

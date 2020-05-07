@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:global_configuration/global_configuration.dart';
 import 'package:http/http.dart' as http;
@@ -28,27 +29,22 @@ Future<Stream<Message>> getMessages(conversationId) async {
 
 String url;
 
-Future<Message> updateMessages(
-    String message, int senderId, int receiverId, int orderId) async {
+Future<Message> updateMessages(String message, int orderId) async {
   User _user = await getCurrentUser();
-  Message messageOP = new Message(
-      message: message,
-      senderId: senderId,
-      reciverId: receiverId,
-      orderId: orderId);
-
-  url = '${GlobalConfiguration().getString('api_base_url')}save_message';
+  Message messageOP = new Message(message: message, orderId: orderId);
+  final String _apiToken = 'api_token=${_user.apiToken}';
+  url =
+      '${GlobalConfiguration().getString('api_base_url')}save_message?$_apiToken';
   final client = new http.Client();
-  Map params = messageOP.toMap();
-  // params.addAll(_creditCard.toMap());
+
   final response = await client.post(
     url,
-    // headers: {HttpHeaders.contentTypeHeader: 'application/json',HttpHeaders.authorizationHeader:"Bearer ${_user.apiToken}"},
     headers: {
-      'Authorization': 'Bearer ${_user.apiToken}',
-      "Content-Type": "application/json"
+      HttpHeaders.authorizationHeader: 'Bearer ${_user.apiToken}',
+      HttpHeaders.acceptHeader: 'application/json',
     },
-    body: json.encode(params),
+    body: messageOP.toMap(),
   );
+  print(response.statusCode);
   return Message.fromMap(json.decode(response.body)['data']);
 }

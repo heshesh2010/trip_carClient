@@ -182,8 +182,10 @@ class Controller extends ControllerMVC {
   }
 
   void _saveDeviceToken(String token) {
-    userRepo.saveToken(token).then((value) {
-      if (value is User) {}
-    });
+    if (userRepo.currentUser.apiToken != null) {
+      userRepo.saveToken(token).then((value) {
+        if (value is User) {}
+      });
+    }
   }
 }

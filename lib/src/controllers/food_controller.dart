@@ -5,8 +5,10 @@ import 'package:order_client_app/src/models/cart.dart';
 import 'package:order_client_app/src/models/extra.dart';
 import 'package:order_client_app/src/models/favorite.dart';
 import 'package:order_client_app/src/models/food.dart';
+import 'package:order_client_app/src/models/user.dart';
 import 'package:order_client_app/src/repository/cart_repository.dart';
 import 'package:order_client_app/src/repository/food_repository.dart';
+import 'package:order_client_app/src/repository/user_repository.dart';
 
 class FoodController extends ControllerMVC {
   Food food;
@@ -16,8 +18,21 @@ class FoodController extends ControllerMVC {
   bool loadCart = false;
   GlobalKey<ScaffoldState> scaffoldKey;
   Favorite favorite;
+  User user = new User();
+
   FoodController() {
     this.scaffoldKey = new GlobalKey<ScaffoldState>();
+    if (user != null) {
+      listenForUser();
+    }
+  }
+
+  void listenForUser() {
+    getCurrentUser().then((_user) {
+      setState(() {
+        user = _user;
+      });
+    });
   }
 
   void listenForCart() async {
@@ -29,7 +44,7 @@ class FoodController extends ControllerMVC {
 
   bool isSameRestaurants(Food food) {
     if (cart != null) {
-      return cart.food?.restaurant?.id == food.restaurant.id;
+      return cart.food?.restaurantId == food.restaurantId;
     }
     return true;
   }

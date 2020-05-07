@@ -10,6 +10,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:html/dom.dart' as dom;
 import 'package:html/parser.dart';
 import 'package:intl/intl.dart';
+import 'package:order_client_app/src/elements/StrikeThroughWidget.dart';
 import 'package:order_client_app/src/models/food_order.dart';
 import 'package:order_client_app/src/models/setting.dart';
 import 'package:order_client_app/src/repository/settings_repository.dart';
@@ -42,7 +43,7 @@ class Helper {
     final Uint8List markerIcon =
         await getBytesFromAsset('assets/img/marker.png', 120);
     final Marker marker = Marker(
-        markerId: MarkerId(res['id']),
+        markerId: MarkerId(res['id'].toString()),
         icon: BitmapDescriptor.fromBytes(markerIcon),
 //        onTap: () {
 //          //print(res.name);
@@ -106,6 +107,53 @@ class Helper {
 //    }
 //  }
 
+  static FutureBuilder<Setting> getDiscountPrice(double myPrice,
+      {TextStyle style}) {
+    if (style != null) {
+      style = style.merge(TextStyle(fontSize: style.fontSize));
+    }
+    return FutureBuilder(
+      builder: (context, priceSnap) {
+        if (priceSnap.connectionState == ConnectionState.none &&
+            priceSnap.hasData == false) {
+          return Text('');
+        }
+        return StrikeThroughWidget(
+            child: RichText(
+          softWrap: false,
+          //   overflow: TextOverflow.fade,
+          maxLines: 1,
+          text: priceSnap.data?.currencyRight != null &&
+                  priceSnap.data?.currencyRight == false
+              ? TextSpan(
+                  text: priceSnap.data?.defaultCurrency,
+                  style: style ?? Theme.of(context).textTheme.subtitle1,
+                  children: <TextSpan>[
+                    TextSpan(
+                        text: myPrice.toStringAsFixed(1) ?? '',
+                        style: style ?? Theme.of(context).textTheme.subtitle1),
+                  ],
+                )
+              : TextSpan(
+                  text: myPrice.toStringAsFixed(1) ?? '',
+                  style: style ?? Theme.of(context).textTheme.subtitle1,
+                  children: <TextSpan>[
+                    TextSpan(
+                        text: priceSnap.data?.defaultCurrency,
+                        style: TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontSize: style != null
+                                ? style.fontSize - 6
+                                : Theme.of(context).textTheme.subhead.fontSize -
+                                    6)),
+                  ],
+                ),
+        ));
+      },
+      future: getCurrentSettings(),
+    );
+  }
+
   static FutureBuilder<Setting> getPrice(double myPrice, {TextStyle style}) {
     if (style != null) {
       style = style.merge(TextStyle(fontSize: style.fontSize + 2));
@@ -127,12 +175,12 @@ class Helper {
                   style: style ?? Theme.of(context).textTheme.subtitle1,
                   children: <TextSpan>[
                     TextSpan(
-                        text: myPrice.toStringAsFixed(2) ?? '',
+                        text: myPrice.toStringAsFixed(1) ?? '',
                         style: style ?? Theme.of(context).textTheme.subtitle1),
                   ],
                 )
               : TextSpan(
-                  text: myPrice.toStringAsFixed(2) ?? '',
+                  text: myPrice.toStringAsFixed(1) ?? '',
                   style: style ?? Theme.of(context).textTheme.subtitle1,
                   children: <TextSpan>[
                     TextSpan(
@@ -152,8 +200,8 @@ class Helper {
   }
 
   static double getTotalOrderPrice(FoodOrder foodOrder) {
-    double total = foodOrder.price * foodOrder.pivot.quantity;
-    foodOrder.extras.forEach((extra) {
+    double total = foodOrder.price * foodOrder.quantity;
+    foodOrder.orderFoodsExtras.forEach((extra) {
       total += extra.price != null ? extra.price : 0;
     });
     total += total / 100;

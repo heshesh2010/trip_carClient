@@ -21,8 +21,9 @@ class _CheckoutWidgetState extends StateMVC<CheckoutWidget> {
 
   @override
   void initState() {
-    _con.listenForCarts(withAddOrder: false);
     super.initState();
+    _con.listenForCarts(withAddOrder: false);
+    _con.listenForCarts();
   }
 
   @override

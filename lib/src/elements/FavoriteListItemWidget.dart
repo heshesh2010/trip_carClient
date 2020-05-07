@@ -67,7 +67,7 @@ class FavoriteListItemWidget extends StatelessWidget {
                           style: Theme.of(context).textTheme.subhead,
                         ),
                         Text(
-                          favorite.food.restaurant.name,
+                          favorite.food.restaurantName,
                           overflow: TextOverflow.fade,
                           softWrap: false,
                           style: Theme.of(context).textTheme.caption,

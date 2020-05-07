@@ -23,8 +23,8 @@ class ProfileAvatarWidget extends StatelessWidget {
                 width: 135,
                 height: 135,
                 child: CircleAvatar(
-                    backgroundImage: user.image != null
-                        ? CachedNetworkImageProvider(user.image.thumb)
+                    backgroundImage: user.media != null
+                        ? CachedNetworkImageProvider(user.media.first.thumb)
                         : Image.asset('assets/img/default.png').image),
               ),
             ],

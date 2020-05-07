@@ -5,9 +5,11 @@ import 'package:order_client_app/src/models/food.dart';
 import 'package:order_client_app/src/models/gallery.dart';
 import 'package:order_client_app/src/models/restaurant.dart';
 import 'package:order_client_app/src/models/review.dart';
+import 'package:order_client_app/src/models/user.dart';
 import 'package:order_client_app/src/repository/food_repository.dart';
 import 'package:order_client_app/src/repository/gallery_repository.dart';
 import 'package:order_client_app/src/repository/restaurant_repository.dart';
+import 'package:order_client_app/src/repository/user_repository.dart';
 
 class RestaurantController extends ControllerMVC {
   Restaurant restaurant;
@@ -17,9 +19,21 @@ class RestaurantController extends ControllerMVC {
   List<Food> featuredFoods = <Food>[];
   List<Review> reviews = <Review>[];
   GlobalKey<ScaffoldState> scaffoldKey;
+  User user = new User();
 
   RestaurantController() {
     this.scaffoldKey = new GlobalKey<ScaffoldState>();
+    if (user != null) {
+      listenForUser();
+    }
+  }
+
+  void listenForUser() {
+    getCurrentUser().then((_user) {
+      setState(() {
+        user = _user;
+      });
+    });
   }
 
   void listenForRestaurant({int id, String message}) async {
@@ -62,7 +76,8 @@ class RestaurantController extends ControllerMVC {
   }
 
   void listenForTrendingFoods(int idRestaurant) async {
-    final Stream<Food> stream = await getTrendingFoodsOfRestaurant(idRestaurant);
+    final Stream<Food> stream =
+        await getTrendingFoodsOfRestaurant(idRestaurant);
     stream.listen((Food _food) {
       setState(() => trendingFoods.add(_food));
     }, onError: (a) {
@@ -71,7 +86,8 @@ class RestaurantController extends ControllerMVC {
   }
 
   void listenForFeaturedFoods(int idRestaurant) async {
-    final Stream<Food> stream = await getFeaturedFoodsOfRestaurant(idRestaurant);
+    final Stream<Food> stream =
+        await getFeaturedFoodsOfRestaurant(idRestaurant);
     stream.listen((Food _food) {
       setState(() => featuredFoods.add(_food));
     }, onError: (a) {

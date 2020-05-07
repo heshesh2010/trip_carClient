@@ -1,3 +1,5 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
@@ -77,9 +79,18 @@ class _FoodWidgetState extends StateMVC<FoodWidget> {
                     background: Hero(
                       tag: (widget.routeArgument.heroTag ??= "") +
                           widget.routeArgument.food.id,
-                      child: Image.network(
-                        widget.routeArgument.food.image.url,
-                        fit: BoxFit.cover,
+                      child: Container(
+                        height: 60,
+                        width: 60,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(5)),
+                            image: DecorationImage(
+                                image: widget.routeArgument.food.image != null
+                                    ? CachedNetworkImageProvider(
+                                        widget.routeArgument.food.image.thumb)
+                                    : Image.asset('assets/img/default_food.png')
+                                        .image,
+                                fit: BoxFit.cover)),
                       ),
                     ),
                   ),
@@ -99,14 +110,15 @@ class _FoodWidgetState extends StateMVC<FoodWidget> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
                                   Text(
-                                    widget.routeArgument.food.name,
+                                    widget.routeArgument.food?.name ?? "",
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 2,
                                     style:
                                         Theme.of(context).textTheme.headline3,
                                   ),
                                   Text(
-                                    widget.routeArgument.food.restaurant.name,
+                                    widget.routeArgument.food.restaurantName ??
+                                        "",
                                     overflow: TextOverflow.fade,
                                     softWrap: false,
                                     style:
@@ -120,6 +132,15 @@ class _FoodWidgetState extends StateMVC<FoodWidget> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: <Widget>[
+                                  widget.routeArgument.food.discountPrice != 0.0
+                                      ? Helper.getDiscountPrice(
+                                          widget
+                                              .routeArgument.food.discountPrice,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .headline3,
+                                        )
+                                      : Container(),
                                   Helper.getPrice(
                                     widget.routeArgument.food.price,
                                     style:
@@ -128,8 +149,8 @@ class _FoodWidgetState extends StateMVC<FoodWidget> {
                                   Text(
                                     widget.routeArgument.food.size == null
                                         ? "الحجم: افتراضي"
-                                        : widget.routeArgument.food.size.name +
-                                            "الحجم:",
+                                        : " الحجم : " +
+                                            widget.routeArgument.food.size.name,
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
                                     style: Theme.of(context).textTheme.body1,
@@ -232,15 +253,17 @@ class _FoodWidgetState extends StateMVC<FoodWidget> {
           Positioned(
             top: 32,
             right: 20,
-            child: _con.loadCart
-                ? SizedBox(
-                    width: 60,
-                    height: 60,
-                    child: RefreshProgressIndicator(),
-                  )
-                : ShoppingCartFloatButtonWidget(
-                    food: widget.routeArgument.food,
-                  ),
+            child: _con.user?.apiToken != null
+                ? _con.loadCart
+                    ? SizedBox(
+                        width: 60,
+                        height: 60,
+                        child: RefreshProgressIndicator(),
+                      )
+                    : ShoppingCartFloatButtonWidget(
+                        food: widget.routeArgument.food,
+                      )
+                : Container(),
           ),
           Positioned(
             bottom: 0,
@@ -350,7 +373,7 @@ class _FoodWidgetState extends StateMVC<FoodWidget> {
                                       isSelected[i] = i == index;
                                     }
                                     widget.routeArgument.food.foodType =
-                                        isSelected[index] ? "سفري" : "محلي";
+                                        isSelected[index] ? "محلي" : "سفري";
                                   });
                                 },
                                 isSelected: isSelected,
@@ -364,7 +387,7 @@ class _FoodWidgetState extends StateMVC<FoodWidget> {
                     Row(
                       children: <Widget>[
                         Expanded(
-                          child: _con.food.favorite!=null
+                          child: _con.food.favorite != null
                               ? OutlineButton(
                                   onPressed: () {
                                     _con.removeFromFavorite(_con.food.favorite);
@@ -380,8 +403,14 @@ class _FoodWidgetState extends StateMVC<FoodWidget> {
                                   ))
                               : FlatButton(
                                   onPressed: () {
-                                    _con.addToFavorite(
-                                        widget.routeArgument.food);
+                                    if (_con.user != null)
+                                      _con.addToFavorite(
+                                          widget.routeArgument.food);
+                                    else
+                                      FlushbarHelper.createError(
+                                              message:
+                                                  "يجب تسجيل الدخول اولاً من القائمة اليمنى ")
+                                          .show(context);
                                   },
                                   padding: EdgeInsets.symmetric(vertical: 14),
                                   color: Theme.of(context).accentColor,
@@ -402,7 +431,13 @@ class _FoodWidgetState extends StateMVC<FoodWidget> {
                                 onPressed: () {
                                   if (_con.isSameRestaurants(
                                       widget.routeArgument.food)) {
-                                    _con.addToCart(widget.routeArgument.food);
+                                    if (_con.user.apiToken != null)
+                                      _con.addToCart(widget.routeArgument.food);
+                                    else
+                                      FlushbarHelper.createError(
+                                              message:
+                                                  "يجب تسجيل الدخول اولاً من القائمة اليمنى ")
+                                          .show(context);
                                   } else {
                                     showDialog(
                                       context: context,

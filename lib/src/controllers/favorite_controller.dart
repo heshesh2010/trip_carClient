@@ -2,13 +2,21 @@ import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:order_client_app/src/models/favorite.dart';
+import 'package:order_client_app/src/models/user.dart';
 import 'package:order_client_app/src/repository/food_repository.dart';
+import 'package:order_client_app/src/repository/user_repository.dart';
 
 class FavoriteController extends ControllerMVC {
   List<Favorite> favorites = <Favorite>[];
   GlobalKey<ScaffoldState> scaffoldKey;
+  User currentUser;
+
+  getUser() async {
+    this.currentUser = await getCurrentUser();
+  }
 
   FavoriteController() {
+    getUser();
     this.scaffoldKey = new GlobalKey<ScaffoldState>();
     listenForFavorites();
   }

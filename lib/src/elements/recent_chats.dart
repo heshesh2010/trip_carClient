@@ -65,22 +65,17 @@ class RecentChats extends StatelessWidget {
                             CircleAvatar(
                                 radius: 35.0,
                                 backgroundImage: recentConversations
-                                            .message.userId ==
-                                        _con.user.id
-                                    ? recentConversations
-                                                .message.user.image.thumb !=
+                                            .message.sentBy ==
+                                        "user"
+                                    ? _con.currentUser.media != null
+                                        ? CachedNetworkImageProvider(
+                                            _con.currentUser.media.first.thumb)
+                                        : Image.asset('assets/img/default.png')
+                                            .image
+                                    : recentConversations.restaurant.image !=
                                             null
                                         ? CachedNetworkImageProvider(
                                             recentConversations
-                                                .message.user.image.url)
-                                        : Image
-                                                .asset('assets/img/default.png')
-                                            .image
-                                    : recentConversations
-                                                .message.user.restaurant !=
-                                            null
-                                        ? CachedNetworkImageProvider(
-                                            recentConversations.message.user
                                                 .restaurant.image.url)
                                         : Image.asset('assets/img/default.png')
                                             .image),
@@ -89,7 +84,9 @@ class RecentChats extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Text(
-                                  recentConversations.message.user.name,
+                                  recentConversations.message.sentBy == 'user'
+                                      ? _con.currentUser.name
+                                      : recentConversations.restaurant.name,
                                   style: TextStyle(
                                     color: Colors.grey,
                                     //   fontSize: 15.0,

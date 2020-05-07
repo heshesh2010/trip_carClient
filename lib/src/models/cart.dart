@@ -13,7 +13,7 @@ class Cart {
   Cart.fromJSON(Map<String, dynamic> jsonMap) {
     id = jsonMap['id'].toString();
     quantity =
-        jsonMap['quantity'] != null ? jsonMap['quantity'].toDouble() : 0.0;
+        jsonMap['quantity'] != null ? double.parse(jsonMap["quantity"]) : 0.0;
     food =
         jsonMap['food'] != null ? Food.fromJSON(jsonMap['food']) : new Food();
     extras = jsonMap['cart_extras'] != null

@@ -22,6 +22,11 @@ class SubmitRateState extends StateMVC<SubmitRate> {
   }
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(

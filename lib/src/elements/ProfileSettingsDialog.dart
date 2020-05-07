@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:order_client_app/generated/i18n.dart';
 import 'package:order_client_app/src/models/user.dart';
 
 class ProfileSettingsDialog extends StatefulWidget {
@@ -23,13 +24,14 @@ class _ProfileSettingsDialogState extends State<ProfileSettingsDialog> {
             builder: (context) {
               return SimpleDialog(
                 contentPadding: EdgeInsets.symmetric(horizontal: 20),
-                titlePadding: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+                titlePadding:
+                    EdgeInsets.symmetric(horizontal: 15, vertical: 20),
                 title: Row(
                   children: <Widget>[
                     Icon(Icons.person),
                     SizedBox(width: 10),
                     Text(
-                      'Profile Settings',
+                      'اعدادات الملف الشخصي',
                       style: Theme.of(context).textTheme.body2,
                     )
                   ],
@@ -42,41 +44,61 @@ class _ProfileSettingsDialogState extends State<ProfileSettingsDialog> {
                         new TextFormField(
                           style: TextStyle(color: Theme.of(context).hintColor),
                           keyboardType: TextInputType.text,
-                          decoration: getInputDecoration(hintText: 'John Doe', labelText: 'Full Name'),
+                          decoration: getInputDecoration(
+                              hintText: S.of(context).full_name,
+                              labelText: S.of(context).full_name),
                           initialValue: widget.user.name,
-                          validator: (input) => input.trim().length < 3 ? 'Not a valid full name' : null,
+                          validator: (input) => input.trim().length < 3
+                              ? S.of(context).should_be_more_than_3_letters
+                              : null,
                           onSaved: (input) => widget.user.name = input,
                         ),
                         new TextFormField(
                           style: TextStyle(color: Theme.of(context).hintColor),
                           keyboardType: TextInputType.emailAddress,
-                          decoration: getInputDecoration(hintText: 'johndo@gmail.com', labelText: 'Email Address'),
+                          decoration: getInputDecoration(
+                              hintText: S.of(context).email,
+                              labelText: S.of(context).should_be_a_valid_email),
                           initialValue: widget.user.email,
-                          validator: (input) => !input.contains('@') ? 'Not a valid email' : null,
+                          validator: (input) => !input.contains('@')
+                              ? S.of(context).should_be_a_valid_email
+                              : null,
                           onSaved: (input) => widget.user.email = input,
                         ),
                         new TextFormField(
                           style: TextStyle(color: Theme.of(context).hintColor),
                           keyboardType: TextInputType.text,
-                          decoration: getInputDecoration(hintText: '+136 269 9765', labelText: 'Phone'),
+                          decoration: getInputDecoration(
+                              hintText: '0096659XXXXXX',
+                              labelText: S.of(context).phone),
                           initialValue: widget.user.phone,
-                          validator: (input) => input.trim().length < 3 ? 'Not a valid phone' : null,
+                          validator: (input) => input.trim().length < 3
+                              ? S.of(context).should_be_more_than_3_letters
+                              : null,
                           onSaved: (input) => widget.user.phone = input,
                         ),
                         new TextFormField(
                           style: TextStyle(color: Theme.of(context).hintColor),
                           keyboardType: TextInputType.text,
-                          decoration: getInputDecoration(hintText: 'Your Address', labelText: 'Address'),
+                          decoration: getInputDecoration(
+                              hintText: S.of(context).address,
+                              labelText: S.of(context).address),
                           initialValue: widget.user.address,
-                          validator: (input) => input.trim().length < 3 ? 'Not a valid address' : null,
+                          validator: (input) => input.trim().length < 3
+                              ? S.of(context).should_be_more_than_3_letters
+                              : null,
                           onSaved: (input) => widget.user.address = input,
                         ),
                         new TextFormField(
                           style: TextStyle(color: Theme.of(context).hintColor),
                           keyboardType: TextInputType.text,
-                          decoration: getInputDecoration(hintText: 'Your biography', labelText: 'About'),
+                          decoration: getInputDecoration(
+                              hintText: S.of(context).about,
+                              labelText: S.of(context).about),
                           initialValue: widget.user.bio,
-                          validator: (input) => input.trim().length < 3 ? 'Not a valid biography' : null,
+                          validator: (input) => input.trim().length < 3
+                              ? S.of(context).should_be_more_than_3_letters
+                              : null,
                           onSaved: (input) => widget.user.bio = input,
                         ),
                       ],
@@ -89,13 +111,14 @@ class _ProfileSettingsDialogState extends State<ProfileSettingsDialog> {
                         onPressed: () {
                           Navigator.pop(context);
                         },
-                        child: Text('Cancel'),
+                        child: Text('الغاء'),
                       ),
                       MaterialButton(
                         onPressed: _submit,
                         child: Text(
-                          'Save',
-                          style: TextStyle(color: Theme.of(context).accentColor),
+                          'حفظ',
+                          style:
+                              TextStyle(color: Theme.of(context).accentColor),
                         ),
                       ),
                     ],
@@ -107,7 +130,7 @@ class _ProfileSettingsDialogState extends State<ProfileSettingsDialog> {
             });
       },
       child: Text(
-        "Edit",
+        "تعديل",
         style: Theme.of(context).textTheme.body1,
       ),
     );
@@ -120,8 +143,11 @@ class _ProfileSettingsDialogState extends State<ProfileSettingsDialog> {
       hintStyle: Theme.of(context).textTheme.body1.merge(
             TextStyle(color: Theme.of(context).focusColor),
           ),
-      enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Theme.of(context).hintColor.withOpacity(0.2))),
-      focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Theme.of(context).hintColor)),
+      enabledBorder: UnderlineInputBorder(
+          borderSide:
+              BorderSide(color: Theme.of(context).hintColor.withOpacity(0.2))),
+      focusedBorder: UnderlineInputBorder(
+          borderSide: BorderSide(color: Theme.of(context).hintColor)),
       hasFloatingPlaceholder: true,
       labelStyle: Theme.of(context).textTheme.body1.merge(
             TextStyle(color: Theme.of(context).hintColor),
