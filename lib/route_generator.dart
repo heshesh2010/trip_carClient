@@ -1,25 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:order_client_app/src/models/route_argument.dart';
-import 'package:order_client_app/src/pages/cart.dart';
-import 'package:order_client_app/src/pages/category.dart';
-import 'package:order_client_app/src/pages/checkout.dart';
-import 'package:order_client_app/src/pages/debug.dart';
-import 'package:order_client_app/src/pages/details.dart';
-import 'package:order_client_app/src/pages/food.dart';
-import 'package:order_client_app/src/pages/help.dart';
-import 'package:order_client_app/src/pages/login.dart';
-import 'package:order_client_app/src/pages/map.dart';
-import 'package:order_client_app/src/pages/menu_list.dart';
-import 'package:order_client_app/src/pages/order_success.dart';
-import 'package:order_client_app/src/pages/pages.dart';
-import 'package:order_client_app/src/pages/payment_methods.dart';
-import 'package:order_client_app/src/pages/profile.dart';
-import 'package:order_client_app/src/pages/settings.dart';
-import 'package:order_client_app/src/pages/signup.dart';
-import 'package:order_client_app/src/pages/splash_screen.dart';
-import 'package:order_client_app/src/pages/sumbit_rate.dart';
-import 'package:order_client_app/src/pages/tracking.dart';
-import 'package:order_client_app/src/pages/walkthrough.dart';
+import 'package:trip_car_client/src/models/route_argument.dart';
+import 'package:trip_car_client/src/pages/cart.dart';
+import 'package:trip_car_client/src/pages/category.dart';
+import 'package:trip_car_client/src/pages/checkout.dart';
+import 'package:trip_car_client/src/pages/debug.dart';
+import 'package:trip_car_client/src/pages/details.dart';
+import 'package:trip_car_client/src/pages/help.dart';
+import 'package:trip_car_client/src/pages/languages.dart';
+import 'package:trip_car_client/src/pages/login.dart';
+import 'package:trip_car_client/src/pages/map.dart';
+import 'package:trip_car_client/src/pages/menu_list.dart';
+import 'package:trip_car_client/src/pages/order_success.dart';
+import 'package:trip_car_client/src/pages/pages.dart';
+import 'package:trip_car_client/src/pages/payment_methods.dart';
+import 'package:trip_car_client/src/pages/profile.dart';
+import 'package:trip_car_client/src/pages/settings.dart';
+import 'package:trip_car_client/src/pages/signup.dart';
+import 'package:trip_car_client/src/pages/splash_screen.dart';
+import 'package:trip_car_client/src/pages/sumbit_rate.dart';
+import 'package:trip_car_client/src/pages/tracking.dart';
+import 'package:trip_car_client/src/pages/walkthrough.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -55,9 +55,6 @@ class RouteGenerator {
       case 'Menu':
         return MaterialPageRoute(
             builder: (_) => MenuWidget(routeArgument: args as RouteArgument));
-      case 'Food':
-        return MaterialPageRoute(
-            builder: (_) => FoodWidget(routeArgument: args as RouteArgument));
       case 'Category':
         return MaterialPageRoute(
             builder: (_) =>
@@ -86,6 +83,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => SettingsWidget());
       case 'Profile':
         return MaterialPageRoute(builder: (_) => ProfileWidget());
+      case 'Languages':
+        return MaterialPageRoute(builder: (_) => LanguagesWidget());
       case 'submit_rate':
         return MaterialPageRoute(
             builder: (_) => SubmitRate(routeArgument: args as RouteArgument));

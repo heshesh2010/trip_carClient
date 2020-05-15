@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:order_client_app/src/models/food.dart';
-import 'package:order_client_app/src/models/route_argument.dart';
+import 'package:trip_car_client/src/models/food.dart';
+import 'package:trip_car_client/src/models/route_argument.dart';
 
 class FoodGridItemWidget extends StatelessWidget {
   final String heroTag;
@@ -32,7 +32,8 @@ class FoodGridItemWidget extends StatelessWidget {
                       image: DecorationImage(
                           image: food.image != null
                               ? CachedNetworkImageProvider(food.image.thumb)
-                              : Image.asset('assets/img/default_food.png').image,
+                              : Image.asset('assets/img/default_food.png')
+                                  .image,
                           fit: BoxFit.cover),
                       borderRadius: BorderRadius.circular(5),
                     ),

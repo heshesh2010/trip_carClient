@@ -1,4 +1,4 @@
-import 'package:order_client_app/src/models/food.dart';
+import 'package:trip_car_client/src/models/food.dart';
 
 class Favorite {
   String id;

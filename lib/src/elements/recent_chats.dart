@@ -1,10 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
-import 'package:order_client_app/src/controllers/chat_controller.dart';
-import 'package:order_client_app/src/helpers/helper.dart';
-import 'package:order_client_app/src/models/recentConversations.dart';
-import 'package:order_client_app/src/pages/chat.dart';
+import 'package:trip_car_client/src/controllers/chat_controller.dart';
+import 'package:trip_car_client/src/helpers/helper.dart';
+import 'package:trip_car_client/src/models/recentConversations.dart';
+import 'package:trip_car_client/src/pages/chat.dart';
 
 class RecentChats extends StatelessWidget {
   final ChatController _con;

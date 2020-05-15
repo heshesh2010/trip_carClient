@@ -3,11 +3,11 @@ import 'dart:convert';
 import 'package:global_configuration/global_configuration.dart';
 import 'package:http/http.dart' as http;
 import 'package:location/location.dart';
-import 'package:order_client_app/src/helpers/helper.dart';
-import 'package:order_client_app/src/models/restaurant.dart';
-import 'package:order_client_app/src/models/review.dart';
-import 'package:order_client_app/src/models/user.dart';
-import 'package:order_client_app/src/repository/user_repository.dart';
+import 'package:trip_car_client/src/helpers/helper.dart';
+import 'package:trip_car_client/src/models/restaurant.dart';
+import 'package:trip_car_client/src/models/review.dart';
+import 'package:trip_car_client/src/models/user.dart';
+import 'package:trip_car_client/src/repository/user_repository.dart';
 
 Future<Stream<Restaurant>> getTopRestaurants() async {
   User _user = await getCurrentUser();

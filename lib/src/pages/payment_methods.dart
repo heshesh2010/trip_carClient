@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:order_client_app/generated/i18n.dart';
-import 'package:order_client_app/src/elements/PaymentMethodListItemWidget.dart';
-import 'package:order_client_app/src/elements/SearchBarWidget.dart';
-import 'package:order_client_app/src/elements/ShoppingCartButtonWidget.dart';
-import 'package:order_client_app/src/models/payment_method.dart';
-import 'package:order_client_app/src/models/route_argument.dart';
+import 'package:trip_car_client/generated/i18n.dart';
+import 'package:trip_car_client/src/elements/PaymentMethodListItemWidget.dart';
+import 'package:trip_car_client/src/elements/SearchBarWidget.dart';
+import 'package:trip_car_client/src/elements/ShoppingCartButtonWidget.dart';
+import 'package:trip_car_client/src/models/payment_method.dart';
+import 'package:trip_car_client/src/models/route_argument.dart';
 
 class PaymentMethodsWidget extends StatefulWidget {
   final RouteArgument routeArgument;

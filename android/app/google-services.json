@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:31975482566:android:f83c4df929fd28523d63c7",
         "android_client_info": {
-          "package_name": "com.hesham.order_client_app"
+          "package_name": "com.hesham.trip_car_client"
         }
       },
       "oauth_client": [
@@ -18,7 +18,7 @@
           "client_id": "31975482566-fmf3gdosalinjka98vser0pkdgtf9p24.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.hesham.order_client_app",
+            "package_name": "com.hesham.trip_car_client",
             "certificate_hash": "393b7cd864c1aa54a46f70d58d7b3102791be7d9"
           }
         },

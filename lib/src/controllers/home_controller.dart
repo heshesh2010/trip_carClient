@@ -1,20 +1,17 @@
 import 'package:location/location.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
-import 'package:order_client_app/src/models/ad.dart';
-import 'package:order_client_app/src/models/category.dart';
-import 'package:order_client_app/src/models/food.dart';
-import 'package:order_client_app/src/models/restaurant.dart';
-import 'package:order_client_app/src/models/review.dart';
-import 'package:order_client_app/src/repository/ads_repository.dart';
-import 'package:order_client_app/src/repository/category_repository.dart';
-import 'package:order_client_app/src/repository/food_repository.dart';
-import 'package:order_client_app/src/repository/restaurant_repository.dart';
-import 'package:order_client_app/src/repository/settings_repository.dart';
+import 'package:trip_car_client/src/models/category.dart';
+import 'package:trip_car_client/src/models/food.dart';
+import 'package:trip_car_client/src/models/restaurant.dart';
+import 'package:trip_car_client/src/models/review.dart';
+import 'package:trip_car_client/src/repository/category_repository.dart';
+import 'package:trip_car_client/src/repository/food_repository.dart';
+import 'package:trip_car_client/src/repository/restaurant_repository.dart';
+import 'package:trip_car_client/src/repository/settings_repository.dart';
 
 class HomeController extends ControllerMVC {
   List<Category> categories = <Category>[];
   List<Restaurant> topRestaurants = <Restaurant>[];
-  List<Ad> ads = <Ad>[];
 
   List<Review> recentReviews = <Review>[];
   List<Food> trendingFoods = <Food>[];
@@ -22,7 +19,6 @@ class HomeController extends ControllerMVC {
   bool trendingFoodsIsEmpty = false;
 
   HomeController() {
-    listenForAds();
     listenForCategories();
     listenForTopRestaurants();
     listenForRecentReviews();
@@ -33,13 +29,6 @@ class HomeController extends ControllerMVC {
     final Stream<Category> stream = await getCategories();
     stream.listen((Category _category) {
       setState(() => categories.add(_category));
-    }, onError: (a) {}, onDone: () {});
-  }
-
-  void listenForAds() async {
-    final Stream<Ad> stream = await getAds();
-    stream.listen((Ad _ad) {
-      setState(() => ads.add(_ad));
     }, onError: (a) {}, onDone: () {});
   }
 
@@ -77,8 +66,6 @@ class HomeController extends ControllerMVC {
     topRestaurants = <Restaurant>[];
     recentReviews = <Review>[];
     trendingFoods = <Food>[];
-    ads = <Ad>[];
-    listenForAds();
     listenForCategories();
     listenForTopRestaurants();
     listenForRecentReviews();

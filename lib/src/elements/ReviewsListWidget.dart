@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:order_client_app/src/elements/CircularLoadingWidget.dart';
-import 'package:order_client_app/src/elements/EmptyReviewsWidget.dart';
-import 'package:order_client_app/src/elements/ReviewItemWidget.dart';
-import 'package:order_client_app/src/helpers/shimmer_helper.dart';
-import 'package:order_client_app/src/models/review.dart';
-
-import 'EmptyNotificationsWidget.dart';
+import 'package:trip_car_client/src/elements/EmptyReviewsWidget.dart';
+import 'package:trip_car_client/src/elements/ReviewItemWidget.dart';
+import 'package:trip_car_client/src/models/review.dart';
 
 // ignore: must_be_immutable
 class ReviewsListWidget extends StatelessWidget {
@@ -16,10 +12,10 @@ class ReviewsListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return reviewsList.isEmpty
-        ?  EmptyReviewsWidget():
+        ? EmptyReviewsWidget()
+        :
 
-
- //   ShimmerHelper(type: Type.orders,)
+        //   ShimmerHelper(type: Type.orders,)
         ListView.separated(
             padding: EdgeInsets.all(0),
             itemBuilder: (context, index) {

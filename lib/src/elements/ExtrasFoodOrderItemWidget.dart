@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:order_client_app/src/helpers/helper.dart';
-import 'package:order_client_app/src/models/orderFoodExtras.dart';
+import 'package:trip_car_client/src/helpers/helper.dart';
+import 'package:trip_car_client/src/models/orderFoodExtras.dart';
 
 class ExtrasFoodOrderItemWidget extends StatelessWidget {
   final OrderFoodExtras extraFoodItem;

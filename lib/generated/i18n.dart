@@ -22,6 +22,29 @@ class S implements WidgetsLocalizations {
   @override
   TextDirection get textDirection => TextDirection.ltr;
 
+  // signup screen
+  String get mobile => "mobile";
+  String get choose_license_pic => "Choose license pic";
+  String get edit_license_pic => "Edi license pic";
+  String get address => "Address";
+  String get email => "Email";
+  String get terms_approve =>
+      " I agree to the Terms of Services and Privacy Policy ";
+  String get nick_name => "nick name ";
+  String get owner_name => " Owner Name  ";
+  String get add_your_license => "Add license pic";
+  String get should_choose_your_location =>
+      "The location of the restaurant must be located on the map, as well as the address";
+  String get password => "Password";
+  String get password2 => "confirm Password";
+  String get pass_not_matched => "pass not matched";
+  String get should_be_a_valid_email => "Should be a valid email";
+  String get should_be_more_than_3_letters =>
+      "Should be more than 1 number or more";
+  String get should_be_more_than_6_letters => "Should be more than 6 letters";
+  String get full_name => "Full name";
+  String get information => "Information";
+
   String get food => 'food';
 
   String get chat => "chat";
@@ -34,11 +57,8 @@ class S implements WidgetsLocalizations {
   String get add_to_cart => "Add to Cart";
   String get shopping_cart => "Shopping Cart";
   String get shopping_cart_desc => " Verify your quantity and click checkout";
-  String get terms_approve =>
-      " I agree to the Terms of Services and Privacy Policy ";
   String get order_details => "Order details";
 
-  String get address => "Address";
   String get all_menu => "All Menu";
   String get app_language => "App Language";
   String get app_settings => "App Settings";
@@ -51,7 +71,6 @@ class S implements WidgetsLocalizations {
   String get discover__explorer => "Discover & Explorer";
   String get double_click_on_the_food_to_add_it_to_the =>
       "Double click on the food to add it to the cart";
-  String get email => "Email";
   String get english => "English";
   String get extras => "Extras";
   String get faq => "Faq";
@@ -59,7 +78,6 @@ class S implements WidgetsLocalizations {
   String get favorites => "Favorites";
   String get featured_foods => "Featured Foods";
   String get food_categories => "Food Categories";
-  String get full_name => "Full name";
   String get g => "g";
   String get help_support => "Help & Support";
   String get help_supports => "Help & Supports";
@@ -67,8 +85,6 @@ class S implements WidgetsLocalizations {
   String get i_dont_have_an_account => "I don't have an account?";
   String get i_forgot_password => "I forgot password ?";
   String get i_have_account_back_to_login => "I have account? Back to login";
-  String get information => "Information";
-  String get ingredients => "Ingredients";
   String get john_doe => "John Doe";
   String get languages => "Languages";
   String get lets_start_with_register => "Let's Start with register!";
@@ -78,7 +94,7 @@ class S implements WidgetsLocalizations {
   String get maps_explorer => "Maps Explorer";
   String get menu => "Menu";
   String get most_popular => "Most Popular";
-  String get multirestaurants => "تطبيق اوردر";
+  String get multirestaurants => "تطبيق تريب";
   String get my_orders => "My Orders";
   String get order_refreshed => "Order refreshed successfuly";
   String get notifications => "Notifications";
@@ -86,12 +102,9 @@ class S implements WidgetsLocalizations {
   String get or_checkout_with => "Or Checkout With";
   String get order_id => "Order Id";
   String get ordered_by_nearby_first => "Ordered by Nearby first";
-  String get password => "Password";
   String get payment_mode => "Payment Mode";
   String get payment_options => "Payment Options";
   String get payments_settings => "Payments Settings";
-  String get paypal_payment => "PayPal Payment";
-  String get phone => "Phone";
   String get profile => "Profile";
   String get profile_settings => "Profile Settings";
   String get quantity => "Quantity";
@@ -110,9 +123,6 @@ class S implements WidgetsLocalizations {
   String get select_your_preferred_payment_mode =>
       "Select your preferred payment mode";
   String get settings => "Settings";
-  String get should_be_a_valid_email => "Should be a valid email";
-  String get should_be_more_than_3_letters => "Should be more than 3 letters";
-  String get should_be_more_than_6_letters => "Should be more than 6 letters";
   String get skip => "Skip";
   String get submit => "Submit";
   String get subtotal => "Subtotal";
@@ -140,7 +150,7 @@ class $ar extends S {
   @override
   String get chat => "المحادثات";
   @override
-  String get order_details => " تفاصيل الاوردر ";
+  String get order_details => " تفاصيل التريب ";
   @override
   TextDirection get textDirection => TextDirection.rtl;
   @override
@@ -156,7 +166,7 @@ class $ar extends S {
   String get help_support => "الدعم  والمساعدة";
   @override
   String get double_click_on_the_food_to_add_it_to_the =>
-      "اضغط مرتين للاضافة الى سلة الشتريات ";
+      "مرتبة حسب الاكثر فالاقل ";
   @override
   String get about => "نبذة ";
   @override
@@ -173,7 +183,8 @@ class $ar extends S {
   @override
   String get all_menu => "قائمة الوجبات";
   @override
-  String get search_for_restaurants_or_foods => "ابحث  عن المطاعم أو الوجبات";
+  String get search_for_restaurants_or_foods =>
+      "ابحث عن سياره للايجار ادخل المدينة او الموديل";
   @override
   String get should_be_a_valid_email => "يجب ادخال ايميل صحيح";
   @override
@@ -219,7 +230,7 @@ class $ar extends S {
   @override
   String get full_name => "الاسم بالكامل";
   @override
-  String get phone => "رقم الهاتف";
+  String get mobile => "رقم الهاتف";
   @override
   String get subtotal => "المجوع الفرعي";
   @override
@@ -284,7 +295,7 @@ class $ar extends S {
   @override
   String get address => "العنوان";
   @override
-  String get multirestaurants => "تطبيق اوردر ";
+  String get multirestaurants => "تطبيق تريب ";
   @override
   String get languages => "اللغات";
   @override
@@ -298,7 +309,7 @@ class $ar extends S {
   @override
   String get menu => "القائمة";
   @override
-  String get food_categories => "فئات المأكولات";
+  String get food_categories => "التصفح حسب الموديل";
   @override
   String get confirm_payment => "تأكيد الدفع";
   @override
@@ -825,7 +836,7 @@ class $fr extends S {
   @override
   String get address => "Address";
   @override
-  String get multirestaurants => "تطبيق اوردر";
+  String get multirestaurants => "تطبيق تريب";
   @override
   String get languages => "Languages";
   @override
@@ -1050,11 +1061,11 @@ class GeneratedLocalizationsDelegate extends LocalizationsDelegate<S> {
   List<Locale> get supportedLocales {
     return const <Locale>[
       Locale("ar", ""),
-      /*  Locale("pt", ""),
+      Locale("pt", ""),
       Locale("in", ""),
       Locale("en", ""),
       Locale("fr", ""),
-      Locale("es", ""),*/
+      Locale("es", ""),
     ];
   }
 
@@ -1084,20 +1095,8 @@ class GeneratedLocalizationsDelegate extends LocalizationsDelegate<S> {
         case "ar":
           S.current = const $ar();
           return SynchronousFuture<S>(S.current);
-        case "pt":
-          S.current = const $pt();
-          return SynchronousFuture<S>(S.current);
-        case "in":
-          S.current = const $in();
-          return SynchronousFuture<S>(S.current);
-        case "en":
-          S.current = const $en();
-          return SynchronousFuture<S>(S.current);
-        case "fr":
-          S.current = const $fr();
-          return SynchronousFuture<S>(S.current);
         case "es":
-          S.current = const $es();
+          S.current = const $en();
           return SynchronousFuture<S>(S.current);
         default:
         // NO-OP.
@@ -1166,18 +1165,3 @@ String getLang(Locale l) => l == null
     : l.countryCode != null && l.countryCode.isEmpty
         ? l.languageCode
         : l.toString();
-
-class FallbackCupertinoLocalisationsDelegate
-    extends LocalizationsDelegate<CupertinoLocalizations> {
-  const FallbackCupertinoLocalisationsDelegate();
-
-  @override
-  bool isSupported(Locale locale) => true;
-
-  @override
-  Future<CupertinoLocalizations> load(Locale locale) =>
-      DefaultCupertinoLocalizations.load(locale);
-
-  @override
-  bool shouldReload(FallbackCupertinoLocalisationsDelegate old) => false;
-}

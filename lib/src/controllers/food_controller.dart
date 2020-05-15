@@ -1,14 +1,14 @@
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
-import 'package:order_client_app/src/models/cart.dart';
-import 'package:order_client_app/src/models/extra.dart';
-import 'package:order_client_app/src/models/favorite.dart';
-import 'package:order_client_app/src/models/food.dart';
-import 'package:order_client_app/src/models/user.dart';
-import 'package:order_client_app/src/repository/cart_repository.dart';
-import 'package:order_client_app/src/repository/food_repository.dart';
-import 'package:order_client_app/src/repository/user_repository.dart';
+import 'package:trip_car_client/src/models/cart.dart';
+import 'package:trip_car_client/src/models/extra.dart';
+import 'package:trip_car_client/src/models/favorite.dart';
+import 'package:trip_car_client/src/models/food.dart';
+import 'package:trip_car_client/src/models/user.dart';
+import 'package:trip_car_client/src/repository/cart_repository.dart';
+import 'package:trip_car_client/src/repository/food_repository.dart';
+import 'package:trip_car_client/src/repository/user_repository.dart';
 
 class FoodController extends ControllerMVC {
   Food food;

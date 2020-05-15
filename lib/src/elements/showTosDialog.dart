@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show defaultTargetPlatform;
-import 'package:order_client_app/src/controllers/user_controller.dart';
+import 'package:trip_car_client/src/controllers/user_controller.dart';
 
 void showTosDialog(BuildContext context, UserController con) {
   final ThemeData themeData = Theme.of(context);

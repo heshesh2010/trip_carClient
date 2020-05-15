@@ -1,11 +1,10 @@
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
-import 'package:order_client_app/config/app_config.dart' as config;
-import 'package:order_client_app/generated/i18n.dart';
-import 'package:order_client_app/src/controllers/user_controller.dart';
-import 'package:order_client_app/src/elements/showTosDialog.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
+import 'package:trip_car_client/generated/i18n.dart';
+import 'package:trip_car_client/src/controllers/user_controller.dart';
+import 'package:trip_car_client/src/elements/showTosDialog.dart';
 
 class SignUpWidget extends StatefulWidget {
   @override
@@ -13,311 +12,51 @@ class SignUpWidget extends StatefulWidget {
 }
 
 class _SignUpWidgetState extends StateMVC<SignUpWidget> {
-  UserController _con;
+  _SignUpWidgetState() : super(UserController()) {
+    _con = controller;
+  }
+
   bool _agreedToTOS = true;
+  UserController _con;
   final _controller = TextEditingController();
   final _registerPassController = TextEditingController();
   final _registerPassController2 = TextEditingController();
   final RoundedLoadingButtonController _btnControllerSave =
       new RoundedLoadingButtonController();
 
-  _SignUpWidgetState() : super(UserController()) {
-    _con = controller;
-  }
+  FocusNode _focusNode1 = new FocusNode();
+  FocusNode _focusNode2 = new FocusNode();
+  FocusNode _focusNode3 = new FocusNode();
+  FocusNode _focusNode4 = new FocusNode();
+  FocusNode _focusNode5 = new FocusNode();
+  FocusNode _focusNode6 = new FocusNode();
+
+  final ScrollController listScrollController = ScrollController();
+
   @override
-  Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async => false,
-      child: Scaffold(
-        key: _con.scaffoldKey,
-        resizeToAvoidBottomPadding: false,
-        body: Stack(
-          alignment: AlignmentDirectional.topCenter,
-          children: <Widget>[
-            Positioned(
-              top: 0,
-              child: Container(
-                width: config.App(context).appWidth(100),
-                height: config.App(context).appHeight(29.5),
-                decoration: BoxDecoration(color: Theme.of(context).accentColor),
-              ),
-            ),
-            Positioned(
-              top: config.App(context).appHeight(29.5) - 120,
-              child: Container(
-                width: config.App(context).appWidth(84),
-                height: config.App(context).appHeight(29.5),
-                child: Text(
-                  S.of(context).lets_start_with_register,
-                  style: Theme.of(context)
-                      .textTheme
-                      .display3
-                      .merge(TextStyle(color: Theme.of(context).primaryColor)),
-                ),
-              ),
-            ),
-            Positioned(
-              top: config.App(context).appHeight(29.5) - 50,
-              child: Container(
-                decoration: BoxDecoration(
-                    color: Theme.of(context).primaryColor,
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    boxShadow: [
-                      BoxShadow(
-                        blurRadius: 50,
-                        color: Theme.of(context).hintColor.withOpacity(0.2),
-                      )
-                    ]),
-                margin: EdgeInsets.symmetric(
-                  horizontal: 20,
-                ),
-                padding: EdgeInsets.symmetric(vertical: 50, horizontal: 27),
-                width: config.App(context).appWidth(88),
-//              height: config.App(context).appHeight(55),
-                child: Form(
-                  key: _con.signUpFormKey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      TextFormField(
-                        keyboardType: TextInputType.text,
-                        onSaved: (input) => _con.user.name = input,
-                        validator: (input) => input.length < 3
-                            ? S.of(context).should_be_more_than_3_letters
-                            : null,
-                        decoration: InputDecoration(
-                          labelText: S.of(context).full_name,
-                          labelStyle:
-                              TextStyle(color: Theme.of(context).accentColor),
-                          contentPadding: EdgeInsets.all(12),
-                          hintText: S.of(context).john_doe,
-                          hintStyle: TextStyle(
-                              color: Theme.of(context)
-                                  .focusColor
-                                  .withOpacity(0.7)),
-                          prefixIcon: Icon(Icons.person_outline,
-                              color: Theme.of(context).accentColor),
-                          border: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Theme.of(context)
-                                      .focusColor
-                                      .withOpacity(0.2))),
-                          focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Theme.of(context)
-                                      .focusColor
-                                      .withOpacity(0.5))),
-                          enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Theme.of(context)
-                                      .focusColor
-                                      .withOpacity(0.2))),
-                        ),
-                      ),
-                                            SizedBox(height: 30),
-
-                      TextFormField(
-                        keyboardType: TextInputType.phone,
-                        onSaved: (input) => _con.user.phone = input,
-                        validator: (input) => input.length < 3
-                            ? S.of(context).should_be_more_than_3_letters
-                            : null,
-                        decoration: InputDecoration(
-                          labelText: S.of(context).phone,
-                          labelStyle:
-                              TextStyle(color: Theme.of(context).accentColor),
-                          contentPadding: EdgeInsets.all(12),
-                          hintText: "05XXXXXXXX",
-                          hintStyle: TextStyle(
-                              color: Theme.of(context)
-                                  .focusColor
-                                  .withOpacity(0.7)),
-                          prefixIcon: Icon(Icons.phone,
-                              color: Theme.of(context).accentColor),
-                          border: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Theme.of(context)
-                                      .focusColor
-                                      .withOpacity(0.2))),
-                          focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Theme.of(context)
-                                      .focusColor
-                                      .withOpacity(0.5))),
-                          enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Theme.of(context)
-                                      .focusColor
-                                      .withOpacity(0.2))),
-                        ),
-                      ),
-                      SizedBox(height: 30),
-                      TextFormField(
-                        keyboardType: TextInputType.emailAddress,
-                        onSaved: (input) => _con.user.email = input,
-                        validator: (input) => !input.contains('@')
-                            ? S.of(context).should_be_a_valid_email
-                            : null,
-                        decoration: InputDecoration(
-                          labelText: S.of(context).email,
-                          labelStyle:
-                              TextStyle(color: Theme.of(context).accentColor),
-                          contentPadding: EdgeInsets.all(12),
-                          hintText: 'johndoe@gmail.com',
-                          hintStyle: TextStyle(
-                              color: Theme.of(context)
-                                  .focusColor
-                                  .withOpacity(0.7)),
-                          prefixIcon: Icon(Icons.alternate_email,
-                              color: Theme.of(context).accentColor),
-                          border: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Theme.of(context)
-                                      .focusColor
-                                      .withOpacity(0.2))),
-                          focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Theme.of(context)
-                                      .focusColor
-                                      .withOpacity(0.5))),
-                          enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Theme.of(context)
-                                      .focusColor
-                                      .withOpacity(0.2))),
-                        ),
-                      ),
-                      SizedBox(height: 30),
-                      TextFormField(
-                        obscureText: _con.hidePassword,
-                        onSaved: (input) => _con.user.password = input,
-                        validator: (input) => input.length < 6
-                            ? S.of(context).should_be_more_than_6_letters
-                            : null,
-                        decoration: InputDecoration(
-                          labelText: S.of(context).password,
-                          labelStyle:
-                              TextStyle(color: Theme.of(context).accentColor),
-                          contentPadding: EdgeInsets.all(12),
-                          hintText: '••••••••••••',
-                          hintStyle: TextStyle(
-                              color: Theme.of(context)
-                                  .focusColor
-                                  .withOpacity(0.7)),
-                          prefixIcon: Icon(Icons.lock_outline,
-                              color: Theme.of(context).accentColor),
-                          suffixIcon: IconButton(
-                            onPressed: () {
-                              setState(() {
-                                _con.hidePassword = !_con.hidePassword;
-                              });
-                            },
-                            color: Theme.of(context).focusColor,
-                            icon: Icon(_con.hidePassword
-                                ? Icons.visibility
-                                : Icons.visibility_off),
-                          ),
-                          border: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Theme.of(context)
-                                      .focusColor
-                                      .withOpacity(0.2))),
-                          focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Theme.of(context)
-                                      .focusColor
-                                      .withOpacity(0.5))),
-                          enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Theme.of(context)
-                                      .focusColor
-                                      .withOpacity(0.2))),
-                        ),
-                      ),
-                      SizedBox(height: 30),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 1.0),
-                        child: Row(
-                          children: <Widget>[
-                            Checkbox(
-                              checkColor: Theme.of(context).hintColor,
-                              activeColor: Theme.of(context).accentColor,
-                              value: _agreedToTOS,
-                              onChanged: _setAgreedToTOS,
-                            ),
-                            GestureDetector(
-                                onTap: () => _setAgreedToTOS(!_agreedToTOS),
-                                child: GestureDetector(
-                                    child: Text(S.of(context).terms_approve,
-                                        style: TextStyle(
-                                            decoration:
-                                                TextDecoration.underline,
-                                            color:
-                                                Theme.of(context).hintColor)),
-                                    onTap: () {
-                                      showTosDialog(context, _con);
-                                    })),
-                          ],
-                        ),
-                      ),
-                      RoundedLoadingButton(
-                        controller: _btnControllerSave,
-                        child: Text(
-                          S.of(context).register,
-                          style: TextStyle(color: Theme.of(context).hintColor),
-                        ),
-                        color: Theme.of(context).accentColor,
-                        onPressed: _submittable()
-                            ? _submit
-                            : () {
-                                _btnControllerSave.stop();
-                                FlushbarHelper.createError(
-                                        message: "value.message")
-                                    .show(context);
-                              },
-                      ),
-                      SizedBox(height: 25),
-//                      FlatButton(
-//                        onPressed: () {
-//                          Navigator.of(context).pushNamed('/MobileVerification');
-//                        },
-//                        padding: EdgeInsets.symmetric(vertical: 14),
-//                        color: Theme.of(context).accentColor.withOpacity(0.1),
-//                        shape: StadiumBorder(),
-//                        child: Text(
-//                          'Register with Google',
-//                          textAlign: TextAlign.start,
-//                          style: TextStyle(
-//                            color: Theme.of(context).accentColor,
-//                          ),
-//                        ),
-//                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            Positioned(
-              bottom: 10,
-              child: FlatButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                textColor: Theme.of(context).hintColor,
-                child: Text(S.of(context).i_have_account_back_to_login),
-              ),
-            )
-          ],
-        ),
-      ),
-    );
+  void initState() {
+    super.initState();
+    listScrollController.addListener(_scrollListener);
   }
 
-  void _setAgreedToTOS(bool newValue) {
-    setState(() {
-      _agreedToTOS = newValue;
-    });
+  _scrollListener() {
+    FocusScope.of(context).requestFocus();
+  }
+
+  @override
+  void dispose() {
+    // other dispose methods
+    _controller.dispose();
+    _registerPassController.dispose();
+    _registerPassController2.dispose();
+    _focusNode1.dispose();
+    _focusNode2.dispose();
+    _focusNode3.dispose();
+    _focusNode4.dispose();
+    _focusNode5.dispose();
+    _focusNode6.dispose();
+
+    super.dispose();
   }
 
   bool _submittable() {
@@ -326,5 +65,377 @@ class _SignUpWidgetState extends StateMVC<SignUpWidget> {
 
   void _submit() {
     _con.register(_btnControllerSave);
+  }
+
+  void _setAgreedToTOS(bool newValue) {
+    setState(() {
+      _agreedToTOS = newValue;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      resizeToAvoidBottomInset: true,
+      appBar: AppBar(
+        leading: new IconButton(
+          icon: new Icon(Icons.arrow_back, color: Theme.of(context).focusColor),
+          onPressed: () => Navigator.of(context).pushNamed('Login'),
+        ),
+        backgroundColor: Theme.of(context).accentColor,
+        elevation: 0,
+        centerTitle: true,
+        title: Text(
+          S.of(context).register,
+          style: Theme.of(context)
+              .textTheme
+              .headline6
+              .merge(TextStyle(letterSpacing: 1.3)),
+        ),
+      ),
+      key: _con.scaffoldKey,
+      body: SingleChildScrollView(
+        controller: listScrollController,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Stack(
+            alignment: AlignmentDirectional.topCenter,
+            children: <Widget>[
+              Form(
+                key: _con.signUpFormKey,
+                child: Column(
+                  children: <Widget>[
+                    SizedBox(height: 10),
+                    TextFormField(
+                      textInputAction: TextInputAction.next,
+                      keyboardType: TextInputType.text,
+                      onSaved: (input) => _con.user.name = input,
+                      validator: (input) => input.length < 3 || input.isEmpty
+                          ? S.of(context).should_be_more_than_3_letters
+                          : null,
+                      decoration: InputDecoration(
+                        labelText: S.of(context).nick_name,
+                        labelStyle:
+                            TextStyle(color: Theme.of(context).hintColor),
+                        contentPadding: EdgeInsets.all(12),
+                        hintText: S.of(context).john_doe,
+                        hintStyle: TextStyle(
+                            color:
+                                Theme.of(context).focusColor.withOpacity(0.7)),
+                        prefixIcon: Icon(Icons.person_outline,
+                            color: Theme.of(context).hintColor),
+                        border: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Theme.of(context)
+                                    .focusColor
+                                    .withOpacity(0.2))),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Theme.of(context)
+                                    .focusColor
+                                    .withOpacity(0.5))),
+                        enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Theme.of(context)
+                                    .focusColor
+                                    .withOpacity(0.2))),
+                      ),
+                      focusNode: _focusNode1,
+                      onFieldSubmitted: (term) {
+                        listScrollController.jumpTo(
+                            listScrollController.position.maxScrollExtent);
+                        _focusNode1.unfocus();
+                        FocusScope.of(context).requestFocus(_focusNode2);
+                      },
+                    ),
+                    SizedBox(height: 30),
+                    TextFormField(
+                      textInputAction: TextInputAction.next,
+                      keyboardType: TextInputType.text,
+                      onSaved: (input) => _con.user.name = input,
+                      validator: (input) => input.length < 3 || input.isEmpty
+                          ? S.of(context).should_be_more_than_3_letters
+                          : null,
+                      decoration: InputDecoration(
+                        labelText: S.of(context).full_name,
+                        labelStyle:
+                            TextStyle(color: Theme.of(context).hintColor),
+                        contentPadding: EdgeInsets.all(12),
+                        hintText: S.of(context).john_doe,
+                        hintStyle: TextStyle(
+                            color:
+                                Theme.of(context).focusColor.withOpacity(0.7)),
+                        prefixIcon: Icon(Icons.person_outline,
+                            color: Theme.of(context).hintColor),
+                        border: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Theme.of(context)
+                                    .focusColor
+                                    .withOpacity(0.2))),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Theme.of(context)
+                                    .focusColor
+                                    .withOpacity(0.5))),
+                        enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Theme.of(context)
+                                    .focusColor
+                                    .withOpacity(0.2))),
+                      ),
+                      focusNode: _focusNode2,
+                      onFieldSubmitted: (term) {
+                        listScrollController.jumpTo(
+                            listScrollController.position.maxScrollExtent);
+                        _focusNode2.unfocus();
+                        FocusScope.of(context).requestFocus(_focusNode3);
+                      },
+                    ),
+                    SizedBox(height: 30),
+                    TextFormField(
+                      textInputAction: TextInputAction.next,
+                      keyboardType: TextInputType.phone,
+                      onSaved: (input) => _con.user.mobile = input,
+                      validator: (input) => input.length < 3
+                          ? S.of(context).should_be_more_than_3_letters
+                          : null,
+                      decoration: InputDecoration(
+                        labelText: S.of(context).mobile,
+                        labelStyle:
+                            TextStyle(color: Theme.of(context).hintColor),
+                        contentPadding: EdgeInsets.all(12),
+                        hintText: "0591111074",
+                        hintStyle: TextStyle(
+                            color:
+                                Theme.of(context).focusColor.withOpacity(0.7)),
+                        prefixIcon: Icon(Icons.phone_android,
+                            color: Theme.of(context).hintColor),
+                        border: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Theme.of(context)
+                                    .focusColor
+                                    .withOpacity(0.2))),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Theme.of(context)
+                                    .focusColor
+                                    .withOpacity(0.5))),
+                        enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Theme.of(context)
+                                    .focusColor
+                                    .withOpacity(0.2))),
+                      ),
+                      focusNode: _focusNode3,
+                      onFieldSubmitted: (term) {
+                        listScrollController.jumpTo(
+                            listScrollController.position.maxScrollExtent);
+                        _focusNode3.unfocus();
+                        FocusScope.of(context).requestFocus(_focusNode4);
+                      },
+                    ),
+
+                    SizedBox(height: 30),
+                    TextFormField(
+                      textInputAction: TextInputAction.next,
+                      keyboardType: TextInputType.emailAddress,
+                      onSaved: (input) => _con.user.email = input,
+                      validator: (input) => !input.contains('@')
+                          ? S.of(context).should_be_a_valid_email
+                          : null,
+                      decoration: InputDecoration(
+                        labelText: S.of(context).email,
+                        labelStyle:
+                            TextStyle(color: Theme.of(context).hintColor),
+                        contentPadding: EdgeInsets.all(12),
+                        hintText: 'name@gmail.com',
+                        hintStyle: TextStyle(
+                            color:
+                                Theme.of(context).focusColor.withOpacity(0.7)),
+                        prefixIcon: Icon(Icons.alternate_email,
+                            color: Theme.of(context).hintColor),
+                        border: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Theme.of(context)
+                                    .focusColor
+                                    .withOpacity(0.2))),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Theme.of(context)
+                                    .focusColor
+                                    .withOpacity(0.5))),
+                        enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Theme.of(context)
+                                    .focusColor
+                                    .withOpacity(0.2))),
+                      ),
+                      focusNode: _focusNode4,
+                      onFieldSubmitted: (term) {
+                        listScrollController.jumpTo(
+                            listScrollController.position.maxScrollExtent);
+                        _focusNode4.unfocus();
+                        FocusScope.of(context).requestFocus(_focusNode5);
+                      },
+                    ),
+                    SizedBox(height: 30),
+                    TextFormField(
+                      textInputAction: TextInputAction.next,
+                      controller: _registerPassController,
+                      obscureText: _con.hidePassword,
+                      onSaved: (input) => _con.user.password = input,
+                      validator: (input) => input.length < 6
+                          ? S.of(context).should_be_more_than_6_letters
+                          : null,
+                      decoration: InputDecoration(
+                        labelText: S.of(context).password,
+                        labelStyle:
+                            TextStyle(color: Theme.of(context).hintColor),
+                        contentPadding: EdgeInsets.all(12),
+                        hintText: 'ادخل كلمه المرور 6 خانات على الاقل ',
+                        hintStyle: TextStyle(
+                            color:
+                                Theme.of(context).focusColor.withOpacity(0.7)),
+                        prefixIcon: Icon(Icons.lock_outline,
+                            color: Theme.of(context).hintColor),
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              _con.hidePassword = !_con.hidePassword;
+                            });
+                          },
+                          color: Theme.of(context).focusColor,
+                          icon: Icon(_con.hidePassword
+                              ? Icons.visibility
+                              : Icons.visibility_off),
+                        ),
+                        border: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Theme.of(context)
+                                    .focusColor
+                                    .withOpacity(0.2))),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Theme.of(context)
+                                    .focusColor
+                                    .withOpacity(0.5))),
+                        enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Theme.of(context)
+                                    .focusColor
+                                    .withOpacity(0.2))),
+                      ),
+                      focusNode: _focusNode5,
+                      onFieldSubmitted: (term) {
+                        listScrollController.jumpTo(
+                            listScrollController.position.maxScrollExtent);
+                        _focusNode5.unfocus();
+                        FocusScope.of(context).requestFocus(_focusNode6);
+                      },
+                    ),
+
+                    SizedBox(height: 30),
+                    TextFormField(
+                      textInputAction: TextInputAction.next,
+                      controller: _registerPassController2,
+                      obscureText: _con.hidePassword,
+                      onSaved: (input) => _con.user.password = input,
+                      validator: (value) {
+                        if (value != _registerPassController.text) {
+                          return S.of(context).pass_not_matched;
+                        }
+                        return null;
+                      },
+                      decoration: InputDecoration(
+                        labelText: S.of(context).password2,
+                        labelStyle:
+                            TextStyle(color: Theme.of(context).hintColor),
+                        contentPadding: EdgeInsets.all(12),
+                        hintText: ' 6 خانات على الاقل ',
+                        hintStyle: TextStyle(
+                            color:
+                                Theme.of(context).focusColor.withOpacity(0.7)),
+                        prefixIcon: Icon(Icons.lock_outline,
+                            color: Theme.of(context).hintColor),
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              _con.hidePassword = !_con.hidePassword;
+                            });
+                          },
+                          color: Theme.of(context).focusColor,
+                          icon: Icon(_con.hidePassword
+                              ? Icons.visibility
+                              : Icons.visibility_off),
+                        ),
+                        border: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Theme.of(context)
+                                    .focusColor
+                                    .withOpacity(0.2))),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Theme.of(context)
+                                    .focusColor
+                                    .withOpacity(0.5))),
+                        enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Theme.of(context)
+                                    .focusColor
+                                    .withOpacity(0.2))),
+                      ),
+                    ),
+
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 1.0),
+                      child: Row(
+                        children: <Widget>[
+                          Checkbox(
+                            checkColor: Theme.of(context).hintColor,
+                            activeColor: Theme.of(context).accentColor,
+                            value: _agreedToTOS,
+                            onChanged: _setAgreedToTOS,
+                          ),
+                          GestureDetector(
+                              onTap: () => _setAgreedToTOS(!_agreedToTOS),
+                              child: GestureDetector(
+                                  child: Text(S.of(context).terms_approve,
+                                      style: TextStyle(
+                                          decoration: TextDecoration.underline,
+                                          color: Theme.of(context).hintColor)),
+                                  onTap: () {
+                                    showTosDialog(context, _con);
+                                  })),
+                        ],
+                      ),
+                    ),
+
+                    RoundedLoadingButton(
+                      controller: _btnControllerSave,
+                      child: Text(
+                        S.of(context).register,
+                        style: TextStyle(color: Theme.of(context).hintColor),
+                      ),
+                      color: Theme.of(context).accentColor,
+                      onPressed: _submittable()
+                          ? _submit
+                          : () {
+                              _btnControllerSave.stop();
+                              FlushbarHelper.createError(
+                                      message: "يجب تعبئة كل البيانات")
+                                  .show(context);
+                            },
+                    ),
+                    SizedBox(height: 10),
+
+//
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

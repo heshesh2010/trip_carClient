@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
-import 'package:order_client_app/generated/i18n.dart';
-import 'package:order_client_app/src/controllers/favorite_controller.dart';
-import 'package:order_client_app/src/elements/CircularLoadingWidget.dart';
-import 'package:order_client_app/src/elements/FavoriteGridItemWidget.dart';
-import 'package:order_client_app/src/elements/FavoriteListItemWidget.dart';
-import 'package:order_client_app/src/elements/SearchBarWidget.dart';
-import 'package:order_client_app/src/helpers/shimmer_helper.dart';
+import 'package:trip_car_client/generated/i18n.dart';
+import 'package:trip_car_client/src/controllers/favorite_controller.dart';
+import 'package:trip_car_client/src/elements/CircularLoadingWidget.dart';
+import 'package:trip_car_client/src/elements/FavoriteGridItemWidget.dart';
+import 'package:trip_car_client/src/elements/FavoriteListItemWidget.dart';
+import 'package:trip_car_client/src/elements/SearchBarWidget.dart';
+import 'package:trip_car_client/src/helpers/shimmer_helper.dart';
 
 class FavoritesWidget extends StatefulWidget {
   @override

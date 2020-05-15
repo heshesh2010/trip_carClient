@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:order_client_app/src/models/credit_card.dart';
+import 'package:trip_car_client/src/models/credit_card.dart';
 
 class PaymentSettingsDialog extends StatefulWidget {
   CreditCard creditCard;
   VoidCallback onChanged;
 
-  PaymentSettingsDialog({Key key, this.creditCard, this.onChanged}) : super(key: key);
+  PaymentSettingsDialog({Key key, this.creditCard, this.onChanged})
+      : super(key: key);
 
   @override
   _PaymentSettingsDialogState createState() => _PaymentSettingsDialogState();
@@ -23,7 +24,8 @@ class _PaymentSettingsDialogState extends State<PaymentSettingsDialog> {
             builder: (context) {
               return SimpleDialog(
                 contentPadding: EdgeInsets.symmetric(horizontal: 20),
-                titlePadding: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+                titlePadding:
+                    EdgeInsets.symmetric(horizontal: 15, vertical: 20),
                 title: Row(
                   children: <Widget>[
                     Icon(Icons.person),
@@ -42,30 +44,49 @@ class _PaymentSettingsDialogState extends State<PaymentSettingsDialog> {
                         new TextFormField(
                           style: TextStyle(color: Theme.of(context).hintColor),
                           keyboardType: TextInputType.text,
-                          decoration: getInputDecoration(hintText: '4242 4242 4242 4242', labelText: 'Number'),
-                          initialValue: widget.creditCard.number.isNotEmpty ? widget.creditCard.number : null,
-                          validator: (input) => input.trim().length != 16 ? 'Not a valid number' : null,
+                          decoration: getInputDecoration(
+                              hintText: '4242 4242 4242 4242',
+                              labelText: 'Number'),
+                          initialValue: widget.creditCard.number.isNotEmpty
+                              ? widget.creditCard.number
+                              : null,
+                          validator: (input) => input.trim().length != 16
+                              ? 'Not a valid number'
+                              : null,
                           onSaved: (input) => widget.creditCard.number = input,
                         ),
                         new TextFormField(
-                            style: TextStyle(color: Theme.of(context).hintColor),
+                            style:
+                                TextStyle(color: Theme.of(context).hintColor),
                             keyboardType: TextInputType.text,
-                            decoration: getInputDecoration(hintText: 'dd/yy', labelText: 'Exp Date'),
+                            decoration: getInputDecoration(
+                                hintText: 'dd/yy', labelText: 'Exp Date'),
                             initialValue: widget.creditCard.expMonth.isNotEmpty
-                                ? widget.creditCard.expMonth + '/' + widget.creditCard.expYear
+                                ? widget.creditCard.expMonth +
+                                    '/' +
+                                    widget.creditCard.expYear
                                 : null,
                             // TODO validate date
-                            validator: (input) => !input.contains('/') ? 'Not a valid date' : null,
+                            validator: (input) => !input.contains('/')
+                                ? 'Not a valid date'
+                                : null,
                             onSaved: (input) {
-                              widget.creditCard.expMonth = input.split('/').elementAt(0);
-                              widget.creditCard.expYear = input.split('/').elementAt(1);
+                              widget.creditCard.expMonth =
+                                  input.split('/').elementAt(0);
+                              widget.creditCard.expYear =
+                                  input.split('/').elementAt(1);
                             }),
                         new TextFormField(
                           style: TextStyle(color: Theme.of(context).hintColor),
                           keyboardType: TextInputType.text,
-                          decoration: getInputDecoration(hintText: '253', labelText: 'CVC'),
-                          initialValue: widget.creditCard.cvc.isNotEmpty ? widget.creditCard.cvc : null,
-                          validator: (input) => input.trim().length != 3 ? 'Not a valid CVC' : null,
+                          decoration: getInputDecoration(
+                              hintText: '253', labelText: 'CVC'),
+                          initialValue: widget.creditCard.cvc.isNotEmpty
+                              ? widget.creditCard.cvc
+                              : null,
+                          validator: (input) => input.trim().length != 3
+                              ? 'Not a valid CVC'
+                              : null,
                           onSaved: (input) => widget.creditCard.cvc = input,
                         ),
                       ],
@@ -84,7 +105,8 @@ class _PaymentSettingsDialogState extends State<PaymentSettingsDialog> {
                         onPressed: _submit,
                         child: Text(
                           'Save',
-                          style: TextStyle(color: Theme.of(context).accentColor),
+                          style:
+                              TextStyle(color: Theme.of(context).accentColor),
                         ),
                       ),
                     ],
@@ -109,8 +131,11 @@ class _PaymentSettingsDialogState extends State<PaymentSettingsDialog> {
       hintStyle: Theme.of(context).textTheme.body1.merge(
             TextStyle(color: Theme.of(context).focusColor),
           ),
-      enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Theme.of(context).hintColor.withOpacity(0.2))),
-      focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Theme.of(context).hintColor)),
+      enabledBorder: UnderlineInputBorder(
+          borderSide:
+              BorderSide(color: Theme.of(context).hintColor.withOpacity(0.2))),
+      focusedBorder: UnderlineInputBorder(
+          borderSide: BorderSide(color: Theme.of(context).hintColor)),
       hasFloatingPlaceholder: true,
       labelStyle: Theme.of(context).textTheme.body1.merge(
             TextStyle(color: Theme.of(context).hintColor),

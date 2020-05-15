@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
-import 'package:order_client_app/generated/i18n.dart';
-import 'package:order_client_app/src/controllers/settings_controller.dart';
-import 'package:order_client_app/src/elements/CircularLoadingWidget.dart';
-import 'package:order_client_app/src/elements/ProfileSettingsDialog.dart';
-import 'package:order_client_app/src/elements/SearchBarWidget.dart';
-import 'package:order_client_app/src/helpers/helper.dart';
+import 'package:trip_car_client/generated/i18n.dart';
+import 'package:trip_car_client/src/controllers/settings_controller.dart';
+import 'package:trip_car_client/src/elements/CircularLoadingWidget.dart';
+import 'package:trip_car_client/src/elements/ProfileSettingsDialog.dart';
+import 'package:trip_car_client/src/elements/SearchBarWidget.dart';
+import 'package:trip_car_client/src/helpers/helper.dart';
 
 class SettingsWidget extends StatefulWidget {
   @override
@@ -69,31 +69,29 @@ class _SettingsWidgetState extends StateMVC<SettingsWidget> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                             ),
                           ),
-
-                          _con.isLoading?
-                                SizedBox(
-                        width: 55,
-                        height: 55,
-                        child: RefreshProgressIndicator(),
-                      ):
-                          SizedBox(
-                              width: 55,
-                              height: 55,
-                              child: InkWell(
-                                borderRadius: BorderRadius.circular(300),
-                                onTap: () {
-                                  _openImagePickerModal(context);
-                                },
-                                child: 
-                                
-                                CircleAvatar(
-                                  backgroundImage: _con.user.media != null
-                                      ? CachedNetworkImageProvider(
-                                          _con.user.media.first.thumb)
-                                      : Image.asset('assets/img/default.png')
-                                          .image,
-                                ),
-                              )),
+                          _con.isLoading
+                              ? SizedBox(
+                                  width: 55,
+                                  height: 55,
+                                  child: RefreshProgressIndicator(),
+                                )
+                              : SizedBox(
+                                  width: 55,
+                                  height: 55,
+                                  child: InkWell(
+                                    borderRadius: BorderRadius.circular(300),
+                                    onTap: () {
+                                      _openImagePickerModal(context);
+                                    },
+                                    child: CircleAvatar(
+                                      backgroundImage: _con.user.media != null
+                                          ? CachedNetworkImageProvider(
+                                              _con.user.media.first.thumb)
+                                          : Image.asset(
+                                                  'assets/img/default.png')
+                                              .image,
+                                    ),
+                                  )),
                         ],
                       ),
                     ),
@@ -129,9 +127,8 @@ class _SettingsWidgetState extends StateMVC<SettingsWidget> {
                                 user: _con.user,
                                 onChanged: () {
                                   _con.updateUser();
-                            
-                                    _con.isLoading=true;
-                                 
+
+                                  _con.isLoading = true;
                                 },
                               ),
                             ),
@@ -166,11 +163,11 @@ class _SettingsWidgetState extends StateMVC<SettingsWidget> {
                             onTap: () {},
                             dense: true,
                             title: Text(
-                              S.of(context).phone,
+                              S.of(context).mobile,
                               style: Theme.of(context).textTheme.body1,
                             ),
                             trailing: Text(
-                              _con.user.phone,
+                              _con.user.mobile,
                               style: TextStyle(
                                   color: Theme.of(context).focusColor),
                             ),

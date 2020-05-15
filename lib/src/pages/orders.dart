@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
-import 'package:order_client_app/src/controllers/order_controller.dart';
-import 'package:order_client_app/src/elements/EmptyReviewsWidget.dart';
-import 'package:order_client_app/src/elements/OrderItemWidget.dart';
-import 'package:order_client_app/src/helpers/shimmer_helper.dart';
+import 'package:trip_car_client/src/controllers/order_controller.dart';
+import 'package:trip_car_client/src/elements/EmptyReviewsWidget.dart';
+import 'package:trip_car_client/src/elements/OrderItemWidget.dart';
+import 'package:trip_car_client/src/helpers/shimmer_helper.dart';
 
 class OrdersWidget extends StatefulWidget {
   @override

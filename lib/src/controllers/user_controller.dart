@@ -4,24 +4,26 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
-import 'package:order_client_app/src/models/user.dart';
-import 'package:order_client_app/src/repository/user_repository.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
-import 'package:order_client_app/src/repository/user_repository.dart'
-as userRepo;
+import 'package:trip_car_client/src/models/user.dart';
+import 'package:trip_car_client/src/repository/user_repository.dart';
+import 'package:trip_car_client/src/repository/user_repository.dart'
+    as userRepo;
+
 import 'TeddyController.dart';
 
 class UserController extends ControllerMVC {
-  User user ;
+  User user;
   bool hidePassword = true;
   GlobalKey<FormState> loginFormKey;
   GlobalKey<ScaffoldState> scaffoldKey;
   FirebaseMessaging _firebaseMessaging;
 
-  getUser() async{
-    this.user= await getCurrentUser();
+  getUser() async {
+    this.user = await getCurrentUser();
   }
-  GlobalKey<FormState>   signUpFormKey;
+
+  GlobalKey<FormState> signUpFormKey;
   TeddyController _teddyController;
   bool isLoading = false;
   String tos = "جارى التحميل";
@@ -55,9 +57,9 @@ class UserController extends ControllerMVC {
   }
 
   void login(
-      teddyController,
-      RoundedLoadingButtonController btnControllerLogin,
-      ) async {
+    teddyController,
+    RoundedLoadingButtonController btnControllerLogin,
+  ) async {
     _teddyController = teddyController;
     if (loginFormKey.currentState.validate()) {
       _teddyController.coverEyes(false);
@@ -102,7 +104,7 @@ class UserController extends ControllerMVC {
           isLoading = false;
         });
         FlushbarHelper.createSuccess(
-            message: "تم ارسال رساله استعاده كلمه المرور ")
+                message: "تم ارسال رساله استعاده كلمه المرور ")
             .show(scaffoldKey.currentState.context);
       } else {
         scaffoldKey.currentState

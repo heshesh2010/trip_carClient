@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:order_client_app/generated/i18n.dart';
-import 'package:order_client_app/src/models/restaurant.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
+import 'package:trip_car_client/generated/i18n.dart';
+import 'package:trip_car_client/src/models/restaurant.dart';
 
 // ignore: must_be_immutable
 class RestaurantRatingItemWidget extends StatelessWidget {

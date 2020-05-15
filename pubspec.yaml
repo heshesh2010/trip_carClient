@@ -1,4 +1,4 @@
-name: order_client_app
+name: trip_car_client
 description: order Client App by Hesham Elnemr
 
 # The following defines the version and build number for your application.
@@ -56,6 +56,7 @@ dependencies:
   flutter_rating_bar: ^3.0.1+1
   image_picker: ^0.6.5
   font_awesome_flutter: ^8.7.0
+  curved_navigation_bar: ^0.3.2
 
 dev_dependencies:
   flutter_test:

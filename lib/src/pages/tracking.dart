@@ -3,12 +3,12 @@ import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
-import 'package:order_client_app/generated/i18n.dart';
-import 'package:order_client_app/src/controllers/tracking_controller.dart';
-import 'package:order_client_app/src/elements/CircularLoadingWidget.dart';
-import 'package:order_client_app/src/elements/TrackingFoodItemWidget.dart';
-import 'package:order_client_app/src/models/route_argument.dart';
-import 'package:order_client_app/src/pages/chat.dart';
+import 'package:trip_car_client/generated/i18n.dart';
+import 'package:trip_car_client/src/controllers/tracking_controller.dart';
+import 'package:trip_car_client/src/elements/CircularLoadingWidget.dart';
+import 'package:trip_car_client/src/elements/TrackingFoodItemWidget.dart';
+import 'package:trip_car_client/src/models/route_argument.dart';
+import 'package:trip_car_client/src/pages/chat.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class TrackingWidget extends StatefulWidget {

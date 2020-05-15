@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:order_client_app/src/models/category.dart';
-import 'package:order_client_app/src/models/route_argument.dart';
+import 'package:trip_car_client/src/models/category.dart';
+import 'package:trip_car_client/src/models/route_argument.dart';
 
 // ignore: must_be_immutable
 class CategoriesCarouselItemWidget extends StatelessWidget {

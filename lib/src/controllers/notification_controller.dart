@@ -1,8 +1,8 @@
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
-import 'package:order_client_app/src/models/notification.dart' as model;
-import 'package:order_client_app/src/repository/notification_repository.dart';
+import 'package:trip_car_client/src/models/notification.dart' as model;
+import 'package:trip_car_client/src/repository/notification_repository.dart';
 
 class NotificationController extends ControllerMVC {
   List<model.Notification> notifications = <model.Notification>[];
@@ -23,7 +23,6 @@ class NotificationController extends ControllerMVC {
       print(a);
       FlushbarHelper.createError(message: "حدث خطأ بالاتصال")
           .show(scaffoldKey.currentState.context);
-
     }, onDone: () {
       if (message != null) {
         FlushbarHelper.createSuccess(message: message)

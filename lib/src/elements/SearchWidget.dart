@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:order_client_app/src/elements/SearchResultsWidget.dart';
+import 'package:trip_car_client/src/elements/SearchResultsWidget.dart';
 
 class SearchModal extends ModalRoute<void> {
   @override
@@ -42,8 +42,8 @@ class SearchModal extends ModalRoute<void> {
   }
 
   @override
-  Widget buildTransitions(
-      BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation, Widget child) {
+  Widget buildTransitions(BuildContext context, Animation<double> animation,
+      Animation<double> secondaryAnimation, Widget child) {
     var begin = Offset(0.0, 1.0);
     var end = Offset.zero;
     var tween = Tween(begin: begin, end: end);

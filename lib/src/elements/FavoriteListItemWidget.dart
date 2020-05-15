@@ -1,8 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:order_client_app/src/helpers/helper.dart';
-import 'package:order_client_app/src/models/favorite.dart';
-import 'package:order_client_app/src/models/route_argument.dart';
+import 'package:trip_car_client/src/helpers/helper.dart';
+import 'package:trip_car_client/src/models/favorite.dart';
+import 'package:trip_car_client/src/models/route_argument.dart';
 
 // ignore: must_be_immutable
 class FavoriteListItemWidget extends StatelessWidget {

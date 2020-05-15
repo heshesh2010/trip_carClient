@@ -1,18 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
-import 'package:order_client_app/generated/i18n.dart';
-import 'package:order_client_app/src/controllers/restaurant_controller.dart';
-import 'package:order_client_app/src/elements/CircularLoadingWidget.dart';
-import 'package:order_client_app/src/elements/FoodItemWidget.dart';
-import 'package:order_client_app/src/elements/GalleryCarouselWidget.dart';
-import 'package:order_client_app/src/elements/ReviewsListWidget.dart';
-import 'package:order_client_app/src/elements/ShoppingCartFloatButtonWidget.dart';
-import 'package:order_client_app/src/helpers/helper.dart';
-import 'package:order_client_app/src/models/route_argument.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:rounded_loading_button/rounded_loading_button.dart';
+import 'package:trip_car_client/src/controllers/restaurant_controller.dart';
+import 'package:trip_car_client/src/elements/buildSeparator.dart';
+import 'package:trip_car_client/src/helpers/helper.dart';
+import 'package:trip_car_client/src/models/route_argument.dart';
 
 class DetailsWidget extends StatefulWidget {
   RouteArgument routeArgument;
@@ -27,7 +21,8 @@ class DetailsWidget extends StatefulWidget {
 
 class _DetailsWidgetState extends StateMVC<DetailsWidget> {
   RestaurantController _con;
-
+  final RoundedLoadingButtonController btnControllerSave =
+      new RoundedLoadingButtonController();
   _DetailsWidgetState() : super(RestaurantController()) {
     _con = controller;
   }
@@ -43,322 +38,322 @@ class _DetailsWidgetState extends StateMVC<DetailsWidget> {
 
   @override
   Widget build(BuildContext context) {
+    Size screenSize = MediaQuery.of(context).size;
+
     return Scaffold(
         key: _con.scaffoldKey,
-        floatingActionButton: FloatingActionButton.extended(
-            onPressed: () {
-              Navigator.of(context).pushNamed('Menu',
-                  arguments: new RouteArgument(id: widget.routeArgument.id));
-            },
-            isExtended: true,
-            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-            icon: Icon(
-              Icons.restaurant,
-              color: Theme.of(context).hintColor,
-            ),
-            label: Text(S.of(context).menu,
-                style: TextStyle(
-                  color: Theme.of(context).hintColor,
-                ))),
+        backgroundColor: Colors.white,
         floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
         body: RefreshIndicator(
           onRefresh: _con.refreshRestaurant,
-          child: _con.restaurant == null
-              ? CircularLoadingWidget(height: 500)
-              : Stack(
-                  fit: StackFit.expand,
-                  children: <Widget>[
-                    CustomScrollView(
-                      primary: true,
-                      shrinkWrap: false,
-                      slivers: <Widget>[
-                        SliverAppBar(
-                          backgroundColor:
-                              Theme.of(context).accentColor.withOpacity(0.9),
-                          expandedHeight: 300,
-                          elevation: 0,
-                          iconTheme: IconThemeData(
-                              color: Theme.of(context).primaryColor),
-                          flexibleSpace: FlexibleSpaceBar(
-                            collapseMode: CollapseMode.parallax,
-                            background: Hero(
-                              tag: widget.routeArgument.heroTag +
-                                  _con.restaurant.id.toString(),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                      image: _con.restaurant.image == null
-                                          ? Image.asset(
-                                                  'assets/img/default_food.png')
-                                              .image
-                                          : CachedNetworkImageProvider(
-                                              this._con.restaurant.image.url),
-                                      fit: BoxFit.cover),
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                              ),
-                            ),
-                          ),
+          child: SafeArea(
+            child: CustomScrollView(
+              slivers: <Widget>[
+                SliverPersistentHeader(
+                  pinned: true,
+                  floating: true,
+                  delegate: CustomSliverDelegate(
+                    expandedHeight: 250,
+                  ),
+                ),
+                SliverFillRemaining(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border(
+                        top: BorderSide(
+                          width: 0.3,
+                          color: Colors.grey,
                         ),
-                        SliverToBoxAdapter(
-                          child: Wrap(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    right: 20, left: 20, bottom: 10, top: 25),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Expanded(
-                                      child: Text(
-                                        _con.restaurant.name,
-                                        overflow: TextOverflow.fade,
-                                        softWrap: false,
-                                        maxLines: 2,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .display2,
-                                      ),
+                      ),
+                    ),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              right: 20,
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 20),
+                                  child: Text(
+                                    "مرسيدس سي ١٨٠",
+                                    style:
+                                        Theme.of(context).textTheme.headline4,
+                                  ),
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      children: Helper.getStarsList(4),
                                     ),
                                     SizedBox(
-                                      height: 32,
-                                      child: Chip(
-                                        padding: EdgeInsets.all(0),
-                                        label: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: <Widget>[
-                                            Text(
-                                                _con.restaurant.rate.toString(),
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .body2
-                                                    .merge(TextStyle(
-                                                        color: Theme.of(context)
-                                                            .hintColor))),
-                                            Icon(
-                                              Icons.star_border,
-                                              color:
-                                                  Theme.of(context).hintColor,
-                                              size: 16,
-                                            ),
-                                          ],
-                                        ),
-                                        backgroundColor: Theme.of(context)
-                                            .accentColor
-                                            .withOpacity(0.9),
-                                        shape: StadiumBorder(),
-                                      ),
+                                      width: 10,
                                     ),
+                                    Text("بناء على ١٢ رحلة"),
                                   ],
                                 ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 20, vertical: 5),
-                                child: Html(
-                                  data: _con.restaurant.description,
-                                  defaultTextStyle: Theme.of(context)
-                                      .textTheme
-                                      .body1
-                                      .merge(TextStyle(fontSize: 14)),
+                                SizedBox(
+                                  height: 20,
                                 ),
-                              ),
-                              ImageThumbCarouselWidget(
-                                  galleriesList: _con.galleries),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 20),
-                                child: ListTile(
+                                BuildSeparator(screenSize),
+                                ListTile(
                                   dense: true,
                                   contentPadding:
                                       EdgeInsets.symmetric(vertical: 0),
                                   leading: Icon(
-                                    Icons.stars,
-                                    color: Theme.of(context).hintColor,
+                                    Icons.recent_actors,
+                                    color: Theme.of(context).accentColor,
                                   ),
                                   title: Text(
-                                    S.of(context).information,
-                                    style: Theme.of(context).textTheme.display1,
+                                    "بيانات الرحلة ",
+                                    style:
+                                        Theme.of(context).textTheme.headline4,
                                   ),
                                 ),
-                              ),
-                              Container(
-                                width: MediaQuery.of(context).size.width,
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 20, vertical: 20),
-                                margin: const EdgeInsets.symmetric(vertical: 5),
-                                color: Theme.of(context).primaryColor,
-                                child: Helper.applyHtml(
-                                    context, _con.restaurant.information),
-                              ),
-                              Container(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 20, vertical: 20),
-                                margin: const EdgeInsets.symmetric(vertical: 5),
-                                color: Theme.of(context).primaryColor,
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Expanded(
-                                      child: Text(
-                                        _con.restaurant.address,
-                                        overflow: TextOverflow.ellipsis,
-                                        maxLines: 2,
-                                        style:
-                                            Theme.of(context).textTheme.body2,
-                                      ),
-                                    ),
-                                    SizedBox(width: 10),
-                                    SizedBox(
-                                      width: 42,
-                                      height: 42,
-                                      child: FlatButton(
-                                        padding: EdgeInsets.all(0),
-                                        onPressed: () {
-                                          Navigator.of(context).pushNamed('Map',
-                                              arguments: new RouteArgument(
-                                                  param: _con.restaurant));
-                                        },
-                                        child: Icon(
-                                          Icons.directions,
-                                          color: Theme.of(context).hintColor,
-                                          size: 24,
-                                        ),
-                                        color: Theme.of(context)
-                                            .accentColor
-                                            .withOpacity(0.9),
-                                        shape: StadiumBorder(),
-                                      ),
-                                    ),
-                                  ],
+                                Text(
+                                  'الحد الاقصى للكيلو متر : 100 كيلو ',
+                                  overflow: TextOverflow.ellipsis,
+                                  style: Theme.of(context).textTheme.bodyText1,
                                 ),
-                              ),
-                              Container(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 20, vertical: 20),
-                                margin: const EdgeInsets.symmetric(vertical: 5),
-                                color: Theme.of(context).primaryColor,
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Expanded(
-                                      child: Text(
-                                        '${_con.restaurant.phone} \n${_con.restaurant.mobile}',
-                                        overflow: TextOverflow.ellipsis,
-                                        style:
-                                            Theme.of(context).textTheme.body2,
-                                      ),
-                                    ),
-                                    SizedBox(width: 10),
-                                    SizedBox(
-                                      width: 42,
-                                      height: 42,
-                                      child: FlatButton(
-                                        padding: EdgeInsets.all(0),
-                                        onPressed: () {
-                                          launch(
-                                              "tel:${_con.restaurant.mobile}");
-                                        },
-                                        child: Icon(
-                                          Icons.call,
-                                          color: Theme.of(context).hintColor,
-                                          size: 24,
-                                        ),
-                                        color: Theme.of(context)
-                                            .accentColor
-                                            .withOpacity(0.9),
-                                        shape: StadiumBorder(),
-                                      ),
-                                    ),
-                                  ],
+                                SizedBox(
+                                  height: 20,
                                 ),
-                              ),
-                              _con.featuredFoods.isEmpty
-                                  ? SizedBox(height: 0)
-                                  : Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 20),
-                                      child: ListTile(
-                                        dense: true,
-                                        contentPadding:
-                                            EdgeInsets.symmetric(vertical: 0),
-                                        leading: Icon(
-                                          Icons.restaurant,
-                                          color: Theme.of(context).hintColor,
-                                        ),
-                                        title: Text(
-                                          S.of(context).featured_foods,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .display1,
-                                        ),
-                                      ),
-                                    ),
-                              _con.featuredFoods.isEmpty
-                                  ? SizedBox(height: 0)
-                                  : ListView.separated(
-                                      padding:
-                                          EdgeInsets.symmetric(vertical: 10),
-                                      scrollDirection: Axis.vertical,
-                                      shrinkWrap: true,
-                                      primary: false,
-                                      itemCount: _con.featuredFoods.length,
-                                      separatorBuilder: (context, index) {
-                                        return SizedBox(height: 10);
-                                      },
-                                      itemBuilder: (context, index) {
-                                        return FoodItemWidget(
-                                          heroTag: 'details_featured_food',
-                                          food: _con.featuredFoods
-                                              .elementAt(index),
-                                        );
-                                      },
-                                    ),
-                              SizedBox(height: 100),
-                              _con.reviews.isEmpty
-                                  ? SizedBox(height: 5)
-                                  : Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 10, horizontal: 20),
-                                      child: ListTile(
-                                        dense: true,
-                                        contentPadding:
-                                            EdgeInsets.symmetric(vertical: 0),
-                                        leading: Icon(
-                                          Icons.recent_actors,
-                                          color: Theme.of(context).hintColor,
-                                        ),
-                                        title: Text(
-                                          S.of(context).what_they_say,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .display1,
+                                Text(
+                                  'سعر الكيلو متر الأضافي : 10 ريال ',
+                                  overflow: TextOverflow.ellipsis,
+                                  style: Theme.of(context).textTheme.bodyText1,
+                                ),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                BuildSeparator(screenSize),
+                                ListTile(
+                                  dense: true,
+                                  contentPadding:
+                                      EdgeInsets.symmetric(vertical: 0),
+                                  leading: Icon(
+                                    Icons.directions_car,
+                                    color: Theme.of(context).accentColor,
+                                  ),
+                                  title: Text(
+                                    "بيانات السيارة ",
+                                    style:
+                                        Theme.of(context).textTheme.headline4,
+                                  ),
+                                ),
+                                Text(
+                                  'اللون : أسود ',
+                                  overflow: TextOverflow.ellipsis,
+                                  style: Theme.of(context).textTheme.bodyText1,
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Text(
+                                  'الماركة : مرسيدس ',
+                                  overflow: TextOverflow.ellipsis,
+                                  style: Theme.of(context).textTheme.bodyText1,
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Text(
+                                  'الموديل : 2014 ',
+                                  overflow: TextOverflow.ellipsis,
+                                  style: Theme.of(context).textTheme.bodyText1,
+                                ),
+                                Container(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 10),
+                                  color: Theme.of(context).primaryColor,
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Expanded(
+                                        child: Text(
+                                          _con.restaurant.address,
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 2,
+                                          style:
+                                              Theme.of(context).textTheme.body2,
                                         ),
                                       ),
-                                    ),
-                              _con.reviews.isEmpty
-                                  ? SizedBox(height: 5)
-                                  : Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 20, vertical: 10),
-                                      child: ReviewsListWidget(
-                                          reviewsList: _con.reviews),
-                                    ),
-                            ],
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 8.0),
+                                        child: SizedBox(
+                                          width: 42,
+                                          height: 42,
+                                          child: FlatButton(
+                                            padding: EdgeInsets.all(0),
+                                            onPressed: () {
+                                              Navigator.of(context).pushNamed(
+                                                  'Map',
+                                                  arguments: new RouteArgument(
+                                                      param: _con.restaurant));
+                                            },
+                                            child: Icon(
+                                              Icons.directions,
+                                              color:
+                                                  Theme.of(context).hintColor,
+                                              size: 24,
+                                            ),
+                                            color: Theme.of(context)
+                                                .accentColor
+                                                .withOpacity(0.9),
+                                            shape: StadiumBorder(),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
+                          Container(
+                            height: 40,
+                            width: MediaQuery.of(context).size.width - 250,
+                            margin: const EdgeInsets.only(
+                                left: 20.0, right: 20.0, top: 20),
+                            child: RoundedLoadingButton(
+                              child: Text(
+                                "حجز الرحلة",
+                                style: TextStyle(
+                                    color: Theme.of(context).hintColor),
+                              ),
+                              controller: btnControllerSave,
+                              color: Theme.of(context).accentColor,
+                              onPressed: () {
+                                // btnControllerSave.stop();
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ));
+  }
+}
+
+class CustomSliverDelegate extends SliverPersistentHeaderDelegate {
+  final double expandedHeight;
+  final bool hideTitleWhenExpanded;
+  CustomSliverDelegate({
+    @required this.expandedHeight,
+    this.hideTitleWhenExpanded = false,
+  });
+
+  @override
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
+    final appBarSize = expandedHeight - shrinkOffset;
+    final cardTopPosition = expandedHeight / 2 - shrinkOffset;
+    final proportion = 2 - (expandedHeight / appBarSize);
+    final percent = proportion < 0 || proportion > 1 ? 0.0 : proportion;
+    return SizedBox(
+      height: 400,
+      child: Stack(
+        children: [
+          SizedBox(
+              height: appBarSize < kToolbarHeight ? kToolbarHeight : appBarSize,
+              child: Container(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: CachedNetworkImageProvider(
+                        "https://saudishift.com/wp-content/uploads/2015/02/2.png"),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              )),
+          Positioned(
+            child: Container(
+              height: 140,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.vertical(
+                  top: Radius.circular(20),
+                ),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    CircleAvatar(
+                      radius: 35.0,
+                      backgroundImage: CachedNetworkImageProvider(
+                          "https://pngimage.net/wp-content/uploads/2018/05/default-user-profile-image-png-6.png"),
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "ياسر القحطاني",
+                          style: Theme.of(context).textTheme.headline3,
+                        ),
+                        Text(
+                          "مالك السيارة",
+                          style: Theme.of(context).textTheme.caption,
                         ),
                       ],
                     ),
-                    Positioned(
-                      top: 32,
-                      left: 40,
-                      child: _con.user?.apiToken != null
-                          ? ShoppingCartFloatButtonWidget()
-                          : Container(),
-                    ),
                   ],
                 ),
-        ));
+              ),
+            ),
+            bottom: -1,
+            left: 0,
+            right: 0,
+          ),
+          Positioned(
+              left: -80.0,
+              right: 100.0,
+              top: cardTopPosition > 0 ? cardTopPosition : 0,
+              bottom: 30.0,
+              child: Opacity(
+                  opacity: percent,
+                  child: Padding(
+                      padding: EdgeInsets.symmetric(
+                          vertical: 80 * percent, horizontal: 120 * percent),
+                      child: Card(
+                        color: Colors.yellow,
+                        elevation: 20.0,
+                        child: Center(
+                          child: Text(
+                            "1500 ريال / اليوم",
+                            style: Theme.of(context).textTheme.headline3,
+                          ),
+                        ),
+                      ))))
+        ],
+      ),
+    );
+  }
+
+  @override
+  double get maxExtent => expandedHeight + expandedHeight / 2;
+
+  @override
+  double get minExtent => kToolbarHeight;
+
+  @override
+  bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) {
+    return true;
   }
 }

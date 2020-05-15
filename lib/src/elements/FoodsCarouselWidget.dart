@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:order_client_app/src/elements/FoodsCarouselItemWidget.dart';
-import 'package:order_client_app/src/helpers/shimmer_helper.dart';
-import 'package:order_client_app/src/models/food.dart';
+import 'package:trip_car_client/src/elements/FoodsCarouselItemWidget.dart';
+import 'package:trip_car_client/src/helpers/shimmer_helper.dart';
+import 'package:trip_car_client/src/models/food.dart';
 
 class FoodsCarouselWidget extends StatelessWidget {
   List<Food> foodsList;

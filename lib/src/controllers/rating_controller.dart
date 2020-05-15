@@ -1,13 +1,13 @@
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
-import 'package:order_client_app/src/models/food_order.dart';
-import 'package:order_client_app/src/models/rating2.dart';
-import 'package:order_client_app/src/models/user.dart';
-import 'package:order_client_app/src/repository/rate_repository.dart'
-    as rateRepo;
-import 'package:order_client_app/src/repository/user_repository.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
+import 'package:trip_car_client/src/models/food_order.dart';
+import 'package:trip_car_client/src/models/rating2.dart';
+import 'package:trip_car_client/src/models/user.dart';
+import 'package:trip_car_client/src/repository/rate_repository.dart'
+    as rateRepo;
+import 'package:trip_car_client/src/repository/user_repository.dart';
 
 class RatingController extends ControllerMVC {
   FoodOrder food;

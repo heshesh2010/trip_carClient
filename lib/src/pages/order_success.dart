@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
-import 'package:order_client_app/generated/i18n.dart';
-import 'package:order_client_app/src/controllers/checkout_controller.dart';
-import 'package:order_client_app/src/helpers/helper.dart';
-import 'package:order_client_app/src/models/payment.dart';
-import 'package:order_client_app/src/repository/settings_repository.dart';
+import 'package:trip_car_client/generated/i18n.dart';
+import 'package:trip_car_client/src/controllers/checkout_controller.dart';
+import 'package:trip_car_client/src/helpers/helper.dart';
+import 'package:trip_car_client/src/models/payment.dart';
+import 'package:trip_car_client/src/repository/settings_repository.dart';
 
 class OrderSuccessWidget extends StatefulWidget {
   final Payment payment;

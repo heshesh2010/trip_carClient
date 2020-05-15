@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
-import 'package:order_client_app/generated/i18n.dart';
-import 'package:order_client_app/src/controllers/home_controller.dart';
-import 'package:order_client_app/src/elements/CardsAdsCarouselWidget.dart';
-import 'package:order_client_app/src/elements/CardsCarouselWidget.dart';
-import 'package:order_client_app/src/elements/CaregoriesCarouselWidget.dart';
-import 'package:order_client_app/src/elements/FoodsCarouselWidget.dart';
-import 'package:order_client_app/src/elements/GridWidget.dart';
-import 'package:order_client_app/src/elements/ReviewsListWidget.dart';
-import 'package:order_client_app/src/elements/SearchBarWidget.dart';
+import 'package:trip_car_client/generated/i18n.dart';
+import 'package:trip_car_client/src/controllers/home_controller.dart';
+import 'package:trip_car_client/src/elements/CardsCarouselWidget.dart';
+import 'package:trip_car_client/src/elements/CaregoriesCarouselWidget.dart';
+import 'package:trip_car_client/src/elements/FoodsCarouselWidget.dart';
+import 'package:trip_car_client/src/elements/ReviewsListWidget.dart';
+import 'package:trip_car_client/src/elements/SearchBarWidget.dart';
 
 class HomeWidget extends StatefulWidget {
   @override
@@ -35,43 +33,33 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: SearchBarWidget(),
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 15, left: 20, right: 20),
-              child: ListTile(
-                dense: true,
-                contentPadding: EdgeInsets.symmetric(vertical: 0),
-                leading: Icon(
-                  Icons.wb_incandescent,
-                  color: Theme.of(context).hintColor,
-                ),
-                title: Text(
-                  S.of(context).ads,
-                  style: Theme.of(context).textTheme.display1,
-                ),
-                subtitle: Text(
-                  S.of(context).ads_desc,
-                  style: Theme.of(context).textTheme.caption,
-                ),
+            ListTile(
+              leading: Icon(
+                Icons.directions_car,
+                color: Theme.of(context).hintColor,
               ),
-            ),
-            CardsAdsCarouselWidget(adsList: _con.ads, heroTag: 'home_ads'),
-            Padding(
-              padding: const EdgeInsets.only(top: 15, left: 20, right: 20),
-              child: ListTile(
-                dense: true,
-                contentPadding: EdgeInsets.symmetric(vertical: 0),
-                leading: Icon(
-                  Icons.stars,
-                  color: Theme.of(context).hintColor,
-                ),
-                title: Text(
-                  S.of(context).top_restaurants,
-                  style: Theme.of(context).textTheme.display1,
-                ),
-                subtitle: Text(
-                  S.of(context).ordered_by_nearby_first,
-                  style: Theme.of(context).textTheme.caption,
-                ),
+              title: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                        border: Border(
+                            bottom: BorderSide(
+                      color: Colors.yellow, // Text colour here
+                      width: 2.0, // Underline width
+                    ))),
+                    child: Text(
+                      "السيارات المضافة حديثا",
+                      style: TextStyle(
+                        color: Colors.black, // Text colour here
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              subtitle: Text(
+                S.of(context).ordered_by_nearby_first,
+                style: Theme.of(context).textTheme.caption,
               ),
             ),
             CardsCarouselWidget(
@@ -118,28 +106,6 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
             ),
             CategoriesCarouselWidget(
               categories: _con.categories,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: ListTile(
-                dense: true,
-                contentPadding: EdgeInsets.symmetric(vertical: 0),
-                leading: Icon(
-                  Icons.trending_up,
-                  color: Theme.of(context).hintColor,
-                ),
-                title: Text(
-                  S.of(context).most_popular,
-                  style: Theme.of(context).textTheme.display1,
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: GridWidget(
-                restaurantsList: _con.topRestaurants,
-                heroTag: 'home_restaurants',
-              ),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),

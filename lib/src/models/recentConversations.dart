@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:order_client_app/src/models/restaurant.dart';
+import 'package:trip_car_client/src/models/restaurant.dart';
 
 import 'Message.dart';
 import 'order.dart';

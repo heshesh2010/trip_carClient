@@ -45,7 +45,7 @@ class AppColors {
   Color _secondColor = Color(0xFF121212);
   Color _secondDarkColor = Color(0xFFffffff);
 
-  Color _accentColor = Color(0xFF891b1e);
+  Color _accentColor = Color(0xFF121212);
   Color _accentDarkColor = Color(0xFFf7cb00);
 
   Color _nonActiveColorLight = Color(0xFF757575);

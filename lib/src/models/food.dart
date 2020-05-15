@@ -1,9 +1,9 @@
-import 'package:order_client_app/src/models/category.dart';
-import 'package:order_client_app/src/models/extra.dart';
-import 'package:order_client_app/src/models/favorite.dart';
-import 'package:order_client_app/src/models/media.dart';
-import 'package:order_client_app/src/models/review.dart';
-import 'package:order_client_app/src/models/size.dart';
+import 'package:trip_car_client/src/models/category.dart';
+import 'package:trip_car_client/src/models/extra.dart';
+import 'package:trip_car_client/src/models/favorite.dart';
+import 'package:trip_car_client/src/models/media.dart';
+import 'package:trip_car_client/src/models/review.dart';
+import 'package:trip_car_client/src/models/size.dart';
 
 class Food {
   String id;

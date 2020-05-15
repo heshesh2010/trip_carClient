@@ -3,12 +3,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:global_configuration/global_configuration.dart';
-import 'package:order_client_app/config/app_config.dart' as config;
-import 'package:order_client_app/generated/i18n.dart';
-import 'package:order_client_app/route_generator.dart';
-import 'package:order_client_app/src/repository/settings_repository.dart'
-    as settingRepo;
 import 'package:overlay_support/overlay_support.dart';
+import 'package:trip_car_client/config/app_config.dart' as config;
+import 'package:trip_car_client/generated/i18n.dart';
+import 'package:trip_car_client/route_generator.dart';
+import 'package:trip_car_client/src/repository/settings_repository.dart'
+    as settingRepo;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -112,7 +112,7 @@ class MyApp extends StatelessWidget {
                         color: config.AppColors().secondDarkColor(1)),
                     headline6: TextStyle(
                         fontSize: 16.0,
-                        fontWeight: FontWeight.w600,
+                        fontWeight: FontWeight.bold,
                         color: Colors.white),
                     bodyText2: TextStyle(
                         fontSize: 12.0,
@@ -133,7 +133,7 @@ class MyApp extends StatelessWidget {
                   builder: (context, Locale value, _) {
                     print(value);
                     return MaterialApp(
-                      title: 'تطبيق اوردر',
+                      title: 'تطبيق تريب',
                       initialRoute: 'Splash',
                       onGenerateRoute: RouteGenerator.generateRoute,
                       debugShowCheckedModeBanner: false,
@@ -144,7 +144,6 @@ class MyApp extends StatelessWidget {
                         GlobalWidgetsLocalizations.delegate,
                         DefaultCupertinoLocalizations.delegate,
                         GlobalCupertinoLocalizations.delegate,
-                        const FallbackCupertinoLocalisationsDelegate(),
                       ],
                       supportedLocales: S.delegate.supportedLocales,
                       localeListResolutionCallback: S.delegate

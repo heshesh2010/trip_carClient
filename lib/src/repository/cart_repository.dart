@@ -3,10 +3,10 @@ import 'dart:io';
 
 import 'package:global_configuration/global_configuration.dart';
 import 'package:http/http.dart' as http;
-import 'package:order_client_app/src/helpers/helper.dart';
-import 'package:order_client_app/src/models/cart.dart';
-import 'package:order_client_app/src/models/user.dart';
-import 'package:order_client_app/src/repository/user_repository.dart'
+import 'package:trip_car_client/src/helpers/helper.dart';
+import 'package:trip_car_client/src/models/cart.dart';
+import 'package:trip_car_client/src/models/user.dart';
+import 'package:trip_car_client/src/repository/user_repository.dart'
     as userRepo;
 
 Future<Stream<Cart>> getCart() async {

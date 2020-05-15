@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
-import 'package:order_client_app/generated/i18n.dart';
-import 'package:order_client_app/src/controllers/profile_controller.dart';
-import 'package:order_client_app/src/elements/CircularLoadingWidget.dart';
-import 'package:order_client_app/src/elements/OrderItemWidget.dart';
-import 'package:order_client_app/src/elements/ProfileAvatarWidget.dart';
+import 'package:trip_car_client/generated/i18n.dart';
+import 'package:trip_car_client/src/controllers/profile_controller.dart';
+import 'package:trip_car_client/src/elements/CircularLoadingWidget.dart';
+import 'package:trip_car_client/src/elements/OrderItemWidget.dart';
+import 'package:trip_car_client/src/elements/ProfileAvatarWidget.dart';
 
 class ProfileWidget extends StatefulWidget {
   @override

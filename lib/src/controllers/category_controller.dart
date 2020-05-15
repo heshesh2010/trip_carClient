@@ -1,12 +1,12 @@
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
-import 'package:order_client_app/src/models/category.dart';
-import 'package:order_client_app/src/models/food.dart';
-import 'package:order_client_app/src/models/user.dart';
-import 'package:order_client_app/src/repository/category_repository.dart';
-import 'package:order_client_app/src/repository/food_repository.dart';
-import 'package:order_client_app/src/repository/user_repository.dart';
+import 'package:trip_car_client/src/models/category.dart';
+import 'package:trip_car_client/src/models/food.dart';
+import 'package:trip_car_client/src/models/user.dart';
+import 'package:trip_car_client/src/repository/category_repository.dart';
+import 'package:trip_car_client/src/repository/food_repository.dart';
+import 'package:trip_car_client/src/repository/user_repository.dart';
 
 class CategoryController extends ControllerMVC {
   List<Food> foods = <Food>[];

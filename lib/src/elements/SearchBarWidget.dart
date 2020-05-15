@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:order_client_app/generated/i18n.dart';
-import 'package:order_client_app/src/elements/SearchWidget.dart';
+import 'package:trip_car_client/generated/i18n.dart';
+import 'package:trip_car_client/src/elements/SearchWidget.dart';
 
 class SearchBarWidget extends StatelessWidget {
   const SearchBarWidget({
@@ -29,7 +29,10 @@ class SearchBarWidget extends StatelessWidget {
             ),
             Text(
               S.of(context).search_for_restaurants_or_foods,
-              style: Theme.of(context).textTheme.caption.merge(TextStyle(fontSize: 14)),
+              style: Theme.of(context)
+                  .textTheme
+                  .caption
+                  .merge(TextStyle(fontSize: 14)),
             )
           ],
         ),

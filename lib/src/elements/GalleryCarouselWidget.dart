@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:order_client_app/src/elements/GalleryItemWidget.dart';
-import 'package:order_client_app/src/models/gallery.dart';
+import 'package:trip_car_client/src/elements/GalleryItemWidget.dart';
+import 'package:trip_car_client/src/models/gallery.dart';
 
 class ImageThumbCarouselWidget extends StatefulWidget {
   List<Gallery> galleriesList;
@@ -8,7 +8,8 @@ class ImageThumbCarouselWidget extends StatefulWidget {
   ImageThumbCarouselWidget({Key key, this.galleriesList}) : super(key: key);
 
   @override
-  _ImageThumbCarouselWidgetState createState() => _ImageThumbCarouselWidgetState();
+  _ImageThumbCarouselWidgetState createState() =>
+      _ImageThumbCarouselWidgetState();
 }
 
 class _ImageThumbCarouselWidgetState extends State<ImageThumbCarouselWidget> {
@@ -28,7 +29,8 @@ class _ImageThumbCarouselWidgetState extends State<ImageThumbCarouselWidget> {
                   splashColor: Theme.of(context).accentColor.withOpacity(0.8),
                   highlightColor: Colors.transparent,
                   onTap: () {},
-                  child: GalleryItemWidget(gallery: widget.galleriesList.elementAt(index)),
+                  child: GalleryItemWidget(
+                      gallery: widget.galleriesList.elementAt(index)),
                 );
               },
             ),

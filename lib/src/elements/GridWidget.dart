@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:order_client_app/src/elements/GridItemWidget.dart';
-import 'package:order_client_app/src/models/restaurant.dart';
+import 'package:trip_car_client/src/elements/GridItemWidget.dart';
+import 'package:trip_car_client/src/models/restaurant.dart';
 
 class GridWidget extends StatelessWidget {
   List<Restaurant> restaurantsList;

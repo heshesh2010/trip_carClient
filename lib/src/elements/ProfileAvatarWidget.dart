@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:order_client_app/src/models/user.dart';
+import 'package:trip_car_client/src/models/user.dart';
 
 class ProfileAvatarWidget extends StatelessWidget {
   final User user;

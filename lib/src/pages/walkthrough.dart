@@ -2,9 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
-import 'package:order_client_app/config/app_config.dart' as config;
-import 'package:order_client_app/generated/i18n.dart';
-import 'package:order_client_app/src/controllers/walkthrough_controller.dart';
+import 'package:trip_car_client/config/app_config.dart' as config;
+import 'package:trip_car_client/generated/i18n.dart';
+import 'package:trip_car_client/src/controllers/walkthrough_controller.dart';
 
 class Walkthrough extends StatelessWidget {
   @override

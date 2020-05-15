@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:order_client_app/src/elements/RecipeListItemWidget.dart';
+import 'package:trip_car_client/src/elements/RecipeListItemWidget.dart';
 
 class RecipeListWidget extends StatelessWidget {
   @override

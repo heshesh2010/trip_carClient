@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
-import 'package:order_client_app/generated/i18n.dart';
-import 'package:order_client_app/src/controllers/restaurant_controller.dart';
-import 'package:order_client_app/src/elements/CircularLoadingWidget.dart';
-import 'package:order_client_app/src/elements/DrawerWidget.dart';
-import 'package:order_client_app/src/elements/FoodItemWidget.dart';
-import 'package:order_client_app/src/elements/FoodsCarouselWidget.dart';
-import 'package:order_client_app/src/elements/SearchBarWidget.dart';
-import 'package:order_client_app/src/elements/ShoppingCartButtonWidget.dart';
-import 'package:order_client_app/src/models/route_argument.dart';
+import 'package:trip_car_client/generated/i18n.dart';
+import 'package:trip_car_client/src/controllers/restaurant_controller.dart';
+import 'package:trip_car_client/src/elements/CircularLoadingWidget.dart';
+import 'package:trip_car_client/src/elements/DrawerWidget.dart';
+import 'package:trip_car_client/src/elements/FoodItemWidget.dart';
+import 'package:trip_car_client/src/elements/FoodsCarouselWidget.dart';
+import 'package:trip_car_client/src/elements/SearchBarWidget.dart';
+import 'package:trip_car_client/src/elements/ShoppingCartButtonWidget.dart';
+import 'package:trip_car_client/src/models/route_argument.dart';
 
 class MenuWidget extends StatefulWidget {
   @override

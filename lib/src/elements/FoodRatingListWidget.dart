@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:order_client_app/src/controllers/rating_controller.dart';
-import 'package:order_client_app/src/elements/EmptyReviewsWidget.dart';
-import 'package:order_client_app/src/models/order.dart';
+import 'package:trip_car_client/src/controllers/rating_controller.dart';
+import 'package:trip_car_client/src/elements/EmptyReviewsWidget.dart';
+import 'package:trip_car_client/src/models/order.dart';
 
 import 'FoodOrderRatingItemWidget.dart';
 import 'ResturantRatingItemWidget.dart';
@@ -31,7 +31,7 @@ class FoodOrderRatingListWidget extends StatelessWidget {
                     return FoodOrderRatingItemWidget(
                         foodOrder: order.foodOrders.elementAt(index),
                         con: controller,
-                        listIndex:index);
+                        listIndex: index);
                   },
                   separatorBuilder: (context, index) {
                     return SizedBox(height: 20);

@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:order_client_app/generated/i18n.dart';
-import 'package:order_client_app/src/controllers/user_controller.dart';
-import 'package:order_client_app/src/helpers/input_helper.dart';
+import 'package:trip_car_client/generated/i18n.dart';
+import 'package:trip_car_client/src/controllers/user_controller.dart';
+import 'package:trip_car_client/src/helpers/input_helper.dart';
 
 typedef void CaretMoved(Offset globalCaretPosition);
 typedef void TextChanged(String text);

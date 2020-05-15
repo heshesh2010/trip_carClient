@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
-import 'package:order_client_app/generated/i18n.dart';
-import 'package:order_client_app/src/controllers/notification_controller.dart';
-import 'package:order_client_app/src/elements/EmptyNotificationsWidget.dart';
-import 'package:order_client_app/src/elements/NotificationItemWidget.dart';
+import 'package:trip_car_client/generated/i18n.dart';
+import 'package:trip_car_client/src/controllers/notification_controller.dart';
+import 'package:trip_car_client/src/elements/EmptyNotificationsWidget.dart';
+import 'package:trip_car_client/src/elements/NotificationItemWidget.dart';
 
 class NotificationsWidget extends StatefulWidget {
   @override

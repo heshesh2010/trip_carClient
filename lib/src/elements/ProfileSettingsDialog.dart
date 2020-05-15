@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:order_client_app/generated/i18n.dart';
-import 'package:order_client_app/src/models/user.dart';
+import 'package:trip_car_client/generated/i18n.dart';
+import 'package:trip_car_client/src/models/user.dart';
 
 class ProfileSettingsDialog extends StatefulWidget {
   User user;
@@ -70,12 +70,12 @@ class _ProfileSettingsDialogState extends State<ProfileSettingsDialog> {
                           keyboardType: TextInputType.text,
                           decoration: getInputDecoration(
                               hintText: '0096659XXXXXX',
-                              labelText: S.of(context).phone),
-                          initialValue: widget.user.phone,
+                              labelText: S.of(context).mobile),
+                          initialValue: widget.user.mobile,
                           validator: (input) => input.trim().length < 3
                               ? S.of(context).should_be_more_than_3_letters
                               : null,
-                          onSaved: (input) => widget.user.phone = input,
+                          onSaved: (input) => widget.user.mobile = input,
                         ),
                         new TextFormField(
                           style: TextStyle(color: Theme.of(context).hintColor),

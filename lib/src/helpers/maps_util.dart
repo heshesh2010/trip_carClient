@@ -1,9 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
-import 'package:order_client_app/src/models/Step.dart';
 
 class MapsUtil {
   static final BASE_URL =
@@ -21,9 +19,6 @@ class MapsUtil {
       Map values = jsonDecode(response.body);
 
       return values["routes"][0]["overview_polyline"]["points"];
-
     });
   }
-
-
 }

@@ -1,11 +1,11 @@
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
-import 'package:order_client_app/src/models/order.dart';
-import 'package:order_client_app/src/models/order_status.dart';
-import 'package:order_client_app/src/models/user.dart';
-import 'package:order_client_app/src/repository/order_repository.dart';
-import 'package:order_client_app/src/repository/user_repository.dart';
+import 'package:trip_car_client/src/models/order.dart';
+import 'package:trip_car_client/src/models/order_status.dart';
+import 'package:trip_car_client/src/models/user.dart';
+import 'package:trip_car_client/src/repository/order_repository.dart';
+import 'package:trip_car_client/src/repository/user_repository.dart';
 
 class OrderController extends ControllerMVC {
   List<Order> orders = <Order>[];
@@ -59,7 +59,7 @@ class OrderController extends ControllerMVC {
   Future<void> refreshOrders() async {
     orders.clear();
     orderStatus.clear();
-    listenForOrders(message: 'تم تحديث قائمة الاوردرات بنجاح');
+    listenForOrders(message: 'تم تحديث قائمة التريبات بنجاح');
     //  listenForOrderStatus();
   }
 }

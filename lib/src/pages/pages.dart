@@ -1,15 +1,16 @@
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:order_client_app/generated/i18n.dart';
-import 'package:order_client_app/src/elements/DrawerWidget.dart';
-import 'package:order_client_app/src/elements/ShoppingCartButtonWidget.dart';
-import 'package:order_client_app/src/models/user.dart';
-import 'package:order_client_app/src/pages/home.dart';
-import 'package:order_client_app/src/pages/notifications.dart';
-import 'package:order_client_app/src/pages/orders.dart';
-import 'package:order_client_app/src/repository/settings_repository.dart'
+import 'package:trip_car_client/generated/i18n.dart';
+import 'package:trip_car_client/src/elements/DrawerWidget.dart';
+import 'package:trip_car_client/src/elements/ShoppingCartButtonWidget.dart';
+import 'package:trip_car_client/src/models/user.dart';
+import 'package:trip_car_client/src/pages/home.dart';
+import 'package:trip_car_client/src/pages/notifications.dart';
+import 'package:trip_car_client/src/pages/orders.dart';
+import 'package:trip_car_client/src/repository/settings_repository.dart'
     as settingsRepo;
-import 'package:order_client_app/src/repository/user_repository.dart';
+import 'package:trip_car_client/src/repository/user_repository.dart';
 
 import 'ChatHomeScreen.dart';
 import 'favorites.dart';
@@ -19,6 +20,8 @@ class PagesTestWidget extends StatefulWidget {
   int currentTab;
   String currentTitle;
   Widget currentPage = HomeWidget();
+  GlobalKey navBarGlobalKey = new GlobalKey<ScaffoldState>();
+
   PagesTestWidget({
     Key key,
     this.currentTab,
@@ -28,12 +31,14 @@ class PagesTestWidget extends StatefulWidget {
 
   @override
   _PagesTestWidgetState createState() {
-    return _PagesTestWidgetState();
+    return _PagesTestWidgetState(this.navBarGlobalKey);
   }
 }
 
 class _PagesTestWidgetState extends State<PagesTestWidget> {
   bool isLogged = false;
+  GlobalKey navBarGlobalKey;
+  _PagesTestWidgetState(this.navBarGlobalKey);
 
   initState() {
     getCurrentUser().then((value) {
@@ -75,7 +80,7 @@ class _PagesTestWidgetState extends State<PagesTestWidget> {
             widget.currentPage = HomeWidget();
             break;
           case 3:
-            widget.currentTitle = "اوردراتي";
+            widget.currentTitle = "تريباتي";
             widget.currentPage = OrdersWidget();
             break;
           case 4:
@@ -118,63 +123,24 @@ class _PagesTestWidgetState extends State<PagesTestWidget> {
         ],
       ),
       body: widget.currentPage,
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        selectedItemColor: Theme.of(context).hintColor,
-        selectedFontSize: 0,
-        unselectedFontSize: 0,
-        iconSize: 22,
-        elevation: 0,
-        backgroundColor: Theme.of(context).accentColor,
-        selectedIconTheme: IconThemeData(size: 28),
-        unselectedItemColor:
-            Theme.of(context).unselectedWidgetColor.withOpacity(1),
-        currentIndex: widget.currentTab,
+      bottomNavigationBar: CurvedNavigationBar(
+        key: navBarGlobalKey,
+        backgroundColor: Theme.of(context).primaryColor,
+        color: Theme.of(context).accentColor,
+        // type: BottomNavigationBarType.fixed,
+        //    selectedItemColor: Theme.of(context).hintColor,
+        // this will be set when a new tab is tapped
+        index: 2,
+        items: <Widget>[
+          Icon(Icons.notifications, size: 30),
+          Icon(Icons.rate_review, size: 30),
+          Icon(Icons.home, size: 30),
+          Icon(Icons.note_add, size: 30),
+          Icon(Icons.chat, size: 30),
+        ],
         onTap: (int i) {
           this._selectTab(i);
         },
-        // this will be set when a new tab is tapped
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.notifications),
-            title: new Container(height: 0.0),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.chat),
-            title: new Container(height: 0.0),
-          ),
-          BottomNavigationBarItem(
-              title: new Container(height: 5.0),
-              icon: Container(
-                width: 42,
-                height: 42,
-                decoration: BoxDecoration(
-                  color: Theme.of(context).primaryColor,
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(50),
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                        color: Theme.of(context).focusColor.withOpacity(0.4),
-                        blurRadius: 40,
-                        offset: Offset(0, 15)),
-                    BoxShadow(
-                        color: Theme.of(context).focusColor.withOpacity(0.4),
-                        blurRadius: 13,
-                        offset: Offset(0, 3))
-                  ],
-                ),
-                child: new Icon(Icons.home, color: Theme.of(context).hintColor),
-              )),
-          BottomNavigationBarItem(
-            icon: new Icon(Icons.fastfood),
-            title: new Container(height: 0.0),
-          ),
-          BottomNavigationBarItem(
-            icon: new Icon(Icons.favorite),
-            title: new Container(height: 0.0),
-          ),
-        ],
       ),
     );
   }

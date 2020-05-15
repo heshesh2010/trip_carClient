@@ -10,10 +10,10 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:html/dom.dart' as dom;
 import 'package:html/parser.dart';
 import 'package:intl/intl.dart';
-import 'package:order_client_app/src/elements/StrikeThroughWidget.dart';
-import 'package:order_client_app/src/models/food_order.dart';
-import 'package:order_client_app/src/models/setting.dart';
-import 'package:order_client_app/src/repository/settings_repository.dart';
+import 'package:trip_car_client/src/elements/StrikeThroughWidget.dart';
+import 'package:trip_car_client/src/models/food_order.dart';
+import 'package:trip_car_client/src/models/setting.dart';
+import 'package:trip_car_client/src/repository/settings_repository.dart';
 
 class Helper {
   // for mapping data retrieved form json array

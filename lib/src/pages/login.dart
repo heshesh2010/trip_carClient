@@ -5,15 +5,15 @@ import 'package:flare_flutter/flare_actor.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
-import 'package:order_client_app/config/app_config.dart' as config;
-import 'package:order_client_app/generated/i18n.dart';
-import 'package:order_client_app/src/controllers/TeddyController.dart';
-import 'package:order_client_app/src/controllers/user_controller.dart';
-import 'package:order_client_app/src/elements/TrackingTextInputEmail.dart';
-import 'package:order_client_app/src/elements/TrackingTextInputPass.dart';
-import 'package:order_client_app/src/repository/user_repository.dart'
-    as userRepo;
 import 'package:rounded_loading_button/rounded_loading_button.dart';
+import 'package:trip_car_client/config/app_config.dart' as config;
+import 'package:trip_car_client/generated/i18n.dart';
+import 'package:trip_car_client/src/controllers/TeddyController.dart';
+import 'package:trip_car_client/src/controllers/user_controller.dart';
+import 'package:trip_car_client/src/elements/TrackingTextInputEmail.dart';
+import 'package:trip_car_client/src/elements/TrackingTextInputPass.dart';
+import 'package:trip_car_client/src/repository/user_repository.dart'
+    as userRepo;
 
 class LoginWidget extends StatefulWidget {
   @override

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
-import 'package:order_client_app/src/controllers/favorite_controller.dart';
-import 'package:order_client_app/src/elements/CircularLoadingWidget.dart';
-import 'package:order_client_app/src/models/route_argument.dart';
+import 'package:trip_car_client/src/controllers/favorite_controller.dart';
+import 'package:trip_car_client/src/elements/CircularLoadingWidget.dart';
+import 'package:trip_car_client/src/models/route_argument.dart';
 
 class DebugWidget extends StatefulWidget {
   RouteArgument routeArgument;
@@ -39,7 +39,10 @@ class _DebugWidgetState extends StateMVC<DebugWidget> {
           centerTitle: true,
           title: Text(
             'Debug',
-            style: Theme.of(context).textTheme.title.merge(TextStyle(letterSpacing: 1.3)),
+            style: Theme.of(context)
+                .textTheme
+                .title
+                .merge(TextStyle(letterSpacing: 1.3)),
           ),
           actions: <Widget>[
             IconButton(

@@ -1,9 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
-import 'package:order_client_app/src/controllers/rating_controller.dart';
-import 'package:order_client_app/src/elements/FoodRatingListWidget.dart';
-import 'package:order_client_app/src/models/route_argument.dart';
+import 'package:trip_car_client/src/controllers/rating_controller.dart';
+import 'package:trip_car_client/src/elements/FoodRatingListWidget.dart';
+import 'package:trip_car_client/src/models/route_argument.dart';
 
 class SubmitRate extends StatefulWidget {
   final RouteArgument routeArgument;

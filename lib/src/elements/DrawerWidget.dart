@@ -3,9 +3,9 @@ import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
-import 'package:order_client_app/src/controllers/profile_controller.dart';
-import 'package:order_client_app/src/repository/settings_repository.dart';
-import 'package:order_client_app/src/repository/user_repository.dart';
+import 'package:trip_car_client/src/controllers/profile_controller.dart';
+import 'package:trip_car_client/src/repository/settings_repository.dart';
+import 'package:trip_car_client/src/repository/user_repository.dart';
 
 class DrawerWidget extends StatefulWidget {
   @override
@@ -100,6 +100,15 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
               ),
               ListTile(
                 onTap: () {
+                  Navigator.of(context).pushNamed('Languages');
+                },
+                leading: Icon(
+                  Icons.translate,
+                  color: Theme.of(context).focusColor.withOpacity(1),
+                ),
+              ),
+              ListTile(
+                onTap: () {
                   if (Theme.of(context).brightness == Brightness.dark) {
                     setBrightness(Brightness.light);
                     DynamicTheme.of(context).setBrightness(Brightness.light);
@@ -188,6 +197,15 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
                   title: Text(
                     "الاعدادت",
                     style: Theme.of(context).textTheme.subhead,
+                  ),
+                ),
+                ListTile(
+                  onTap: () {
+                    Navigator.of(context).pushNamed('Languages');
+                  },
+                  leading: Icon(
+                    Icons.translate,
+                    color: Theme.of(context).focusColor.withOpacity(1),
                   ),
                 ),
                 ListTile(

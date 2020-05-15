@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import 'package:order_client_app/src/models/payment.dart';
-import 'package:order_client_app/src/models/restaurant.dart';
-import 'package:order_client_app/src/models/user.dart';
+import 'package:trip_car_client/src/models/payment.dart';
+import 'package:trip_car_client/src/models/restaurant.dart';
+import 'package:trip_car_client/src/models/user.dart';
 
 import 'food_order.dart';
 import 'order_status.dart';

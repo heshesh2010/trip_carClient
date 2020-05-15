@@ -6,8 +6,8 @@ import 'package:flutter/services.dart';
 import 'package:global_configuration/global_configuration.dart';
 import 'package:http/http.dart' as http;
 import 'package:location/location.dart';
-import 'package:order_client_app/src/models/setting.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:trip_car_client/src/models/setting.dart';
 
 Setting setting;
 LocationData locationData;
@@ -17,12 +17,16 @@ Future<Setting> initSettings() async {
 //  getCurrentUser().then((User _user) async {
 ////    final String _apiToken = 'api_token=${_user.apiToken}&';
 //  });
-  final String url = '${GlobalConfiguration().getString('api_base_url')}settings';
-  final response = await http.get(url, headers: {HttpHeaders.contentTypeHeader: 'application/json'});
-  if (response.statusCode == 200 && response.headers.containsValue('application/json')) {
+  final String url =
+      '${GlobalConfiguration().getString('api_base_url')}settings';
+  final response = await http
+      .get(url, headers: {HttpHeaders.contentTypeHeader: 'application/json'});
+  if (response.statusCode == 200 &&
+      response.headers.containsValue('application/json')) {
     if (json.decode(response.body)['data'] != null) {
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      await prefs.setString('settings', json.encode(json.decode(response.body)['data']));
+      await prefs.setString(
+          'settings', json.encode(json.decode(response.body)['data']));
       setting = Setting.fromJSON(json.decode(response.body)['data']);
     }
   }
@@ -65,13 +69,17 @@ Future<LocationData> setCurrentLocation() async {
 Future<LocationData> getCurrentLocation() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   if (prefs.containsKey('currentLat') && prefs.containsKey('currentLon')) {
-    locationData =
-        LocationData.fromMap({"latitude": prefs.getDouble('currentLat'), "longitude": prefs.getDouble('currentLon')});
+    locationData = LocationData.fromMap({
+      "latitude": prefs.getDouble('currentLat'),
+      "longitude": prefs.getDouble('currentLon')
+    });
   } else {
     setCurrentLocation().then((value) {
       if (prefs.containsKey('currentLat') && prefs.containsKey('currentLon')) {
-        locationData = LocationData.fromMap(
-            {"latitude": prefs.getDouble('currentLat'), "longitude": prefs.getDouble('currentLon')});
+        locationData = LocationData.fromMap({
+          "latitude": prefs.getDouble('currentLat'),
+          "longitude": prefs.getDouble('currentLon')
+        });
       }
     });
   }
@@ -80,5 +88,7 @@ Future<LocationData> getCurrentLocation() async {
 
 void setBrightness(Brightness brightness) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  brightness == Brightness.dark ? prefs.setBool("isDark", true) : prefs.setBool("isDark", false);
+  brightness == Brightness.dark
+      ? prefs.setBool("isDark", true)
+      : prefs.setBool("isDark", false);
 }

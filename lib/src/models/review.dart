@@ -1,4 +1,4 @@
-import 'package:order_client_app/src/models/user.dart';
+import 'package:trip_car_client/src/models/user.dart';
 
 class Review {
   String id;

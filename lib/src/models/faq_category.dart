@@ -1,4 +1,4 @@
-import 'package:order_client_app/src/models/faq.dart';
+import 'package:trip_car_client/src/models/faq.dart';
 
 class FaqCategory {
   String id;
@@ -10,6 +10,10 @@ class FaqCategory {
   FaqCategory.fromJSON(Map<String, dynamic> jsonMap) {
     id = jsonMap['id'].toString();
     name = jsonMap['faqs'] != null ? jsonMap['name'].toString() : '';
-    faqs = jsonMap['faqs'] != null ? List.from(jsonMap['faqs']).map((element) => Faq.fromJSON(element)).toList() : null;
+    faqs = jsonMap['faqs'] != null
+        ? List.from(jsonMap['faqs'])
+            .map((element) => Faq.fromJSON(element))
+            .toList()
+        : null;
   }
 }

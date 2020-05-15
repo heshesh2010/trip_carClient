@@ -4,17 +4,17 @@ import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:my_fatoorah/my_fatoorah.dart';
-import 'package:order_client_app/src/models/cart.dart';
-import 'package:order_client_app/src/models/order.dart';
-import 'package:order_client_app/src/models/payment.dart';
-import 'package:order_client_app/src/models/user.dart';
-import 'package:order_client_app/src/repository/cart_repository.dart';
-import 'package:order_client_app/src/repository/order_repository.dart'
+import 'package:trip_car_client/src/models/cart.dart';
+import 'package:trip_car_client/src/models/order.dart';
+import 'package:trip_car_client/src/models/payment.dart';
+import 'package:trip_car_client/src/models/user.dart';
+import 'package:trip_car_client/src/repository/cart_repository.dart';
+import 'package:trip_car_client/src/repository/order_repository.dart'
     as orderRepo;
-import 'package:order_client_app/src/repository/settings_repository.dart';
-import 'package:order_client_app/src/repository/settings_repository.dart'
+import 'package:trip_car_client/src/repository/settings_repository.dart';
+import 'package:trip_car_client/src/repository/settings_repository.dart'
     as settingRepo;
-import 'package:order_client_app/src/repository/user_repository.dart';
+import 'package:trip_car_client/src/repository/user_repository.dart';
 
 class CheckoutController extends ControllerMVC {
   List<Cart> carts = <Cart>[];
@@ -90,7 +90,7 @@ class CheckoutController extends ControllerMVC {
       request: MyfatoorahRequest(
         currencyIso: Country.SaudiArabia,
         customerEmail: currentUser.email,
-        customerMobile: currentUser.phone,
+        customerMobile: currentUser.mobile,
         customerName: currentUser.name,
         successUrl:
             "https://assets.materialup.com/uploads/473ef52c-8b96-46f7-9771-cac4b112ae28/preview.png",

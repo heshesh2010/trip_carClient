@@ -1,9 +1,9 @@
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
-import 'package:order_client_app/src/controllers/cart_controller.dart';
-import 'package:order_client_app/src/models/food.dart';
-import 'package:order_client_app/src/models/route_argument.dart';
+import 'package:trip_car_client/src/controllers/cart_controller.dart';
+import 'package:trip_car_client/src/models/food.dart';
+import 'package:trip_car_client/src/models/route_argument.dart';
 
 class ShoppingCartFloatButtonWidget extends StatefulWidget {
   const ShoppingCartFloatButtonWidget({

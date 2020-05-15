@@ -1,15 +1,15 @@
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
-import 'package:order_client_app/src/models/food.dart';
-import 'package:order_client_app/src/models/gallery.dart';
-import 'package:order_client_app/src/models/restaurant.dart';
-import 'package:order_client_app/src/models/review.dart';
-import 'package:order_client_app/src/models/user.dart';
-import 'package:order_client_app/src/repository/food_repository.dart';
-import 'package:order_client_app/src/repository/gallery_repository.dart';
-import 'package:order_client_app/src/repository/restaurant_repository.dart';
-import 'package:order_client_app/src/repository/user_repository.dart';
+import 'package:trip_car_client/src/models/food.dart';
+import 'package:trip_car_client/src/models/gallery.dart';
+import 'package:trip_car_client/src/models/restaurant.dart';
+import 'package:trip_car_client/src/models/review.dart';
+import 'package:trip_car_client/src/models/user.dart';
+import 'package:trip_car_client/src/repository/food_repository.dart';
+import 'package:trip_car_client/src/repository/gallery_repository.dart';
+import 'package:trip_car_client/src/repository/restaurant_repository.dart';
+import 'package:trip_car_client/src/repository/user_repository.dart';
 
 class RestaurantController extends ControllerMVC {
   Restaurant restaurant;

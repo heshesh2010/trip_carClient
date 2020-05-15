@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:order_client_app/src/models/media.dart';
-import 'package:order_client_app/src/models/restaurant.dart';
+import 'package:trip_car_client/src/models/media.dart';
+import 'package:trip_car_client/src/models/restaurant.dart';
 
 class User {
   int id;
@@ -11,7 +11,7 @@ class User {
   String password;
   String apiToken;
   String deviceToken;
-  String phone;
+  String mobile;
   String address;
   String bio;
   List<Media> media;
@@ -26,7 +26,7 @@ class User {
       this.password,
       this.apiToken,
       this.deviceToken,
-      this.phone,
+      this.mobile,
       this.address,
       this.bio,
       this.media,
@@ -41,9 +41,9 @@ class User {
     apiToken = jsonMap['api_token'];
     deviceToken = jsonMap['device_token'];
     try {
-      phone = jsonMap['custom_fields']['phone']['view'];
+      mobile = jsonMap['custom_fields']['phone']['view'];
     } catch (e) {
-      phone = "";
+      mobile = "";
     }
     try {
       address = jsonMap['custom_fields']['address']['view'];
@@ -74,7 +74,7 @@ class User {
     map["password"] = password;
     map["api_token"] = apiToken;
     map["device_token"] = deviceToken;
-    map["phone"] = phone;
+    map["mobile"] = mobile;
     map["address"] = address;
     map["bio"] = bio;
     map['media'] = List<dynamic>.from(media.map((x) => x.toMap()));
@@ -90,7 +90,7 @@ class User {
     map["password"] = password;
     map["api_token"] = apiToken;
     map["device_token"] = deviceToken;
-    map["phone"] = phone;
+    map["phone"] = mobile;
     map["address"] = address;
     map["bio"] = bio;
 
@@ -105,7 +105,7 @@ class User {
     map["password"] = password;
     map["api_token"] = apiToken;
     map["device_token"] = deviceToken;
-    map["phone"] = phone;
+    map["phone"] = mobile;
     map["address"] = address;
     map["bio"] = bio;
     map["image"] = profileImage64 == null

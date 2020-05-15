@@ -4,12 +4,12 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
-import 'package:order_client_app/src/controllers/messages_controller.dart';
-import 'package:order_client_app/src/helpers/helper.dart';
-import 'package:order_client_app/src/helpers/shimmer_helper.dart';
-import 'package:order_client_app/src/models/Message.dart';
-import 'package:order_client_app/src/models/order.dart';
-import 'package:order_client_app/src/models/recentConversations.dart';
+import 'package:trip_car_client/src/controllers/messages_controller.dart';
+import 'package:trip_car_client/src/helpers/helper.dart';
+import 'package:trip_car_client/src/helpers/shimmer_helper.dart';
+import 'package:trip_car_client/src/models/Message.dart';
+import 'package:trip_car_client/src/models/order.dart';
+import 'package:trip_car_client/src/models/recentConversations.dart';
 
 final ThemeData kDefaultTheme = new ThemeData(
   primarySwatch: Colors.purple,
@@ -141,8 +141,8 @@ class ChatScreenState extends StateMVC<ChatScreen>
       appBar: AppBar(
         title: Text(
           widget.recentConversations == null
-              ? "محادثة مع ${widget.order.restaurant.name}   اوردر رقم # ${widget.order.orderNumber}"
-              : "محادثة مع ${widget.recentConversations.restaurant.name}   اوردر رقم # ${widget.recentConversations.orderId}",
+              ? "محادثة مع ${widget.order.restaurant.name}   تريب رقم # ${widget.order.orderNumber}"
+              : "محادثة مع ${widget.recentConversations.restaurant.name}   تريب رقم # ${widget.recentConversations.orderId}",
           style: TextStyle(
             fontSize: 15.0,
             fontWeight: FontWeight.bold,

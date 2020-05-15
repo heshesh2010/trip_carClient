@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
-import 'package:order_client_app/generated/i18n.dart';
-import 'package:order_client_app/src/controllers/search_controller.dart';
-import 'package:order_client_app/src/elements/CardWidget.dart';
-import 'package:order_client_app/src/elements/CircularLoadingWidget.dart';
-import 'package:order_client_app/src/models/route_argument.dart';
+import 'package:trip_car_client/generated/i18n.dart';
+import 'package:trip_car_client/src/controllers/search_controller.dart';
+import 'package:trip_car_client/src/elements/CardWidget.dart';
+import 'package:trip_car_client/src/elements/CircularLoadingWidget.dart';
+import 'package:trip_car_client/src/models/route_argument.dart';
 
 class SearchResultWidget extends StatefulWidget {
   String heroTag;

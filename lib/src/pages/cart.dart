@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
-import 'package:order_client_app/generated/i18n.dart';
-import 'package:order_client_app/src/controllers/cart_controller.dart';
-import 'package:order_client_app/src/elements/CartItemWidget.dart';
-import 'package:order_client_app/src/elements/EmptyCartWidget.dart';
-import 'package:order_client_app/src/helpers/helper.dart';
-import 'package:order_client_app/src/models/route_argument.dart';
-import 'package:order_client_app/src/repository/settings_repository.dart';
+import 'package:trip_car_client/generated/i18n.dart';
+import 'package:trip_car_client/src/controllers/cart_controller.dart';
+import 'package:trip_car_client/src/elements/CartItemWidget.dart';
+import 'package:trip_car_client/src/elements/EmptyCartWidget.dart';
+import 'package:trip_car_client/src/helpers/helper.dart';
+import 'package:trip_car_client/src/models/route_argument.dart';
+import 'package:trip_car_client/src/repository/settings_repository.dart';
 
 class CartWidget extends StatefulWidget {
   RouteArgument routeArgument;

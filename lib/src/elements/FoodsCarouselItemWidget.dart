@@ -1,8 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:order_client_app/src/helpers/helper.dart';
-import 'package:order_client_app/src/models/food.dart';
-import 'package:order_client_app/src/models/route_argument.dart';
+import 'package:trip_car_client/src/helpers/helper.dart';
+import 'package:trip_car_client/src/models/food.dart';
+import 'package:trip_car_client/src/models/route_argument.dart';
 
 class FoodsCarouselItemWidget extends StatelessWidget {
   double marginLeft;
@@ -38,7 +38,8 @@ class FoodsCarouselItemWidget extends StatelessWidget {
                       image: DecorationImage(
                           fit: BoxFit.cover,
                           image: food.image != null
-                              ? CachedNetworkImageProvider(food.image.thumb)
+                              ? CachedNetworkImageProvider(
+                                  "https://saudishift.com/wp-content/uploads/2015/02/2.png")
                               : Image.asset('assets/img/default_food.png')
                                   .image)),
                 ),
@@ -67,13 +68,13 @@ class FoodsCarouselItemWidget extends StatelessWidget {
               child: Column(
                 children: <Widget>[
                   Text(
-                    this.food.name,
+                    "مرسيدس موديل 2018",
                     overflow: TextOverflow.fade,
                     softWrap: false,
                     style: Theme.of(context).textTheme.body1,
                   ),
                   Text(
-                    food.restaurantName ?? "",
+                    "احمد القحطاني " ?? "",
                     overflow: TextOverflow.fade,
                     softWrap: false,
                     style: Theme.of(context).textTheme.caption,

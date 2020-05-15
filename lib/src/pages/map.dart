@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
-import 'package:order_client_app/generated/i18n.dart';
-import 'package:order_client_app/src/controllers/map_controller.dart';
-import 'package:order_client_app/src/elements/CardsCarouselWidget.dart';
-import 'package:order_client_app/src/elements/CircularLoadingWidget.dart';
-import 'package:order_client_app/src/models/restaurant.dart';
-import 'package:order_client_app/src/models/route_argument.dart';
+import 'package:trip_car_client/generated/i18n.dart';
+import 'package:trip_car_client/src/controllers/map_controller.dart';
+import 'package:trip_car_client/src/elements/CardsCarouselWidget.dart';
+import 'package:trip_car_client/src/elements/CircularLoadingWidget.dart';
+import 'package:trip_car_client/src/models/restaurant.dart';
+import 'package:trip_car_client/src/models/route_argument.dart';
 
 class MapWidget extends StatefulWidget {
   RouteArgument routeArgument;
@@ -38,7 +38,10 @@ class _MapWidgetState extends StateMVC<MapWidget> {
         centerTitle: true,
         title: Text(
           S.of(context).maps_explorer,
-          style: Theme.of(context).textTheme.title.merge(TextStyle(letterSpacing: 1.3)),
+          style: Theme.of(context)
+              .textTheme
+              .title
+              .merge(TextStyle(letterSpacing: 1.3)),
         ),
         actions: <Widget>[
           IconButton(

@@ -2,9 +2,9 @@ import 'dart:convert';
 
 import 'package:global_configuration/global_configuration.dart';
 import 'package:http/http.dart' as http;
-import 'package:order_client_app/src/models/rating2.dart';
-import 'package:order_client_app/src/models/user.dart';
-import 'package:order_client_app/src/repository/user_repository.dart';
+import 'package:trip_car_client/src/models/rating2.dart';
+import 'package:trip_car_client/src/models/user.dart';
+import 'package:trip_car_client/src/repository/user_repository.dart';
 
 String url;
 

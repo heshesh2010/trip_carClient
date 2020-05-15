@@ -6,11 +6,11 @@ import 'package:global_configuration/global_configuration.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
-import 'package:order_client_app/src/helpers/helper.dart';
-import 'package:order_client_app/src/helpers/maps_util.dart';
-import 'package:order_client_app/src/models/restaurant.dart';
-import 'package:order_client_app/src/repository/restaurant_repository.dart';
-import 'package:order_client_app/src/repository/settings_repository.dart'
+import 'package:trip_car_client/src/helpers/helper.dart';
+import 'package:trip_car_client/src/helpers/maps_util.dart';
+import 'package:trip_car_client/src/models/restaurant.dart';
+import 'package:trip_car_client/src/repository/restaurant_repository.dart';
+import 'package:trip_car_client/src/repository/settings_repository.dart'
     as sett;
 
 class MapController extends ControllerMVC {

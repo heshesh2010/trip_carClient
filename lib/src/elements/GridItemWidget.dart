@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:order_client_app/src/helpers/helper.dart';
-import 'package:order_client_app/src/models/restaurant.dart';
-import 'package:order_client_app/src/models/route_argument.dart';
+import 'package:trip_car_client/src/helpers/helper.dart';
+import 'package:trip_car_client/src/models/restaurant.dart';
+import 'package:trip_car_client/src/models/route_argument.dart';
 
 class GridItemWidget extends StatelessWidget {
   Restaurant restaurant;

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:order_client_app/src/helpers/helper.dart';
-import 'package:order_client_app/src/models/faq.dart';
+import 'package:trip_car_client/src/helpers/helper.dart';
+import 'package:trip_car_client/src/models/faq.dart';
 
 class FaqItemWidget extends StatelessWidget {
   Faq faq;
@@ -24,10 +24,14 @@ class FaqItemWidget extends StatelessWidget {
             padding: EdgeInsets.all(10),
             decoration: BoxDecoration(
                 color: Theme.of(context).focusColor,
-                borderRadius: BorderRadius.only(topLeft: Radius.circular(5), topRight: Radius.circular(5))),
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(5), topRight: Radius.circular(5))),
             child: Text(
               Helper.skipHtml(this.faq.question),
-              style: Theme.of(context).textTheme.body2.merge(TextStyle(color: Theme.of(context).primaryColor)),
+              style: Theme.of(context)
+                  .textTheme
+                  .body2
+                  .merge(TextStyle(color: Theme.of(context).primaryColor)),
             ),
           ),
           Container(
@@ -35,7 +39,9 @@ class FaqItemWidget extends StatelessWidget {
             padding: EdgeInsets.all(10),
             decoration: BoxDecoration(
                 color: Theme.of(context).primaryColor,
-                borderRadius: BorderRadius.only(bottomRight: Radius.circular(5), bottomLeft: Radius.circular(5))),
+                borderRadius: BorderRadius.only(
+                    bottomRight: Radius.circular(5),
+                    bottomLeft: Radius.circular(5))),
             child: Text(
               Helper.skipHtml(this.faq.answer),
               style: Theme.of(context).textTheme.body1,

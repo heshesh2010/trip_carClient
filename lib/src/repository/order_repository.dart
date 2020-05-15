@@ -3,12 +3,12 @@ import 'dart:io';
 
 import 'package:global_configuration/global_configuration.dart';
 import 'package:http/http.dart' as http;
-import 'package:order_client_app/src/helpers/helper.dart';
-import 'package:order_client_app/src/models/order.dart';
-import 'package:order_client_app/src/models/order_status.dart';
-import 'package:order_client_app/src/models/payment.dart';
-import 'package:order_client_app/src/models/user.dart';
-import 'package:order_client_app/src/repository/user_repository.dart';
+import 'package:trip_car_client/src/helpers/helper.dart';
+import 'package:trip_car_client/src/models/order.dart';
+import 'package:trip_car_client/src/models/order_status.dart';
+import 'package:trip_car_client/src/models/payment.dart';
+import 'package:trip_car_client/src/models/user.dart';
+import 'package:trip_car_client/src/repository/user_repository.dart';
 
 Future<Stream<Order>> getOrders() async {
   User _user = await getCurrentUser();
@@ -87,7 +87,7 @@ Future<Stream<OrderStatus>> getOrderStatus() async {
 
 Future<Payment> addOrder(Order order) async {
   User _user = await getCurrentUser();
-    final String _apiToken = 'api_token=${_user.apiToken}';
+  final String _apiToken = 'api_token=${_user.apiToken}';
   final String url = '${GlobalConfiguration().getString('api_base_url')}orders';
   final client = new http.Client();
   Map params = order.toMap();
@@ -97,9 +97,8 @@ Future<Payment> addOrder(Order order) async {
       HttpHeaders.contentTypeHeader: 'application/json',
       //     HttpHeaders.contentTypeHeader: 'application/json',
       //   HttpHeaders.contentTypeHeader: "application/x-www-form-urlencoded",
-    
+
       HttpHeaders.authorizationHeader: "Bearer ${_user.apiToken}"
-    
     },
     body: json.encode(params),
   );
@@ -111,8 +110,8 @@ String url;
 Future<Order> updateOrder(Order order) async {
   User _user = await getCurrentUser();
 
-  url =
-      '${GlobalConfiguration().getString('api_base_url')}updateOrder/'+order.orderNumber.toString();
+  url = '${GlobalConfiguration().getString('api_base_url')}updateOrder/' +
+      order.orderNumber.toString();
   final client = new http.Client();
   Map params = order.toMapUpdateStatus();
   // params.addAll(_creditCard.toMap());

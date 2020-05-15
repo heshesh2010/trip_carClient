@@ -6,10 +6,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
-import 'package:order_client_app/src/models/user.dart';
-import 'package:order_client_app/src/repository/settings_repository.dart'
+import 'package:trip_car_client/src/models/user.dart';
+import 'package:trip_car_client/src/repository/settings_repository.dart'
     as settingRepo;
-import 'package:order_client_app/src/repository/user_repository.dart'
+import 'package:trip_car_client/src/repository/user_repository.dart'
     as userRepo;
 import 'package:overlay_support/overlay_support.dart';
 

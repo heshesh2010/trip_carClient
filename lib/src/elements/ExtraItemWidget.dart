@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:order_client_app/src/helpers/helper.dart';
-import 'package:order_client_app/src/models/extra.dart';
+import 'package:trip_car_client/src/helpers/helper.dart';
+import 'package:trip_car_client/src/models/extra.dart';
 
 class ExtraItemWidget extends StatefulWidget {
   Extra extra;
@@ -17,7 +17,8 @@ class ExtraItemWidget extends StatefulWidget {
   _ExtraItemWidgetState createState() => _ExtraItemWidgetState();
 }
 
-class _ExtraItemWidgetState extends State<ExtraItemWidget> with SingleTickerProviderStateMixin {
+class _ExtraItemWidgetState extends State<ExtraItemWidget>
+    with SingleTickerProviderStateMixin {
   Animation animation;
   AnimationController animationController;
   Animation<double> sizeCheckAnimation;
@@ -28,8 +29,10 @@ class _ExtraItemWidgetState extends State<ExtraItemWidget> with SingleTickerProv
   @override
   void initState() {
     super.initState();
-    animationController = AnimationController(duration: Duration(milliseconds: 350), vsync: this);
-    CurvedAnimation curve = CurvedAnimation(parent: animationController, curve: Curves.easeOut);
+    animationController =
+        AnimationController(duration: Duration(milliseconds: 350), vsync: this);
+    CurvedAnimation curve =
+        CurvedAnimation(parent: animationController, curve: Curves.easeOut);
     animation = Tween(begin: 0.0, end: 60.0).animate(curve)
       ..addListener(() {
         setState(() {});
@@ -81,7 +84,10 @@ class _ExtraItemWidgetState extends State<ExtraItemWidget> with SingleTickerProv
                 width: 60,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(60)),
-                  image: DecorationImage(image: CachedNetworkImageProvider(widget.extra.image.thumb), fit: BoxFit.cover),
+                  image: DecorationImage(
+                      image:
+                          CachedNetworkImageProvider(widget.extra.image.thumb),
+                      fit: BoxFit.cover),
                 ),
               ),
               Container(
@@ -89,14 +95,18 @@ class _ExtraItemWidgetState extends State<ExtraItemWidget> with SingleTickerProv
                 width: animation.value,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(60)),
-                  color: Theme.of(context).accentColor.withOpacity(opacityAnimation.value),
+                  color: Theme.of(context)
+                      .accentColor
+                      .withOpacity(opacityAnimation.value),
                 ),
                 child: Transform.rotate(
                   angle: rotateCheckAnimation.value,
                   child: Icon(
                     Icons.check,
                     size: sizeCheckAnimation.value,
-                    color: Theme.of(context).primaryColor.withOpacity(opacityCheckAnimation.value),
+                    color: Theme.of(context)
+                        .primaryColor
+                        .withOpacity(opacityCheckAnimation.value),
                   ),
                 ),
               ),
@@ -127,7 +137,8 @@ class _ExtraItemWidgetState extends State<ExtraItemWidget> with SingleTickerProv
                   ),
                 ),
                 SizedBox(width: 8),
-                Helper.getPrice(widget.extra.price, style: Theme.of(context).textTheme.display1),
+                Helper.getPrice(widget.extra.price,
+                    style: Theme.of(context).textTheme.display1),
               ],
             ),
           )

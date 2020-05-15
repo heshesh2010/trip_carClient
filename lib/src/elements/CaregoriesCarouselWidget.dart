@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:order_client_app/src/elements/CategoriesCarouselItemWidget.dart';
-import 'package:order_client_app/src/helpers/shimmer_helper.dart';
-import 'package:order_client_app/src/models/category.dart';
+import 'package:trip_car_client/src/elements/CategoriesCarouselItemWidget.dart';
+import 'package:trip_car_client/src/helpers/shimmer_helper.dart';
+import 'package:trip_car_client/src/models/category.dart';
 
 class CategoriesCarouselWidget extends StatelessWidget {
   List<Category> categories;

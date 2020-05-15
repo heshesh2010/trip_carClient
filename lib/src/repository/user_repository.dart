@@ -3,9 +3,9 @@ import 'dart:io';
 
 import 'package:global_configuration/global_configuration.dart';
 import 'package:http/http.dart' as http;
-import 'package:order_client_app/src/models/tos.dart';
-import 'package:order_client_app/src/models/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:trip_car_client/src/models/tos.dart';
+import 'package:trip_car_client/src/models/user.dart';
 
 User currentUser = new User();
 Tos tos = new Tos();
