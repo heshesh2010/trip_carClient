@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:trip_car_client/config/app_config.dart' as config;
+import 'package:trip_car_client/generated/i18n.dart';
 
 class EmptyReviewsWidget extends StatefulWidget {
   EmptyReviewsWidget({
@@ -77,7 +78,7 @@ class _EmptyReviewsWidgetState extends State<EmptyReviewsWidget> {
               Opacity(
                 opacity: 0.4,
                 child: Text(
-                  'لا يوجد تقييمات بعد',
+                  S.of(context).empty,
                   textAlign: TextAlign.center,
                   style: Theme.of(context)
                       .textTheme

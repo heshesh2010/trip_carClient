@@ -1,104 +1,59 @@
-import 'dart:math';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:trip_car_client/src/helpers/helper.dart';
-import 'package:trip_car_client/src/models/review.dart';
+import 'package:trip_car_client/src/models/car_entity.dart';
 
-// ignore: must_be_immutable
 class ReviewItemWidget extends StatelessWidget {
-  Review review;
+  final CarDataReview review;
 
   ReviewItemWidget({Key key, this.review}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {},
-      child: Wrap(
-        direction: Axis.horizontal,
-        runSpacing: 10,
-        children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Container(
-                height: 65,
-                width: 65,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(100)),
-                    image: DecorationImage(
-                        image: this.review.user.media != null
-                            ? CachedNetworkImageProvider(
-                                this.review.user.media.first.thumb)
-                            : Image.asset('assets/img/default.png').image)),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: <Widget>[
+        Container(
+            height: 75,
+            width: 75,
+            child: CachedNetworkImage(
+              fit: BoxFit.cover,
+              imageUrl: review?.user?.image ?? "",
+              placeholder: (context, url) => Image.asset(
+                'assets/img/loading.gif',
+                fit: BoxFit.cover,
               ),
-              SizedBox(width: 15),
-              Flexible(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Expanded(
-                          child: Text(
-                            review.user.name,
-                            overflow: TextOverflow.fade,
-                            softWrap: false,
-                            maxLines: 2,
-                            style: Theme.of(context).textTheme.title.merge(
-                                TextStyle(color: Theme.of(context).hintColor)),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 32,
-                          child: Chip(
-                            padding: EdgeInsets.all(0),
-                            label: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Text(review.rate.toString(),
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyText1
-                                        .merge(TextStyle(
-                                            color:
-                                                Theme.of(context).hintColor))),
-                                Icon(
-                                  Icons.star_border,
-                                  color: Theme.of(context).hintColor,
-                                  size: 16,
-                                ),
-                              ],
-                            ),
-                            backgroundColor:
-                                Theme.of(context).accentColor.withOpacity(0.9),
-                            shape: StadiumBorder(),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Text(
-                      review.user.bio
-                          .substring(0, min(30, review.user.bio.length)),
-                      overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.caption,
-                    )
-                  ],
-                ),
-              )
+              errorWidget: (context, url, error) => Icon(Icons.error),
+            )),
+        SizedBox(width: 15),
+        Flexible(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              SizedBox(height: 10),
+              Row(
+                children: Helper.getStarsList(review?.stars?.toDouble() ?? 0.0),
+              ),
+              Text(
+                review?.createdAt ?? "",
+                style: Theme.of(context).textTheme.caption,
+              ),
+              SizedBox(height: 10),
+              Text(
+                review?.comment ?? "لا يوجد تعليق",
+                overflow: TextOverflow.ellipsis,
+                maxLines: 2,
+                style: Theme.of(context).textTheme.body2,
+              ),
+              Text(
+                this.review.user?.username ?? "فلان",
+                style: Theme.of(context).textTheme.caption,
+              ),
             ],
           ),
-          Text(
-            Helper.skipHtml(review.review),
-            style: Theme.of(context).textTheme.body1,
-            overflow: TextOverflow.ellipsis,
-            softWrap: false,
-            maxLines: 3,
-          )
-        ],
-      ),
+        )
+      ],
     );
   }
 }

@@ -24,11 +24,15 @@ class SearchBarWidget extends StatelessWidget {
         child: Row(
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.only(right: 12, left: 0),
-              child: Icon(Icons.search, color: Theme.of(context).hintColor),
+              padding: const EdgeInsets.only(right: 0, left: 0),
+              child: Icon(Icons.search, color: Theme.of(context).focusColor),
+            ),
+            SizedBox(
+              width: 10,
             ),
             Text(
               S.of(context).search_for_restaurants_or_foods,
+              maxLines: 1,
               style: Theme.of(context)
                   .textTheme
                   .caption

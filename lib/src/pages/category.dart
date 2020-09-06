@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:trip_car_client/generated/i18n.dart';
 import 'package:trip_car_client/src/controllers/category_controller.dart';
+import 'package:trip_car_client/src/elements/CarGridItemWidget.dart';
+import 'package:trip_car_client/src/elements/CarListItemWidget.dart';
 import 'package:trip_car_client/src/elements/CircularLoadingWidget.dart';
-import 'package:trip_car_client/src/elements/FoodGridItemWidget.dart';
-import 'package:trip_car_client/src/elements/FoodListItemWidget.dart';
 import 'package:trip_car_client/src/elements/SearchBarWidget.dart';
-import 'package:trip_car_client/src/elements/ShoppingCartButtonWidget.dart';
 import 'package:trip_car_client/src/helpers/shimmer_helper.dart';
 import 'package:trip_car_client/src/models/route_argument.dart';
 
@@ -29,7 +28,7 @@ class _CategoryWidgetState extends StateMVC<CategoryWidget> {
   }
   @override
   void initState() {
-    _con.listenForFoodsByCategory(id: widget.routeArgument.id);
+    _con.listenForCarsByCategory(id: widget.routeArgument.id);
     _con.listenForCategory(id: widget.routeArgument.id);
     super.initState();
   }
@@ -50,13 +49,6 @@ class _CategoryWidgetState extends StateMVC<CategoryWidget> {
               .title
               .merge(TextStyle(letterSpacing: 0)),
         ),
-        actions: <Widget>[
-          _con.user.apiToken != null
-              ? new ShoppingCartButtonWidget(
-                  iconColor: Theme.of(context).hintColor,
-                  labelColor: Theme.of(context).accentColor)
-              : Container(),
-        ],
       ),
       body: RefreshIndicator(
         onRefresh: _con.refreshCategory,
@@ -119,7 +111,7 @@ class _CategoryWidgetState extends StateMVC<CategoryWidget> {
                   ),
                 ),
               ),
-              _con.foods.isEmpty
+              _con.cars.isEmpty
                   ? ShimmerHelper(type: Type.orders)
                   : Offstage(
                       offstage: this.layout != 'list',
@@ -127,19 +119,19 @@ class _CategoryWidgetState extends StateMVC<CategoryWidget> {
                         scrollDirection: Axis.vertical,
                         shrinkWrap: true,
                         primary: false,
-                        itemCount: _con.foods.length,
+                        itemCount: _con.cars.length,
                         separatorBuilder: (context, index) {
                           return SizedBox(height: 10);
                         },
                         itemBuilder: (context, index) {
-                          return FoodListItemWidget(
+                          return CarListItemWidget(
                             heroTag: 'favorites_list',
-                            food: _con.foods.elementAt(index),
+                            car: _con.cars.elementAt(index),
                           );
                         },
                       ),
                     ),
-              _con.foods.isEmpty
+              _con.cars.isEmpty
                   ? CircularLoadingWidget(height: 500)
                   : Offstage(
                       offstage: this.layout != 'grid',
@@ -157,10 +149,10 @@ class _CategoryWidgetState extends StateMVC<CategoryWidget> {
                             ? 2
                             : 4,
                         // Generate 100 widgets that display their index in the List.
-                        children: List.generate(_con.foods.length, (index) {
-                          return FoodGridItemWidget(
+                        children: List.generate(_con.cars.length, (index) {
+                          return CarGridItemWidget(
                             heroTag: 'favorites_grid',
-                            food: _con.foods.elementAt(index),
+                            car: _con.cars.elementAt(index),
                           );
                         }),
                       ),

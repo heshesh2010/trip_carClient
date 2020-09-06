@@ -19,9 +19,9 @@ class FavoriteListItemWidget extends StatelessWidget {
       focusColor: Theme.of(context).accentColor,
       highlightColor: Theme.of(context).primaryColor,
       onTap: () {
-        Navigator.of(context).pushNamed('Food',
+        Navigator.of(context).pushNamed('Car',
             arguments:
-                RouteArgument(heroTag: this.heroTag, food: this.favorite.food));
+                RouteArgument(heroTag: this.heroTag, car: this.favorite.car));
       },
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
@@ -38,15 +38,14 @@ class FavoriteListItemWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Hero(
-              tag: this.heroTag + favorite.food.id,
+              tag: this.heroTag + favorite.car.id.toString(),
               child: Container(
                 height: 60,
                 width: 60,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(5)),
                   image: DecorationImage(
-                      image:
-                          CachedNetworkImageProvider(favorite.food.image.thumb),
+                      image: CachedNetworkImageProvider(favorite.car.image),
                       fit: BoxFit.cover),
                 ),
               ),
@@ -61,13 +60,13 @@ class FavoriteListItemWidget extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          favorite.food.name,
+                          favorite.car.name,
                           overflow: TextOverflow.ellipsis,
                           maxLines: 2,
                           style: Theme.of(context).textTheme.subhead,
                         ),
                         Text(
-                          favorite.food.restaurantName,
+                          favorite.car.name,
                           overflow: TextOverflow.fade,
                           softWrap: false,
                           style: Theme.of(context).textTheme.caption,
@@ -76,8 +75,8 @@ class FavoriteListItemWidget extends StatelessWidget {
                     ),
                   ),
                   SizedBox(width: 8),
-                  Helper.getPrice(favorite.food.price,
-                      style: Theme.of(context).textTheme.display1),
+                  Helper.getPrice(
+                      double.parse(favorite.car.rentPricePerDay), context),
                 ],
               ),
             )

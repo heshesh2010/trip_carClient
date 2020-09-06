@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:trip_car_client/src/helpers/shimmer_helper.dart';
-import 'package:trip_car_client/src/models/restaurant.dart';
+import 'package:trip_car_client/src/models/car_entity.dart';
 import 'package:trip_car_client/src/models/route_argument.dart';
 
 import 'CardWidget.dart';
+import 'EmptyReviewsWidget.dart';
 
 class CardsCarouselWidget extends StatefulWidget {
-  List<Restaurant> restaurantsList;
-  String heroTag;
+  final List<CarData> carsList;
+  final String heroTag;
 
-  CardsCarouselWidget({Key key, this.restaurantsList, this.heroTag})
-      : super(key: key);
+  CardsCarouselWidget({Key key, this.heroTag, this.carsList}) : super(key: key);
 
   @override
   _CardsCarouselWidgetState createState() => _CardsCarouselWidgetState();
@@ -24,26 +23,24 @@ class _CardsCarouselWidgetState extends State<CardsCarouselWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return widget.restaurantsList.isEmpty
-        ? ShimmerHelper(
-            type: Type.statics,
-          )
+    return widget.carsList.isEmpty
+        ? EmptyReviewsWidget()
         : Container(
             height: 288,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
-              itemCount: widget.restaurantsList.length,
+              itemCount: widget.carsList.length,
               itemBuilder: (context, index) {
                 return GestureDetector(
                   onTap: () {
-                    Navigator.of(context).pushNamed('Details',
+                    Navigator.of(context).pushNamed('Car',
                         arguments: RouteArgument(
-                          id: widget.restaurantsList.elementAt(index).id,
+                          car: widget.carsList.elementAt(index),
                           heroTag: widget.heroTag,
                         ));
                   },
                   child: CardWidget(
-                      restaurant: widget.restaurantsList.elementAt(index),
+                      car: widget.carsList.elementAt(index),
                       heroTag: widget.heroTag),
                 );
               },

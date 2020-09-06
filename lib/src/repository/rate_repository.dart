@@ -3,13 +3,13 @@ import 'dart:convert';
 import 'package:global_configuration/global_configuration.dart';
 import 'package:http/http.dart' as http;
 import 'package:trip_car_client/src/models/rating2.dart';
-import 'package:trip_car_client/src/models/user.dart';
+import 'package:trip_car_client/src/models/user_entity.dart';
 import 'package:trip_car_client/src/repository/user_repository.dart';
 
 String url;
 
 Future<Rate> addFoodRate(Rate rate) async {
-  User _user = await getCurrentUser();
+  UserDataUser _user = await getCurrentUser();
 
   url = '${GlobalConfiguration().getString('api_base_url')}food_reviews';
   final client = new http.Client();

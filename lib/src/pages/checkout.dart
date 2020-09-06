@@ -19,11 +19,10 @@ class _CheckoutWidgetState extends StateMVC<CheckoutWidget> {
     _con = controller;
   }
 
-  @override
   void initState() {
     super.initState();
-    _con.listenForCarts(withAddOrder: false);
-    _con.listenForCarts();
+    WidgetsBinding.instance.addPostFrameCallback(
+        (_) => _con.pay(context, widget.routeArgument.order));
   }
 
   @override

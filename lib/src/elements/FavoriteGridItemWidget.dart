@@ -4,8 +4,8 @@ import 'package:trip_car_client/src/models/favorite.dart';
 import 'package:trip_car_client/src/models/route_argument.dart';
 
 class FavoriteGridItemWidget extends StatelessWidget {
-  String heroTag;
-  Favorite favorite;
+  final String heroTag;
+  final Favorite favorite;
 
   FavoriteGridItemWidget({Key key, this.heroTag, this.favorite})
       : super(key: key);
@@ -15,9 +15,9 @@ class FavoriteGridItemWidget extends StatelessWidget {
       highlightColor: Colors.transparent,
       splashColor: Theme.of(context).accentColor.withOpacity(0.08),
       onTap: () {
-        Navigator.of(context).pushNamed('Food',
+        Navigator.of(context).pushNamed('Car',
             arguments: new RouteArgument(
-                heroTag: this.heroTag, food: this.favorite.food));
+                heroTag: this.heroTag, car: this.favorite.car));
       },
       child: Stack(
         alignment: AlignmentDirectional.topEnd,
@@ -27,12 +27,12 @@ class FavoriteGridItemWidget extends StatelessWidget {
             children: <Widget>[
               Expanded(
                 child: Hero(
-                  tag: heroTag + favorite.food.id,
+                  tag: heroTag + favorite.car.id.toString(),
                   child: Container(
                     decoration: BoxDecoration(
                       image: DecorationImage(
                           image: CachedNetworkImageProvider(
-                              this.favorite.food.image.thumb),
+                              this.favorite.car.image),
                           fit: BoxFit.cover),
                       borderRadius: BorderRadius.circular(5),
                     ),
@@ -41,13 +41,13 @@ class FavoriteGridItemWidget extends StatelessWidget {
               ),
               SizedBox(height: 5),
               Text(
-                favorite.food.name,
+                favorite.car.name,
                 style: Theme.of(context).textTheme.body2,
                 overflow: TextOverflow.ellipsis,
               ),
               SizedBox(height: 2),
               Text(
-                favorite.food.restaurantName,
+                favorite.car.name,
                 style: Theme.of(context).textTheme.caption,
                 overflow: TextOverflow.ellipsis,
               )

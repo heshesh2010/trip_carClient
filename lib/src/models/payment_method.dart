@@ -11,7 +11,6 @@ class PaymentMethod {
 
 class PaymentMethodList {
   List<PaymentMethod> _paymentsList;
-  List<PaymentMethod> _cashList;
 
   PaymentMethodList() {
     this._paymentsList = [
@@ -19,12 +18,7 @@ class PaymentMethodList {
           "Checkout", "assets/img/visacard.png",
           isDefault: true),
     ];
-    this._cashList = [
-      new PaymentMethod("دفع عند الاستلام", "للدفع عند الذهاب للمطعم",
-          "PayOnPickup", "assets/img/pay_pickup.png"),
-    ];
   }
 
   List<PaymentMethod> get paymentsList => _paymentsList;
-  List<PaymentMethod> get cashList => _cashList;
 }

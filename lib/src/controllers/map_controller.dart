@@ -8,14 +8,14 @@ import 'package:location/location.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:trip_car_client/src/helpers/helper.dart';
 import 'package:trip_car_client/src/helpers/maps_util.dart';
-import 'package:trip_car_client/src/models/restaurant.dart';
-import 'package:trip_car_client/src/repository/restaurant_repository.dart';
+import 'package:trip_car_client/src/models/car_entity.dart';
+import 'package:trip_car_client/src/repository/car_repository.dart';
 import 'package:trip_car_client/src/repository/settings_repository.dart'
     as sett;
 
 class MapController extends ControllerMVC {
-  Restaurant currentRestaurant;
-  List<Restaurant> topRestaurants = <Restaurant>[];
+  CarData currentCar;
+  List<CarData> topCars = <CarData>[];
   List<Marker> allMarkers = <Marker>[];
   LocationData currentLocation;
   Set<Polyline> polylines = new Set();
@@ -28,15 +28,14 @@ class MapController extends ControllerMVC {
     getDirectionSteps();
   }
 
-  void listenForNearRestaurants(
+  void listenForNearCars(
       LocationData myLocation, LocationData areaLocation) async {
-    final Stream<Restaurant> stream =
-        await getNearRestaurants(myLocation, areaLocation);
-    stream.listen((Restaurant _restaurant) {
+    final Stream<CarData> stream = await getNearCars(myLocation, areaLocation);
+    stream.listen((CarData _car) {
       setState(() {
-        topRestaurants.add(_restaurant);
+        topCars.add(_car);
       });
-      Helper.getMarker(_restaurant.toMap()).then((marker) {
+      Helper.getMarker(_car.toJson()).then((marker) {
         setState(() {
           allMarkers.add(marker);
         });
@@ -49,8 +48,8 @@ class MapController extends ControllerMVC {
       currentLocation = await sett.getCurrentLocation();
       setState(() {
         cameraPosition = CameraPosition(
-          target: LatLng(double.parse(currentRestaurant.latitude),
-              double.parse(currentRestaurant.longitude)),
+          target: LatLng(double.parse(currentCar.latitude),
+              double.parse(currentCar.longitude)),
           zoom: 14.4746,
         );
       });
@@ -78,15 +77,15 @@ class MapController extends ControllerMVC {
 
   void getRestaurantsOfArea() async {
     setState(() {
-      topRestaurants = <Restaurant>[];
+      topCars = <CarData>[];
       LocationData areaLocation = LocationData.fromMap({
         "latitude": cameraPosition.target.latitude,
         "longitude": cameraPosition.target.longitude
       });
       if (cameraPosition != null) {
-        listenForNearRestaurants(currentLocation, areaLocation);
+        listenForNearCars(currentLocation, areaLocation);
       } else {
-        listenForNearRestaurants(currentLocation, currentLocation);
+        listenForNearCars(currentLocation, currentLocation);
       }
     });
   }
@@ -99,9 +98,9 @@ class MapController extends ControllerMVC {
             "," +
             currentLocation.longitude.toString() +
             "&destination=" +
-            currentRestaurant.latitude +
+            currentCar.latitude +
             "," +
-            currentRestaurant.longitude +
+            currentCar.longitude +
             "&key=${GlobalConfiguration().getString('google_maps_key')}")
         .then((String res) {
       setState(() {
@@ -117,8 +116,8 @@ class MapController extends ControllerMVC {
 
   Future refreshMap() async {
     setState(() {
-      topRestaurants = <Restaurant>[];
+      topCars = <CarData>[];
     });
-    listenForNearRestaurants(currentLocation, currentLocation);
+    listenForNearCars(currentLocation, currentLocation);
   }
 }

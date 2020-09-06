@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:trip_car_client/src/models/payment.dart';
+import 'package:trip_car_client/src/models/order_entity.dart';
 import 'package:trip_car_client/src/models/payment_method.dart';
 
 // ignore: must_be_immutable
@@ -16,7 +16,7 @@ class PaymentMethodListItemWidget extends StatelessWidget {
       highlightColor: Theme.of(context).primaryColor,
       onTap: () {
         Navigator.of(context).pushNamed(this.paymentMethod.route,
-            arguments: new Payment(method: paymentMethod.name));
+            arguments: new OrderDataPayment(method: paymentMethod.name));
         print(this.paymentMethod.name);
       },
       child: Container(

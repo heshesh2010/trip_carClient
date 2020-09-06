@@ -1,32 +1,24 @@
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
-import 'package:trip_car_client/src/models/order.dart';
-import 'package:trip_car_client/src/models/order_status.dart';
-import 'package:trip_car_client/src/models/user.dart';
+import 'package:trip_car_client/src/models/order_entity.dart';
 import 'package:trip_car_client/src/repository/order_repository.dart';
-import 'package:trip_car_client/src/repository/user_repository.dart';
 
 class OrderController extends ControllerMVC {
-  List<Order> orders = <Order>[];
-  List<OrderStatus> orderStatus = <OrderStatus>[];
+  List<OrderData> orders = <OrderData>[];
+  List<OrderDataStatus> orderStatus = <OrderDataStatus>[];
   bool isLoading = true;
 
   GlobalKey<ScaffoldState> scaffoldKey;
-  User currentUser;
-  getUser() async {
-    this.currentUser = await getCurrentUser();
-  }
 
   OrderController() {
     this.scaffoldKey = new GlobalKey<ScaffoldState>();
-    getUser();
     listenForOrders();
   }
 
   void listenForOrders({String message}) async {
-    final Stream<Order> stream = await getOrders();
-    stream.listen((Order _order) {
+    final Stream<OrderData> stream = await getOrders();
+    stream.listen((OrderData _order) {
       setState(() {
         orders.add(_order);
       });
@@ -48,8 +40,8 @@ class OrderController extends ControllerMVC {
   }
 
   void listenForOrderStatus() async {
-    final Stream<OrderStatus> stream = await getOrderStatus();
-    stream.listen((OrderStatus _orderStatus) {
+    final Stream<OrderDataStatus> stream = await getOrderStatus();
+    stream.listen((OrderDataStatus _orderStatus) {
       setState(() {
         orderStatus.add(_orderStatus);
       });

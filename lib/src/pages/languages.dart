@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:trip_car_client/generated/i18n.dart';
-import 'package:trip_car_client/src/models/language.dart';
-import 'package:trip_car_client/src/repository/settings_repository.dart'
-    as settingRepo;
+
+import '../../generated/i18n.dart';
+import '../elements/SearchBarWidget.dart';
+import '../models/language.dart';
+import '../repository/settings_repository.dart' as settingRepo;
 
 class LanguagesWidget extends StatefulWidget {
   @override
@@ -26,7 +27,7 @@ class _LanguagesWidgetState extends State<LanguagesWidget> {
         elevation: 0,
         centerTitle: true,
         title: Text(
-          'Languages',
+          S.of(context).languages,
           style: Theme.of(context)
               .textTheme
               .title
@@ -40,6 +41,10 @@ class _LanguagesWidgetState extends State<LanguagesWidget> {
           mainAxisAlignment: MainAxisAlignment.start,
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: SearchBarWidget(),
+            ),
             SizedBox(height: 15),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -69,16 +74,26 @@ class _LanguagesWidgetState extends State<LanguagesWidget> {
               },
               itemBuilder: (context, index) {
                 Language _language = languagesList.languages.elementAt(index);
+                settingRepo
+                    .getDefaultLanguage(settingRepo
+                        .setting.value.mobileLanguage.value.languageCode)
+                    .then((_langCode) {
+                  if (_langCode == _language.code) {
+                    _language.selected = true;
+                  }
+                });
                 return InkWell(
                   onTap: () async {
-                    settingRepo.locale.value = new Locale(_language.code, '');
-                    settingRepo.locale.notifyListeners();
+                    settingRepo.setting.value.mobileLanguage.value =
+                        new Locale(_language.code, '');
+                    settingRepo.setting.notifyListeners();
                     languagesList.languages.forEach((_l) {
                       setState(() {
                         _l.selected = false;
                       });
                     });
                     _language.selected = !_language.selected;
+                    settingRepo.setDefaultLanguage(_language.code);
                   },
                   child: Container(
                     padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),

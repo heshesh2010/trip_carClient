@@ -1,13 +1,15 @@
+import 'dart:convert';
+
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
-import 'package:trip_car_client/src/models/user.dart';
+import 'package:trip_car_client/src/models/user_entity.dart';
 import 'package:trip_car_client/src/repository/user_repository.dart'
     as repository;
 import 'package:trip_car_client/src/repository/user_repository.dart';
 
 class SettingsController extends ControllerMVC {
-  User user = new User();
+  UserDataUser user = new UserDataUser();
   GlobalKey<FormState> loginFormKey;
   GlobalKey<ScaffoldState> scaffoldKey;
   bool isLoading = false;
@@ -22,10 +24,11 @@ class SettingsController extends ControllerMVC {
       this.isLoading = true;
     });
     repository.update(user).then((value) {
-      if (value is User) {
+      if (value is UserDataUser) {
         FlushbarHelper.createSuccess(message: "تم تحديث الملف الشخصي")
             .show(context);
-        setCurrentUser(value.toJson());
+        value.apiToken = user.apiToken;
+        setCurrentUser(json.encode(value.toJson()));
         setState(() {
           this.isLoading = false;
         });
@@ -33,9 +36,7 @@ class SettingsController extends ControllerMVC {
         setState(() {
           this.isLoading = false;
         });
-        FlushbarHelper.createError(
-                message: "حدث خطأ اثناء تحديث صورة الملف الشخصي")
-            .show(context);
+        FlushbarHelper.createError(message: value.message).show(context);
       }
     });
   }
@@ -46,7 +47,7 @@ class SettingsController extends ControllerMVC {
   }
 
   Future<void> refreshSettings() async {
-    user = new User();
+    user = new UserDataUser();
     listenForUser();
   }
 }

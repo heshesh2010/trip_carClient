@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' show DateFormat;
 import 'package:trip_car_client/src/models/notification.dart' as model;
@@ -16,12 +15,9 @@ class NotificationItemWidget extends StatelessWidget {
         Container(
           height: 75,
           width: 75,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(5)),
-            image: DecorationImage(
-                image: CachedNetworkImageProvider(
-                    this.notification.type.image.thumb),
-                fit: BoxFit.cover),
+          child: Icon(
+            Icons.notifications,
+            color: Theme.of(context).hintColor,
           ),
         ),
         SizedBox(width: 15),

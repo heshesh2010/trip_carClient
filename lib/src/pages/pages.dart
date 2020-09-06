@@ -1,141 +1,113 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:trip_car_client/generated/i18n.dart';
 import 'package:trip_car_client/src/elements/DrawerWidget.dart';
-import 'package:trip_car_client/src/elements/ShoppingCartButtonWidget.dart';
-import 'package:trip_car_client/src/models/user.dart';
+import 'package:trip_car_client/src/models/route_argument.dart';
 import 'package:trip_car_client/src/pages/home.dart';
 import 'package:trip_car_client/src/pages/notifications.dart';
 import 'package:trip_car_client/src/pages/orders.dart';
-import 'package:trip_car_client/src/repository/settings_repository.dart'
-    as settingsRepo;
-import 'package:trip_car_client/src/repository/user_repository.dart';
+import 'package:trip_car_client/src/pages/review.dart';
 
 import 'ChatHomeScreen.dart';
-import 'favorites.dart';
 
 // ignore: must_be_immutable
-class PagesTestWidget extends StatefulWidget {
-  int currentTab;
+class PagesWidget extends StatefulWidget {
+  dynamic currentTab;
   String currentTitle;
-  Widget currentPage = HomeWidget();
-  GlobalKey navBarGlobalKey = new GlobalKey<ScaffoldState>();
+  Widget currentPage;
+  RouteArgument routeArgument;
 
-  PagesTestWidget({
-    Key key,
+  final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
+  GlobalKey<ScaffoldState> scaffoldKey2;
+
+  PagesWidget({
+    this.scaffoldKey2,
     this.currentTab,
   }) {
-    currentTab = currentTab != null ? currentTab : 2;
+    if (currentTab != null) {
+      if (currentTab is RouteArgument) {
+        routeArgument = currentTab;
+        currentTab = int.parse(currentTab.id);
+      }
+    } else {
+      currentTab = 2;
+    }
   }
 
   @override
-  _PagesTestWidgetState createState() {
-    return _PagesTestWidgetState(this.navBarGlobalKey);
+  _PagesWidgetState createState() {
+    return _PagesWidgetState();
   }
 }
 
-class _PagesTestWidgetState extends State<PagesTestWidget> {
-  bool isLogged = false;
-  GlobalKey navBarGlobalKey;
-  _PagesTestWidgetState(this.navBarGlobalKey);
-
+class _PagesWidgetState extends State<PagesWidget> {
   initState() {
-    getCurrentUser().then((value) {
-      if (value is User && value?.apiToken != null) {
-        setState(() {
-          isLogged = true;
-        });
-      } else {
-        setState(() {
-          isLogged = false;
-        });
-      }
-    });
     super.initState();
     _selectTab(widget.currentTab);
   }
 
   @override
-  void didUpdateWidget(PagesTestWidget oldWidget) {
+  void didUpdateWidget(PagesWidget oldWidget) {
     _selectTab(oldWidget.currentTab);
     super.didUpdateWidget(oldWidget);
   }
 
   void _selectTab(int tabItem) {
-    if (this.isLogged) {
-      setState(() {
-        widget.currentTab = tabItem;
-        switch (tabItem) {
-          case 0:
-            widget.currentTitle = S.of(context).notifications;
-            widget.currentPage = NotificationsWidget();
-            break;
-          case 1:
-            widget.currentTitle = S.of(context).chat;
-            widget.currentPage = ChatHomeScreenWidget();
-            break;
-          case 2:
-            widget.currentTitle = settingsRepo.setting?.appName;
-            widget.currentPage = HomeWidget();
-            break;
-          case 3:
-            widget.currentTitle = "تريباتي";
-            widget.currentPage = OrdersWidget();
-            break;
-          case 4:
-            widget.currentTitle = S.of(context).favorites;
-            widget.currentPage = FavoritesWidget();
+    setState(() {
+      widget.currentTab = tabItem;
+      switch (tabItem) {
+        case 0:
+          widget.currentTitle = S.of(context).notifications;
+          widget.currentPage =
+              NotificationsWidget(parentScaffoldKey: widget.scaffoldKey);
+          break;
+        case 1:
+          widget.currentTitle = S.of(context).reviews;
+          widget.currentPage =
+              ReviewsWidget(parentScaffoldKey: widget.scaffoldKey);
+          break;
+        case 2:
+          widget.currentPage =
+              HomeWidget(parentScaffoldKey: widget.scaffoldKey);
+          break;
+        case 3:
+          widget.currentTitle =
+              S.of(widget?.scaffoldKey2?.currentContext ?? context).my_orders;
+          widget.currentPage =
+              OrdersWidget(parentScaffoldKey: widget.scaffoldKey);
+          break;
+        case 4:
+          widget.currentTitle =
+              S.of(widget?.scaffoldKey2?.currentContext ?? context).chat;
+          widget.currentPage =
+              ChatHomeScreenWidget(parentScaffoldKey: widget.scaffoldKey);
 
-            break;
-        }
-      });
-    } else if (tabItem != 2) {
-      FlushbarHelper.createError(
-              message: "يجب تسجيل الدخول اولاً من القائمة اليمنى ")
-          .show(context);
-    }
+          break;
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: widget.scaffoldKey,
       drawer: DrawerWidget(),
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).accentColor,
-        elevation: 0,
-        centerTitle: true,
-        title: Text(
-          widget.currentTitle ??
-              settingsRepo.setting?.appName ??
-              S.of(context).home,
-          style: Theme.of(context)
-              .textTheme
-              .title
-              .merge(TextStyle(letterSpacing: 1.3)),
-        ),
-        actions: <Widget>[
-          isLogged
-              ? new ShoppingCartButtonWidget(
-                  iconColor: Theme.of(context).hintColor,
-                  labelColor: Theme.of(context).focusColor)
-              : Container(),
-        ],
-      ),
+      backgroundColor: Theme.of(context).focusColor,
       body: widget.currentPage,
       bottomNavigationBar: CurvedNavigationBar(
-        key: navBarGlobalKey,
-        backgroundColor: Theme.of(context).primaryColor,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         color: Theme.of(context).accentColor,
+        height: 50,
+
         // type: BottomNavigationBarType.fixed,
         //    selectedItemColor: Theme.of(context).hintColor,
         // this will be set when a new tab is tapped
-        index: 2,
+        index: widget.currentTab,
         items: <Widget>[
           Icon(Icons.notifications, size: 30),
-          Icon(Icons.rate_review, size: 30),
+          Icon(Icons.star, size: 30),
           Icon(Icons.home, size: 30),
-          Icon(Icons.note_add, size: 30),
+          Icon(Icons.local_taxi, size: 30),
           Icon(Icons.chat, size: 30),
         ],
         onTap: (int i) {

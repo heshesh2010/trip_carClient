@@ -244,65 +244,24 @@ class ShimmerState extends State<ShimmerHelper> with TickerProviderStateMixin {
 
   Widget statics() {
     return Container(
-        height: 300,
-        child: shimmerListAsRow(Container(
-          width: 292,
-          margin: EdgeInsets.only(left: 20, right: 20, top: 15, bottom: 20),
-          decoration: BoxDecoration(
-            color: _colr.value,
-            borderRadius: BorderRadius.all(Radius.circular(10)),
-            boxShadow: [
-              BoxShadow(
-                  color: Theme.of(context).focusColor.withOpacity(0.1),
-                  blurRadius: 15,
-                  offset: Offset(0, 5)),
-            ],
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              // Image of the card
-              Container(
-                height: 150,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(10),
-                      topRight: Radius.circular(10)),
-                ),
-              ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  mainAxisSize: MainAxisSize.max,
-                  children: <Widget>[
-                    Expanded(
-                      flex: 3,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Container(),
-                          Container(),
-                          SizedBox(height: 5),
-                        ],
-                      ),
-                    ),
-                    SizedBox(width: 15),
-                    Expanded(
-                      child: Column(
-                        children: <Widget>[
-                          Container(),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              )
-            ],
-          ),
-        )));
+        height: 210,
+        color: Theme.of(context).primaryColor,
+        padding: EdgeInsets.symmetric(vertical: 10),
+        child: ListView.builder(
+          itemCount: 4,
+          itemBuilder: (context, index) {
+            double _marginLeft = 0;
+            (index == 0) ? _marginLeft = 20 : _marginLeft = 0;
+            return Container(
+              margin: EdgeInsetsDirectional.only(start: _marginLeft, end: 20),
+              width: 100,
+              height: 130,
+              child: Image.asset('assets/img/loading_trend.gif',
+                  fit: BoxFit.contain),
+            );
+          },
+          scrollDirection: Axis.horizontal,
+        ));
   }
 
   Widget extra() {
@@ -440,16 +399,31 @@ class ShimmerState extends State<ShimmerHelper> with TickerProviderStateMixin {
 
   Widget card() {
     return Container(
-      height: 130,
-      child: shimmerListAsRow(Container(
-        margin: EdgeInsets.only(left: 20, right: 20),
-        width: 100,
-        height: 130,
-        decoration: BoxDecoration(
-          color: _colr.value,
-          borderRadius: BorderRadius.all(Radius.circular(5)),
-        ),
-      )),
+      height: 288,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: 3,
+        itemBuilder: (context, index) {
+          return Container(
+            width: 292,
+            margin: EdgeInsets.only(left: 20, right: 20, top: 15, bottom: 20),
+            decoration: BoxDecoration(
+              color: Theme.of(context).primaryColor,
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+              boxShadow: [
+                BoxShadow(
+                    color: Theme.of(context).focusColor.withOpacity(0.1),
+                    blurRadius: 15,
+                    offset: Offset(0, 5)),
+              ],
+            ),
+            child: Image.asset(
+              'assets/img/loading_card.gif',
+              fit: BoxFit.contain,
+            ),
+          );
+        },
+      ),
     );
   }
 

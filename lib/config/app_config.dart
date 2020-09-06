@@ -39,14 +39,14 @@ class App {
 
 class AppColors {
 //  Color _mainColor = Color(0xFFFF4E6A);
-  Color _mainColor = Color(0xFFFFD600);
+  Color _mainColor = Color(0xFFf5ed04);
   Color _mainDarkColor = Color(0xFF121212);
 
   Color _secondColor = Color(0xFF121212);
   Color _secondDarkColor = Color(0xFFffffff);
 
   Color _accentColor = Color(0xFF121212);
-  Color _accentDarkColor = Color(0xFFf7cb00);
+  Color _accentDarkColor = Color(0xFFf5ed04);
 
   Color _nonActiveColorLight = Color(0xFF757575);
   Color _nonActiveColorDark = Color(0xFF121212);
@@ -54,6 +54,11 @@ class AppColors {
   Color _shimmerLight = Colors.grey.shade100;
   Color _shimmerDark = Colors.grey.shade600;
 
+  Color _greenLight = Colors.green.shade500;
+  Color _greenDark = Color(0xFF757575);
+
+  Color _blueLight = Colors.blue.shade500;
+  Color _blueDark = Color(0xFF757575);
   Color mainColor(double opacity) {
     return this._mainColor.withOpacity(opacity);
   }
@@ -92,5 +97,21 @@ class AppColors {
 
   Color shimmerDark(double opacity) {
     return _shimmerDark.withOpacity(opacity);
+  }
+
+  Color greenDark(double opacity) {
+    return _greenDark.withOpacity(opacity);
+  }
+
+  Color greenLight(double opacity) {
+    return _greenLight.withOpacity(opacity);
+  }
+
+  Color blueDark(double opacity) {
+    return _blueDark.withOpacity(opacity);
+  }
+
+  Color blueLight(double opacity) {
+    return _blueLight.withOpacity(opacity);
   }
 }

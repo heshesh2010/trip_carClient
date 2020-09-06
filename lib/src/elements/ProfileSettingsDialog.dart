@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:trip_car_client/generated/i18n.dart';
-import 'package:trip_car_client/src/models/user.dart';
+import 'package:trip_car_client/src/models/user_entity.dart';
 
 class ProfileSettingsDialog extends StatefulWidget {
-  User user;
+  final UserDataUser user;
   VoidCallback onChanged;
 
   ProfileSettingsDialog({Key key, this.user, this.onChanged}) : super(key: key);
@@ -47,11 +47,11 @@ class _ProfileSettingsDialogState extends State<ProfileSettingsDialog> {
                           decoration: getInputDecoration(
                               hintText: S.of(context).full_name,
                               labelText: S.of(context).full_name),
-                          initialValue: widget.user.name,
+                          initialValue: widget.user.username,
                           validator: (input) => input.trim().length < 3
                               ? S.of(context).should_be_more_than_3_letters
                               : null,
-                          onSaved: (input) => widget.user.name = input,
+                          onSaved: (input) => widget.user.username = input,
                         ),
                         new TextFormField(
                           style: TextStyle(color: Theme.of(context).hintColor),
@@ -71,35 +71,11 @@ class _ProfileSettingsDialogState extends State<ProfileSettingsDialog> {
                           decoration: getInputDecoration(
                               hintText: '0096659XXXXXX',
                               labelText: S.of(context).mobile),
-                          initialValue: widget.user.mobile,
+                          initialValue: widget.user.phone,
                           validator: (input) => input.trim().length < 3
                               ? S.of(context).should_be_more_than_3_letters
                               : null,
-                          onSaved: (input) => widget.user.mobile = input,
-                        ),
-                        new TextFormField(
-                          style: TextStyle(color: Theme.of(context).hintColor),
-                          keyboardType: TextInputType.text,
-                          decoration: getInputDecoration(
-                              hintText: S.of(context).address,
-                              labelText: S.of(context).address),
-                          initialValue: widget.user.address,
-                          validator: (input) => input.trim().length < 3
-                              ? S.of(context).should_be_more_than_3_letters
-                              : null,
-                          onSaved: (input) => widget.user.address = input,
-                        ),
-                        new TextFormField(
-                          style: TextStyle(color: Theme.of(context).hintColor),
-                          keyboardType: TextInputType.text,
-                          decoration: getInputDecoration(
-                              hintText: S.of(context).about,
-                              labelText: S.of(context).about),
-                          initialValue: widget.user.bio,
-                          validator: (input) => input.trim().length < 3
-                              ? S.of(context).should_be_more_than_3_letters
-                              : null,
-                          onSaved: (input) => widget.user.bio = input,
+                          onSaved: (input) => widget.user.phone = input,
                         ),
                       ],
                     ),

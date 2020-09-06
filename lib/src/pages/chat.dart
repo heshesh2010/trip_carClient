@@ -4,12 +4,14 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
+import 'package:trip_car_client/generated/i18n.dart';
 import 'package:trip_car_client/src/controllers/messages_controller.dart';
 import 'package:trip_car_client/src/helpers/helper.dart';
 import 'package:trip_car_client/src/helpers/shimmer_helper.dart';
-import 'package:trip_car_client/src/models/Message.dart';
-import 'package:trip_car_client/src/models/order.dart';
-import 'package:trip_car_client/src/models/recentConversations.dart';
+import 'package:trip_car_client/src/models/conversation_entity.dart';
+import 'package:trip_car_client/src/models/message_entity.dart';
+import 'package:trip_car_client/src/models/order_entity.dart';
+import 'package:trip_car_client/src/pages/pages.dart';
 
 final ThemeData kDefaultTheme = new ThemeData(
   primarySwatch: Colors.purple,
@@ -17,8 +19,8 @@ final ThemeData kDefaultTheme = new ThemeData(
 );
 
 class ChatScreen extends StatefulWidget {
-  final RecentConversations recentConversations;
-  final Order order;
+  final ConversationData recentConversations;
+  final OrderData order;
   ChatScreen({this.order, this.recentConversations});
 
   @override
@@ -33,16 +35,11 @@ class ChatScreenState extends StateMVC<ChatScreen>
   MessagesController _con;
   AnimationController animationController;
 
-  ChatScreenState(RecentConversations recentConversations)
+  ChatScreenState(ConversationData recentConversations)
       : super(recentConversations == null
             ? MessagesController()
             : MessagesController(conversationId: recentConversations.id)) {
     _con = controller;
-  }
-
-  @override
-  void initState() {
-    super.initState();
   }
 
   /* Modify _handleSubmitted to update _isComposing to false
@@ -57,11 +54,11 @@ class ChatScreenState extends StateMVC<ChatScreen>
     var formatter = new DateFormat("yyyy-MM-dd HH:mm:ss");
     String formattedDate = formatter.format(now);
 
-    Message chatMessage = new Message(
+    MessageData chatMessage = new MessageData(
       message: text,
       sentBy: "user",
       orderId: widget.recentConversations == null
-          ? widget.order.orderNumber
+          ? widget.order.id
           : widget.recentConversations.orderId,
       updatedAt: formattedDate,
       animationController: new AnimationController(
@@ -70,18 +67,22 @@ class ChatScreenState extends StateMVC<ChatScreen>
       ),
     );
     setState(() {
-      _con.messages.add(chatMessage);
+      _con.messages.insert(0, chatMessage);
       _con.sendMessage(
-          text,
-          widget.recentConversations == null
-              ? widget.order.orderNumber
-              : widget.recentConversations.orderId);
+        text,
+        widget.recentConversations == null
+            ? widget.order.id
+            : widget.recentConversations.orderId,
+        widget.recentConversations == null
+            ? widget.order.car.id
+            : widget.recentConversations.carId,
+      );
     });
     chatMessage.animationController.forward();
   }
 
   void dispose() {
-    for (Message message in _con.messages)
+    for (MessageData message in _con.messages)
       if (message.animationController != null) {
         message.animationController.dispose();
       }
@@ -139,10 +140,20 @@ class ChatScreenState extends StateMVC<ChatScreen>
     return new Scaffold(
       key: _con.scaffoldKey,
       appBar: AppBar(
+        leading: new IconButton(
+          icon: new Icon(Icons.arrow_back, color: Theme.of(context).hintColor),
+          onPressed: () => Navigator.of(context)
+              .push(new MaterialPageRoute<String>(
+                  builder: (_) => PagesWidget(
+                        currentTab: 4,
+                        scaffoldKey2: _con.scaffoldKey,
+                      )))
+              .then((String value) {}),
+        ),
         title: Text(
           widget.recentConversations == null
-              ? "محادثة مع ${widget.order.restaurant.name}   تريب رقم # ${widget.order.orderNumber}"
-              : "محادثة مع ${widget.recentConversations.restaurant.name}   تريب رقم # ${widget.recentConversations.orderId}",
+              ? " ${S.of(context).chat_with} ${widget.order.car.user.username}   ${S.of(context).order_id} # ${widget.order.id}"
+              : " ${S.of(context).chat_with} ${widget.recentConversations.car.user.username}   ${S.of(context).order_id} ${widget.recentConversations.orderId}",
           style: TextStyle(
             fontSize: 15.0,
             fontWeight: FontWeight.bold,
@@ -151,7 +162,7 @@ class ChatScreenState extends StateMVC<ChatScreen>
         elevation: 0.0,
       ),
       body: _con.isLoading
-          ? ShimmerHelper(type: Type.orders)
+          ? ShimmerHelper(type: Type.product)
           : GestureDetector(
               onTap: () => FocusScope.of(context).unfocus(),
               child: Column(
@@ -168,8 +179,8 @@ class ChatScreenState extends StateMVC<ChatScreen>
                             padding: EdgeInsets.only(top: 15.0),
                             itemCount: _con.messages.length,
                             itemBuilder: (BuildContext context, int index) {
-                              final Message message = _con.messages[index];
-                              final bool isMe = message.sentBy == 'user';
+                              final MessageData message = _con.messages[index];
+                              final bool isMe = message.sentBy == "user";
                               return buildMessage(message, isMe);
                             }),
                       ),
@@ -182,7 +193,7 @@ class ChatScreenState extends StateMVC<ChatScreen>
     );
   }
 
-  buildMessage(Message message, bool isMe) {
+  buildMessage(MessageData message, bool isMe) {
     final Container msg = Container(
         margin: isMe
             ? EdgeInsets.only(
@@ -257,11 +268,25 @@ class ChatScreenState extends StateMVC<ChatScreen>
       return Row(
         children: <Widget>[
           CircleAvatar(
-            radius: 35.0,
-            backgroundImage: _con.currentUser.media != null
-                ? CachedNetworkImageProvider(_con.currentUser.media.first.thumb)
-                : Image.asset('assets/img/default.png').image,
-          ),
+              radius: 35.0,
+              child: CachedNetworkImage(
+                fit: BoxFit.cover,
+                imageUrl: _con.user.image ?? "",
+                imageBuilder: (context, imageProvider) => Container(
+                  width: 80.0,
+                  height: 80.0,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    image: DecorationImage(
+                        image: imageProvider, fit: BoxFit.cover),
+                  ),
+                ),
+                placeholder: (context, url) => Image.asset(
+                  'assets/img/loading2.gif',
+                  fit: BoxFit.cover,
+                ),
+                errorWidget: (context, url, error) => Icon(Icons.error),
+              )),
           msg,
         ],
       );
@@ -271,10 +296,23 @@ class ChatScreenState extends StateMVC<ChatScreen>
         msg,
         CircleAvatar(
           radius: 35.0,
-          backgroundImage: widget.recentConversations.restaurant.image != null
-              ? CachedNetworkImageProvider(
-                  widget.recentConversations.restaurant.image.thumb)
-              : Image.asset('assets/img/default.png').image,
+          child: CachedNetworkImage(
+            fit: BoxFit.cover,
+            imageUrl: widget.recentConversations.car.user.image ?? "",
+            imageBuilder: (context, imageProvider) => Container(
+              width: 80.0,
+              height: 80.0,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                image: DecorationImage(image: imageProvider, fit: BoxFit.cover),
+              ),
+            ),
+            placeholder: (context, url) => Image.asset(
+              'assets/img/loading2.gif',
+              fit: BoxFit.cover,
+            ),
+            errorWidget: (context, url, error) => Icon(Icons.error),
+          ),
         ),
       ],
     );

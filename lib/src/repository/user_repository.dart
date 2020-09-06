@@ -1,47 +1,49 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:global_configuration/global_configuration.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:trip_car_client/generated/json/user_entity_helper.dart';
 import 'package:trip_car_client/src/models/tos.dart';
-import 'package:trip_car_client/src/models/user.dart';
+import 'package:trip_car_client/src/models/user_entity.dart';
 
-User currentUser = new User();
+ValueNotifier<UserDataUser> currentUser = new ValueNotifier(UserDataUser());
+
 Tos tos = new Tos();
 
-final String _apiToken = 'api_token=${currentUser.apiToken}';
+final String _apiToken = 'api_token=${currentUser.value.apiToken}';
 
-Future<User> loginUser(User user) async {
+Future<UserDataUser> loginUser(UserDataUser user) async {
   final String url = '${GlobalConfiguration().getString('api_base_url')}login';
   final client = new http.Client();
   final response = await client.post(
     url,
     headers: {HttpHeaders.contentTypeHeader: 'application/json'},
-    body: json.encode(user.toMapLogin()),
+    body: json.encode(user.toJson()),
   );
 
   if (response.statusCode == 200 &&
-      json.decode(response.body)['data'].toString().contains("name")) {
-    user = User.fromJSON(json.decode(response.body)['data']);
-    return user;
+      json.decode(response.body)['data']['user'].toString().contains("name")) {
+    return UserDataUser().fromJson(json.decode(response.body)['data']['user']);
   } else if (response.statusCode == 401 || response.statusCode == 404) {
-    user.message = json.decode(response.body)['message'].toString();
-    return user;
+    currentUser.value.message = json.decode(response.body)['error'].toString();
+    return currentUser.value;
   } else {
     try {
-      user.message = jsonDecode(response.body)['message'].toString();
+      currentUser.value.message = jsonDecode(response.body)['error'].toString();
     } on Exception catch (exception) {
-      user.message = "error";
+      currentUser.value.message = "error";
     } catch (error) {
-      user.message = "خطا";
+      currentUser.value.message = "خطا";
     }
-    return user;
+    return currentUser.value..message = "خطا";
   }
 }
 
 Future<Tos> getTos() async {
-  final String url = '${GlobalConfiguration().getString('api_base_url')}/tos';
+  final String url = '${GlobalConfiguration().getString('api_base_url')}tos';
   final client = new http.Client();
   final response = await client.get(
     url,
@@ -61,60 +63,88 @@ Future<Tos> getTos() async {
   }
 }
 
-Future<User> restPassFirstStep(User user) async {
+Future<String> restPassFinalStep(UserDataUser user) async {
   final String url =
-      '${GlobalConfiguration().getString('api_base_url')}password/email';
+      '${GlobalConfiguration().getString('api_base_url')}change_password';
   final client = new http.Client();
   final response = await client.post(
     url,
-    headers: {HttpHeaders.contentTypeHeader: 'application/json'},
-    body: json.encode(user.toMap()),
+    headers: {
+      HttpHeaders.contentTypeHeader: 'application/json',
+      HttpHeaders.acceptHeader: 'application/json'
+    },
+    body: json.encode(user.toJson()),
   );
 
   if (response.statusCode == 200 &&
-      response.body.toString().contains("activation")) {
-    user.message = "تم استعاده كلمه المرور على الايميل";
-    return user;
-  } else if (response.statusCode == 401 || response.statusCode == 404) {
-    user.message = "اسم المستخدم او كلمه المرور خطأ";
-    return user;
+      response.body.toString().contains("successfully")) {
+    return "successfully";
+  } else if (response.statusCode == 401 ||
+      response.statusCode == 404 ||
+      response.statusCode == 302 ||
+      response.statusCode == 422) {
+    return "الرمز الذي ادخلته غير صحيح";
   } else {
-    user.message = "خطأ";
-    return user;
+    return "الرمز الذي ادخلته غير صحيح";
   }
 }
 
-Future<User> register(User user) async {
+Future<String> restPassFirstStep(UserDataUser user) async {
   final String url =
-      '${GlobalConfiguration().getString('api_base_url')}/register';
+      '${GlobalConfiguration().getString('api_base_url')}reset_password';
   final client = new http.Client();
   final response = await client.post(
     url,
-    headers: {HttpHeaders.contentTypeHeader: 'application/json'},
-    body: json.encode(user.toMap()),
+    headers: {
+      HttpHeaders.contentTypeHeader: 'application/json',
+      HttpHeaders.acceptHeader: 'application/json'
+    },
+    body: json.encode(user.toJson()),
   );
 
-  if (response.statusCode == 200) {
-    setCurrentUser(response.body);
-    currentUser = User.fromJSON(json.decode(response.body)['data']);
+  if (response.statusCode == 200 &&
+      response.body.toString().contains("check your email")) {
+    return "true";
+  } else if (response.statusCode == 401 ||
+      response.statusCode == 404 ||
+      response.statusCode == 302 ||
+      response.statusCode == 422) {
+    return "الحساب غير موجود";
+  } else {
+    return "خطأ";
   }
+}
+
+Future<UserDataUser> register(UserDataUser user) async {
+  final String url =
+      '${GlobalConfiguration().getString('api_base_url')}register';
+  final client = new http.Client();
+  final response = await client.post(
+    url,
+    headers: {
+      HttpHeaders.contentTypeHeader: 'application/json',
+      HttpHeaders.acceptHeader: 'application/json'
+    },
+    body: json.encode(userDataUserToJsonReg(user)),
+  );
 
   if (response.statusCode == 200 &&
       response.body.toString().contains("api_token")) {
-    setCurrentUser(response.body);
-    currentUser = User.fromJSON(json.decode(response.body)['data']);
-    return currentUser;
+    //setCurrentUser(response.body);
+    currentUser.value =
+        UserDataUser().fromJson(json.decode(response.body)['data']);
+    return currentUser.value;
   } else if (response.statusCode == 401 || response.statusCode == 404) {
-    currentUser.message = "حدث خطأ بالاتصال";
-    return currentUser;
+    currentUser.value.message = "حدث خطأ بالاتصال";
+    return currentUser.value;
   } else {
-    currentUser.message = jsonDecode(response.body)['data'].toString();
-    return currentUser;
+    currentUser.value.message = jsonDecode(response.body)['data'].toString();
+    return currentUser.value;
   }
 }
 
 Future<void> logout() async {
-  currentUser = new User();
+  currentUser.value = new UserDataUser();
   SharedPreferences prefs = await SharedPreferences.getInstance();
   await prefs.remove('current_user');
 }
@@ -124,43 +154,73 @@ void setCurrentUser(jsonString) async {
   await prefs.setString('current_user', jsonString);
 }
 
-Future<User> getCurrentUser() async {
+Future<UserDataUser> getCurrentUser() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
-//  prefs.clear();
+  //prefs.clear();
   if (prefs.containsKey('current_user')) {
-    currentUser = User.fromJSON(json.decode(await prefs.get('current_user')));
+    currentUser.value =
+        UserDataUser().fromJson(json.decode(await prefs.get('current_user')));
+    print(json.decode(await prefs.get('current_user')));
+    currentUser.value.auth = true;
+  } else {
+    currentUser.value.auth = false;
   }
-  return currentUser;
+  // ignore: invalid_use_of_visible_for_testing_member, invalid_use_of_protected_member
+  currentUser.notifyListeners();
+  return currentUser.value;
 }
 
-Future<User> saveToken(String token) async {
+Future<UserDataUser> saveToken(String token) async {
+  final String _apiToken = 'api_token=${currentUser.value.apiToken}';
+
   final String url =
-      '${GlobalConfiguration().getString('api_base_url')}fcm/save';
+      '${GlobalConfiguration().getString('api_base_url')}save_token?$_apiToken';
   final client = new http.Client();
   final response = await client.post(
     url,
     headers: {
       HttpHeaders.contentTypeHeader: 'application/json',
-      HttpHeaders.authorizationHeader: "Bearer ${currentUser?.apiToken}"
     },
     body: json.encode({
       'device_token': token,
     }),
   );
-  currentUser = User.fromJSON(json.decode(response.body)['data']);
-  return currentUser;
+  currentUser.value =
+      UserDataUser().fromJson(json.decode(response.body)['data']);
+  return currentUser.value;
 }
 
-Future<User> update(User user) async {
-  final String _apiToken = 'api_token=${currentUser.apiToken}';
+Future<UserDataUser> update(UserDataUser user) async {
+  final String _apiToken = 'api_token=${currentUser.value.apiToken}';
   final String url =
-      '${GlobalConfiguration().getString('api_base_url')}users?$_apiToken';
+      '${GlobalConfiguration().getString('api_base_url')}edit/profile?$_apiToken';
   final client = new http.Client();
   final response = await client.post(
     url,
-    headers: {HttpHeaders.contentTypeHeader: 'application/json'},
-    body: json.encode(user.toMapUploadImage()),
+    headers: {
+      HttpHeaders.contentTypeHeader: 'application/json',
+      HttpHeaders.acceptHeader: 'application/json'
+    },
+    body: json.encode(userDataUserToJsonUpdate(user)),
   );
-  // setCurrentUser(response.body);
-  return User.fromJSON(json.decode(response.body)['data']);
+  print(UserDataUser().fromJson(json.decode(response.body)['data']));
+  if (response.statusCode == 200 &&
+      json.decode(response.body)['data'].toString().contains("api_token")) {
+    return UserDataUser().fromJson(json.decode(response.body)['data']);
+    print(UserDataUser().fromJson(json.decode(response.body)['data']));
+  } else if (response.statusCode == 401 || response.statusCode == 404) {
+    currentUser.value.message =
+        json.decode(response.body)['password'].toString();
+    return currentUser.value;
+  } else {
+    try {
+      currentUser.value.message =
+          jsonDecode(response.body)['password'].toString();
+    } on Exception catch (exception) {
+      currentUser.value.message = "error";
+    } catch (error) {
+      currentUser.value.message = "خطا";
+    }
+    return currentUser.value..message = "خطا";
+  }
 }

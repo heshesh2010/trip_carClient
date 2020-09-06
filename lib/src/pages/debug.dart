@@ -66,7 +66,7 @@ class _DebugWidgetState extends StateMVC<DebugWidget> {
                   },
                   itemBuilder: (context, index) {
                     return ListTile(
-                      title: Text(_con.favorites.elementAt(index).food.name),
+                      title: Text(_con.favorites.elementAt(index).car.name),
                     );
                   },
                 ),

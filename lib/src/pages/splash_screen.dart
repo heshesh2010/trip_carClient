@@ -12,8 +12,11 @@ class SplashScreenHome extends StatefulWidget {
 }
 
 class SplashScreenState extends StateMVC<SplashScreenHome> {
-  SplashScreenState() : super(Controller());
+  Controller _con;
 
+  SplashScreenState() : super(Controller()) {
+    _con = controller;
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,7 +26,7 @@ class SplashScreenState extends StateMVC<SplashScreenHome> {
         ),
         child: SplashScreen.navigate(
           name: 'assets/flare/intro.flr',
-          next: (context) => PagesTestWidget(),
+          next: (context) => PagesWidget(),
           isLoading: true,
           startAnimation: 'intro',
         ),

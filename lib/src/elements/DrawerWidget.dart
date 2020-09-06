@@ -1,8 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
+import 'package:share/share.dart';
+import 'package:trip_car_client/generated/i18n.dart';
 import 'package:trip_car_client/src/controllers/profile_controller.dart';
 import 'package:trip_car_client/src/repository/settings_repository.dart';
 import 'package:trip_car_client/src/repository/user_repository.dart';
@@ -21,31 +22,45 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return dd = _con.user?.apiToken != null
+    return _con.user?.apiToken != null
         ? Drawer(
             child: ListView(
             children: <Widget>[
-              GestureDetector(
-                onTap: () {},
-                child: UserAccountsDrawerHeader(
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).hintColor.withOpacity(0.1),
-//              borderRadius: BorderRadius.only(bottomLeft: Radius.circular(35)),
+              UserAccountsDrawerHeader(
+                decoration: BoxDecoration(
+                  color: Theme.of(context).hintColor.withOpacity(0.1),
+                  borderRadius: BorderRadius.only(
+                      //       bottomLeft: Radius.circular(35),
+                      bottomRight: Radius.circular(35),
+                      topLeft: Radius.circular(35)),
+                ),
+                accountName: Text(
+                  _con.user?.username ?? S.of(context).visitor,
+                  style: Theme.of(context).textTheme.headline6,
+                ),
+                accountEmail: Text(
+                  _con.user?.email ?? "",
+                  style: Theme.of(context).textTheme.caption,
+                ),
+                currentAccountPicture: CircleAvatar(
+                  child: CachedNetworkImage(
+                    fit: BoxFit.cover,
+                    imageUrl: _con.user?.image ?? "",
+                    imageBuilder: (context, imageProvider) => Container(
+                      width: 80.0,
+                      height: 80.0,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                            image: imageProvider, fit: BoxFit.cover),
+                      ),
+                    ),
+                    placeholder: (context, url) => Image.asset(
+                      'assets/img/loading2.gif',
+                      fit: BoxFit.cover,
+                    ),
+                    errorWidget: (context, url, error) => Icon(Icons.error),
                   ),
-                  accountName: Text(
-                    _con.user.name,
-                    style: Theme.of(context).textTheme.title,
-                  ),
-                  accountEmail: Text(
-                    _con.user.email,
-                    style: Theme.of(context).textTheme.caption,
-                  ),
-                  currentAccountPicture: CircleAvatar(
-                      backgroundColor: Theme.of(context).accentColor,
-                      backgroundImage: _con.user.media != null
-                          ? CachedNetworkImageProvider(
-                              _con.user.media.first.thumb)
-                          : Image.asset('assets/img/default.png').image),
                 ),
               ),
               ListTile(
@@ -57,19 +72,42 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
                   color: Theme.of(context).focusColor.withOpacity(1),
                 ),
                 title: Text(
-                  "الرئيسية",
+                  S.of(context).home,
                   style: Theme.of(context).textTheme.subhead,
                 ),
               ),
               ListTile(
-                dense: true,
-                title: Text(
-                  "اعدادت التطبيق",
-                  style: Theme.of(context).textTheme.body1,
+                onTap: () {
+                  Share.share(S.of(context).share_text +
+                      "\n" +
+                      S.of(context).iphone +
+                      "\n" +
+                      " https://itunes.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=1519699940 " +
+                      "\n" +
+                      S.of(context).android +
+                      "\n" +
+                      " https://play.google.com/store/apps/details?id=com.hesham.trip_car_client");
+                },
+                leading: Icon(
+                  Icons.share,
+                  color: Theme.of(context).focusColor.withOpacity(1),
                 ),
-                trailing: Icon(
-                  Icons.remove,
-                  color: Theme.of(context).focusColor.withOpacity(0.3),
+                title: Text(
+                  S.of(context).share,
+                  style: Theme.of(context).textTheme.subhead,
+                ),
+              ),
+              ListTile(
+                onTap: () {
+                  Navigator.of(context).pushNamed('OurWay');
+                },
+                leading: Icon(
+                  Icons.event_note,
+                  color: Theme.of(context).focusColor.withOpacity(1),
+                ),
+                title: Text(
+                  S.of(context).ourWay,
+                  style: Theme.of(context).textTheme.subhead,
                 ),
               ),
               ListTile(
@@ -81,7 +119,7 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
                   color: Theme.of(context).focusColor.withOpacity(1),
                 ),
                 title: Text(
-                  "الدعم والمساعدة",
+                  S.of(context).faq,
                   style: Theme.of(context).textTheme.subhead,
                 ),
               ),
@@ -94,8 +132,8 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
                   color: Theme.of(context).focusColor.withOpacity(1),
                 ),
                 title: Text(
-                  "الاعدادت",
-                  style: Theme.of(context).textTheme.subhead,
+                  S.of(context).profile_settings,
+                  style: Theme.of(context).textTheme.subtitle1,
                 ),
               ),
               ListTile(
@@ -106,16 +144,21 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
                   Icons.translate,
                   color: Theme.of(context).focusColor.withOpacity(1),
                 ),
+                title: Text(
+                  S.of(context).languages,
+                  style: Theme.of(context).textTheme.subtitle1,
+                ),
               ),
               ListTile(
                 onTap: () {
                   if (Theme.of(context).brightness == Brightness.dark) {
                     setBrightness(Brightness.light);
-                    DynamicTheme.of(context).setBrightness(Brightness.light);
+                    setting.value.brightness.value = Brightness.light;
                   } else {
+                    setting.value.brightness.value = Brightness.dark;
                     setBrightness(Brightness.dark);
-                    DynamicTheme.of(context).setBrightness(Brightness.dark);
                   }
+                  setting.notifyListeners();
                 },
                 leading: Icon(
                   Icons.brightness_6,
@@ -123,8 +166,8 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
                 ),
                 title: Text(
                   Theme.of(context).brightness == Brightness.dark
-                      ? "الوضع النهاري"
-                      : "الوضع الليلي",
+                      ? S.of(context).light_mode
+                      : S.of(context).night_mode,
                   style: Theme.of(context).textTheme.subhead,
                 ),
               ),
@@ -140,14 +183,14 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
                   color: Theme.of(context).focusColor.withOpacity(1),
                 ),
                 title: Text(
-                  "تسجيل الخروج",
+                  S.of(context).logout,
                   style: Theme.of(context).textTheme.subhead,
                 ),
               ),
               ListTile(
                 dense: true,
                 title: Text(
-                  "Version 0.0.1",
+                  "${S.of(context).version} 1.0.2",
                   style: Theme.of(context).textTheme.body1,
                 ),
                 trailing: Icon(
@@ -160,6 +203,43 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
         : Drawer(
             child: ListView(
               children: <Widget>[
+                UserAccountsDrawerHeader(
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).hintColor.withOpacity(0.1),
+                    borderRadius: BorderRadius.only(
+                        //       bottomLeft: Radius.circular(35),
+                        bottomRight: Radius.circular(35),
+                        topLeft: Radius.circular(35)),
+                  ),
+                  accountName: Text(
+                    _con.user?.username ?? S.of(context).visitor,
+                    style: Theme.of(context).textTheme.headline6,
+                  ),
+                  accountEmail: Text(
+                    _con.user?.email ?? "",
+                    style: Theme.of(context).textTheme.caption,
+                  ),
+                  currentAccountPicture: CircleAvatar(
+                    child: CachedNetworkImage(
+                      fit: BoxFit.cover,
+                      imageUrl: _con.user?.image ?? "",
+                      imageBuilder: (context, imageProvider) => Container(
+                        width: 80.0,
+                        height: 80.0,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          image: DecorationImage(
+                              image: imageProvider, fit: BoxFit.cover),
+                        ),
+                      ),
+                      placeholder: (context, url) => Image.asset(
+                        'assets/img/loading2.gif',
+                        fit: BoxFit.cover,
+                      ),
+                      errorWidget: (context, url, error) => Icon(Icons.error),
+                    ),
+                  ),
+                ),
                 ListTile(
                   onTap: () {
                     Navigator.of(context).pushNamed('Pages', arguments: 2);
@@ -169,7 +249,41 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
                     color: Theme.of(context).focusColor.withOpacity(1),
                   ),
                   title: Text(
-                    "الرئيسية",
+                    S.of(context).home,
+                    style: Theme.of(context).textTheme.subhead,
+                  ),
+                ),
+                ListTile(
+                  onTap: () {
+                    Share.share(S.of(context).share_text +
+                        "\n" +
+                        S.of(context).iphone +
+                        "\n" +
+                        " https://itunes.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=1519699940 " +
+                        "\n" +
+                        S.of(context).android +
+                        "\n" +
+                        " https://play.google.com/store/apps/details?id=com.hesham.trip_car_client");
+                  },
+                  leading: Icon(
+                    Icons.share,
+                    color: Theme.of(context).focusColor.withOpacity(1),
+                  ),
+                  title: Text(
+                    S.of(context).share,
+                    style: Theme.of(context).textTheme.subhead,
+                  ),
+                ),
+                ListTile(
+                  onTap: () {
+                    Navigator.of(context).pushNamed('OurWay');
+                  },
+                  leading: Icon(
+                    Icons.event_note,
+                    color: Theme.of(context).focusColor.withOpacity(1),
+                  ),
+                  title: Text(
+                    S.of(context).ourWay,
                     style: Theme.of(context).textTheme.subhead,
                   ),
                 ),
@@ -182,7 +296,7 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
                     color: Theme.of(context).focusColor.withOpacity(1),
                   ),
                   title: Text(
-                    "الدعم والمساعدة",
+                    S.of(context).faq,
                     style: Theme.of(context).textTheme.subhead,
                   ),
                 ),
@@ -195,7 +309,7 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
                     color: Theme.of(context).focusColor.withOpacity(1),
                   ),
                   title: Text(
-                    "الاعدادت",
+                    S.of(context).profile_settings,
                     style: Theme.of(context).textTheme.subhead,
                   ),
                 ),
@@ -207,16 +321,21 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
                     Icons.translate,
                     color: Theme.of(context).focusColor.withOpacity(1),
                   ),
+                  title: Text(
+                    S.of(context).languages,
+                    style: Theme.of(context).textTheme.subtitle1,
+                  ),
                 ),
                 ListTile(
                   onTap: () {
                     if (Theme.of(context).brightness == Brightness.dark) {
                       setBrightness(Brightness.light);
-                      DynamicTheme.of(context).setBrightness(Brightness.light);
+                      setting.value.brightness.value = Brightness.light;
                     } else {
+                      setting.value.brightness.value = Brightness.dark;
                       setBrightness(Brightness.dark);
-                      DynamicTheme.of(context).setBrightness(Brightness.dark);
                     }
+                    setting.notifyListeners();
                   },
                   leading: Icon(
                     Icons.brightness_6,
@@ -224,8 +343,8 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
                   ),
                   title: Text(
                     Theme.of(context).brightness == Brightness.dark
-                        ? "الوضع النهاري"
-                        : "الوضع الليلي",
+                        ? S.of(context).light_mode
+                        : S.of(context).night_mode,
                     style: Theme.of(context).textTheme.subhead,
                   ),
                 ),
@@ -240,14 +359,14 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
                     color: Theme.of(context).focusColor.withOpacity(1),
                   ),
                   title: Text(
-                    "تسجيل الدخول",
+                    S.of(context).login,
                     style: Theme.of(context).textTheme.subhead,
                   ),
                 ),
                 ListTile(
                   dense: true,
                   title: Text(
-                    "Version 0.0.1",
+                    "${S.of(context).version} 1.0.2",
                     style: Theme.of(context).textTheme.body1,
                   ),
                   trailing: Icon(

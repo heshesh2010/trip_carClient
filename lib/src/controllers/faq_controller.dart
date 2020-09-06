@@ -2,14 +2,14 @@ import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:trip_car_client/src/models/faq_category.dart';
-import 'package:trip_car_client/src/models/user.dart';
+import 'package:trip_car_client/src/models/user_entity.dart';
 import 'package:trip_car_client/src/repository/faq_repository.dart';
 import 'package:trip_car_client/src/repository/user_repository.dart';
 
 class FaqController extends ControllerMVC {
   List<FaqCategory> faqs = <FaqCategory>[];
   GlobalKey<ScaffoldState> scaffoldKey;
-  User user = new User();
+  UserDataUser user = new UserDataUser();
 
   FaqController() {
     listenForUser();

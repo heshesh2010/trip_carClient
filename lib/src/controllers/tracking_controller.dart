@@ -1,19 +1,16 @@
-import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:trip_car_client/src/helpers/helper.dart';
-import 'package:trip_car_client/src/models/order.dart';
-import 'package:trip_car_client/src/models/order_status.dart';
-import 'package:trip_car_client/src/models/user.dart';
-import 'package:trip_car_client/src/repository/order_repository.dart'
-    as orderRepo;
+import 'package:trip_car_client/src/models/order_entity.dart';
+import 'package:trip_car_client/src/models/order_status_entity.dart';
+import 'package:trip_car_client/src/models/user_entity.dart';
 import 'package:trip_car_client/src/repository/user_repository.dart';
 
 class TrackingController extends ControllerMVC {
   GlobalKey<ScaffoldState> scaffoldKey;
   bool loading = false;
 
-  User currentUser;
+  UserDataUser currentUser;
   getUser() async {
     this.currentUser = await getCurrentUser();
   }
@@ -22,43 +19,19 @@ class TrackingController extends ControllerMVC {
     this.scaffoldKey = new GlobalKey<ScaffoldState>();
   }
 
-  void updateOrder(Order order) async {
-    setState(() {
-      loading = true;
-    });
-    orderRepo.updateOrder(order).then((value) {
-      if (value is Order) {
-        setState(() {
-          loading = false;
-        });
-        FlushbarHelper.createSuccess(message: 'تم اضافه تحديث حاله الطلب بنجاح')
-            .show(scaffoldKey.currentContext);
-
-        Future.delayed(Duration(seconds: 3)).then((__) {
-          Navigator.pop(scaffoldKey.currentContext);
-        });
-      } else {
-        setState(() {
-          loading = false;
-        });
-        FlushbarHelper.createError(message: 'حدث خطأ تاكد من اتصالك بالانترنت')
-            .show(scaffoldKey.currentContext);
-      }
-    });
-  }
-
-  List<Step> getTrackingSteps(BuildContext context, ordersStatus, Order order) {
+  List<Step> getTrackingSteps(
+      BuildContext context, ordersStatus, OrderData order) {
     List<Step> _orderStatusSteps = [];
-    ordersStatus.forEach((OrderStatus _orderStatus) {
+    ordersStatus.forEach((OrderStatusData _orderStatus) {
       _orderStatusSteps.add(Step(
         state: StepState.complete,
         title: Text(
-          _orderStatus.status,
+          _orderStatus.name,
           style: Theme.of(context).textTheme.subtitle1,
         ),
-        subtitle: order.orderStatus.id == _orderStatus.id
+        subtitle: order.statusId == _orderStatus.id
             ? Text(
-                " أخر تحديث للحاله : ${Helper.getTimeOnly(order.date)}",
+                " أخر تحديث للحاله : ${Helper.getTimeOnly(order.updatedAt)}",
                 style: Theme.of(context).textTheme.caption,
                 overflow: TextOverflow.ellipsis,
               )
@@ -68,8 +41,8 @@ class TrackingController extends ControllerMVC {
             child: Text(
               '${Helper.skipHtml("")}',
             )),
-        isActive: (int.tryParse(order.orderStatus.id)) >=
-            (int.tryParse(_orderStatus.id)),
+        isActive: (int.tryParse(order.statusId.toString())) >=
+            (int.tryParse(_orderStatus.id.toString())),
       ));
     });
     return _orderStatusSteps;

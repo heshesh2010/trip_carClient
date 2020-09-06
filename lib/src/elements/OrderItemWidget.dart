@@ -2,13 +2,12 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:trip_car_client/generated/i18n.dart';
 import 'package:trip_car_client/src/helpers/helper.dart';
-import 'package:trip_car_client/src/models/order.dart';
-import 'package:trip_car_client/src/models/order_status.dart';
+import 'package:trip_car_client/src/models/order_entity.dart';
 import 'package:trip_car_client/src/models/route_argument.dart';
 
 class OrderItemWidget extends StatelessWidget {
-  final Order order;
-  final List<OrderStatus> orderStatus;
+  final OrderData order;
+  final List<OrderDataStatus> orderStatus;
 
   const OrderItemWidget({Key key, this.order, this.orderStatus})
       : super(key: key);
@@ -19,12 +18,9 @@ class OrderItemWidget extends StatelessWidget {
       // splashColor: Theme.of(context).primaryColor,
       // focusColor: Theme.of(context).focusColor,
       //highlightColor: Theme.of(context).primaryColor,
-
       onTap: () {
-        if (orderStatus.isNotEmpty && orderStatus != null)
-          Navigator.of(context).pushNamed('Tracking',
-              arguments:
-                  RouteArgument(order: order, ordersStatus: orderStatus));
+        Navigator.of(context).pushNamed('Tracking',
+            arguments: RouteArgument(order: order, ordersStatus: orderStatus));
       },
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
@@ -43,15 +39,14 @@ class OrderItemWidget extends StatelessWidget {
             Container(
               height: 60,
               width: 60,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(5)),
-                image: DecorationImage(
-                    image: order.restaurant?.image != null
-                        ? CachedNetworkImageProvider(
-                            order.restaurant.image.thumb,
-                          )
-                        : Image.asset('assets/img/default.png').image,
-                    fit: BoxFit.cover),
+              child: CachedNetworkImage(
+                fit: BoxFit.cover,
+                imageUrl: order?.car?.image ?? "",
+                placeholder: (context, url) => Image.asset(
+                  'assets/img/loading.gif',
+                  fit: BoxFit.cover,
+                ),
+                errorWidget: (context, url, error) => Icon(Icons.error),
               ),
             ),
             SizedBox(width: 15),
@@ -64,13 +59,13 @@ class OrderItemWidget extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          '${S.of(context).order_id}:#${order.orderNumber.toString()}',
+                          '${S.of(context).order_id}:#${order.id.toString()}',
                           overflow: TextOverflow.ellipsis,
                           maxLines: 2,
                           style: Theme.of(context).textTheme.subtitle1,
                         ),
                         Text(
-                          order.restaurant?.name ?? '',
+                          order?.car?.name ?? "لا يوجد",
                           overflow: TextOverflow.ellipsis,
                           maxLines: 2,
                           style: Theme.of(context).textTheme.caption,
@@ -83,21 +78,17 @@ class OrderItemWidget extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: <Widget>[
-                      Helper.getPrice(
-                          order.payment != null
-                              ? order.payment.price ?? 0.0
-                              : 0.0,
-                          style: Theme.of(context).textTheme.headline4),
+                      Helper.getPrice(order.payment?.price ?? 0.0, context),
                       Text(
-                        Helper.getDateOnly(order.date),
+                        Helper.getDateOnly(order.updatedAt ?? ""),
                         style: Theme.of(context).textTheme.caption,
                       ),
                       Text(
-                        Helper.getTimeOnly(order.date),
+                        Helper.getTimeOnly(order.updatedAt ?? ""),
                         style: Theme.of(context).textTheme.caption,
                       ),
                       Text(
-                        order.orderStatus.status,
+                        order.status?.name ?? "",
                         style: Theme.of(context).textTheme.caption,
                       ),
                     ],

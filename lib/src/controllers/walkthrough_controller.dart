@@ -1,8 +1,8 @@
 import 'package:mvc_pattern/mvc_pattern.dart';
-import 'package:trip_car_client/src/models/restaurant.dart';
+import 'package:trip_car_client/src/models/car_entity.dart';
 
 class WalkthroughController extends ControllerMVC {
-  List<Restaurant> topRestaurants = <Restaurant>[];
+  List<CarData> topCars = <CarData>[];
 
   WalkthroughController() {
     //listenForTopRestaurants();

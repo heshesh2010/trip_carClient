@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:trip_car_client/src/helpers/helper.dart';
-import 'package:trip_car_client/src/models/restaurant.dart';
+import 'package:trip_car_client/src/models/car_entity.dart';
 import 'package:trip_car_client/src/models/route_argument.dart';
 
 class GridItemWidget extends StatelessWidget {
-  Restaurant restaurant;
-  String heroTag;
+  final CarData car;
+  final String heroTag;
 
-  GridItemWidget({Key key, this.restaurant, this.heroTag}) : super(key: key);
+  GridItemWidget({Key key, this.car, this.heroTag}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,8 +15,8 @@ class GridItemWidget extends StatelessWidget {
       highlightColor: Colors.transparent,
       splashColor: Theme.of(context).accentColor.withOpacity(0.08),
       onTap: () {
-        Navigator.of(context).pushNamed('Details',
-            arguments: RouteArgument(id: restaurant.id, heroTag: heroTag));
+        Navigator.of(context).pushNamed('Car',
+            arguments: RouteArgument(id: car.id, heroTag: heroTag));
       },
       child: Container(
         margin: EdgeInsets.all(5),
@@ -36,9 +36,9 @@ class GridItemWidget extends StatelessWidget {
           children: <Widget>[
             Container(
               child: Hero(
-                tag: heroTag + restaurant.id.toString(),
+                tag: heroTag + car.id.toString(),
                 child: Image.network(
-                  restaurant.image.thumb,
+                  car.image,
                   fit: BoxFit.cover,
                   height: 82,
                   width: double.infinity,
@@ -47,14 +47,14 @@ class GridItemWidget extends StatelessWidget {
             ),
             SizedBox(height: 5),
             Text(
-              restaurant.name,
+              car.name,
               style: Theme.of(context).textTheme.body1,
               softWrap: false,
               overflow: TextOverflow.fade,
             ),
             SizedBox(height: 2),
             Row(
-              children: Helper.getStarsList(restaurant.rate),
+              children: Helper.getStarsList(car.carAverageReview),
             ),
           ],
         ),

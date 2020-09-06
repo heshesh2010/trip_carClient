@@ -2,14 +2,14 @@ import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:trip_car_client/src/models/favorite.dart';
-import 'package:trip_car_client/src/models/user.dart';
-import 'package:trip_car_client/src/repository/food_repository.dart';
+import 'package:trip_car_client/src/models/user_entity.dart';
+import 'package:trip_car_client/src/repository/car_repository.dart';
 import 'package:trip_car_client/src/repository/user_repository.dart';
 
 class FavoriteController extends ControllerMVC {
   List<Favorite> favorites = <Favorite>[];
   GlobalKey<ScaffoldState> scaffoldKey;
-  User currentUser;
+  UserDataUser currentUser;
 
   getUser() async {
     this.currentUser = await getCurrentUser();

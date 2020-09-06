@@ -12,7 +12,7 @@ class CategoriesCarouselWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return this.categories.isEmpty
         ? ShimmerHelper(
-            type: Type.cards,
+            type: Type.statics,
           )
         : Container(
             height: 150,

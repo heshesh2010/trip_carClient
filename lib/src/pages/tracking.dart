@@ -1,14 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:trip_car_client/generated/i18n.dart';
 import 'package:trip_car_client/src/controllers/tracking_controller.dart';
-import 'package:trip_car_client/src/elements/CircularLoadingWidget.dart';
-import 'package:trip_car_client/src/elements/TrackingFoodItemWidget.dart';
+import 'package:trip_car_client/src/elements/buildRateIcon.dart';
 import 'package:trip_car_client/src/models/route_argument.dart';
 import 'package:trip_car_client/src/pages/chat.dart';
+import 'package:trip_car_client/src/pages/pages.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class TrackingWidget extends StatefulWidget {
@@ -28,18 +27,25 @@ class _TrackingWidgetState extends StateMVC<TrackingWidget> {
   }
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context).copyWith(dividerColor: Colors.transparent);
     Size screenSize = MediaQuery.of(context).size;
-
+    double total = widget.routeArgument.order.payment.price /
+        ((100 + widget.routeArgument.order.tax) / 100);
+    double tax = total / 100 * widget.routeArgument.order.tax;
+    double totalAfterTax = tax + total;
     return Scaffold(
         key: _con.scaffoldKey,
         appBar: AppBar(
+          leading: new IconButton(
+            icon:
+                new Icon(Icons.arrow_back, color: Theme.of(context).hintColor),
+            onPressed: () => Navigator.of(context)
+                .push(new MaterialPageRoute<String>(
+                    builder: (_) => PagesWidget(
+                        scaffoldKey2: _con.scaffoldKey, currentTab: 3)))
+                .then((String value) {}),
+          ),
           backgroundColor: Theme.of(context).accentColor,
           elevation: 0,
           centerTitle: true,
@@ -51,106 +57,229 @@ class _TrackingWidgetState extends StateMVC<TrackingWidget> {
                 .merge(TextStyle(letterSpacing: 1.3)),
           ),
         ),
-        body: widget.routeArgument.order == null ||
-                widget.routeArgument.order.orderStatus.status.isEmpty
-            ? CircularLoadingWidget(height: 300)
-            : Stack(
-                children: <Widget>[
-                  Container(
-                    margin: EdgeInsets.only(bottom: 50),
-                    padding: EdgeInsets.only(bottom: 100),
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: <Widget>[
-                          Theme(
-                            data: theme,
-                            child: ExpansionTile(
-                              initiallyExpanded: true,
-                              title: Row(
-                                children: <Widget>[
-                                  Expanded(
-                                      child: Text(
-                                          '${S.of(context).order_id}: #${widget.routeArgument.order.orderNumber}',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .caption)),
-                                  Text(
-                                    '${widget.routeArgument.order.orderStatus.status}',
-                                    style: Theme.of(context).textTheme.caption,
-                                  ),
-                                ],
-                              ),
-                              children: List.generate(
-                                  widget.routeArgument.order.foodOrders.length,
-                                  (indexFood) {
-                                return TrackingFoodItemWidget(
-                                    order: widget.routeArgument.order,
-                                    foodOrder: widget
-                                        .routeArgument.order.foodOrders
-                                        .elementAt(indexFood));
-                              }),
+        body: Stack(
+          children: [
+            Container(
+              height: double.infinity,
+              child: SingleChildScrollView(
+                child: Column(
+                  children: <Widget>[
+                    Theme(
+                      data: theme,
+                      child: ExpansionTile(
+                        initiallyExpanded: true,
+                        title: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            Expanded(
+                                child: Text(
+                                    '${S.of(context).order_id}: #${widget.routeArgument.order.id}',
+                                    style:
+                                        Theme.of(context).textTheme.caption)),
+                            Text(
+                              '${widget.routeArgument.order.status.name}',
+                              style: Theme.of(context).textTheme.caption,
                             ),
-                          ),
-                          SizedBox(height: 20),
-                          Column(
-                            children: <Widget>[
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 20),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 10.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Row(
+                            children: [
                               buildText(context,
-                                  '${S.of(context).total}:  ${widget.routeArgument.order.payment?.price.toString()}'),
-                              SizedBox(height: 20),
+                                  '${S.of(context).order_from}:  ${widget.routeArgument.order.from}'),
                               buildText(context,
-                                  '${S.of(context).payment_mode}:  ${widget.routeArgument.order.payment?.method}'),
-                              SizedBox(height: 20),
-                              buildText(context,
-                                  '${S.of(context).confirm_payment}:  ${widget.routeArgument.order.payment?.status}'),
-                              _buildProfileImage(),
-                              _buildFullName(),
-                              _buildSeparator(screenSize),
-                              _buildGetInTouch(context),
-                              _buildButtons(),
+                                  '${S.of(context).order_to}:  ${widget.routeArgument.order.to}'),
                             ],
                           ),
-                          buildStepper(context),
+                          SizedBox(height: 20),
+
+                          Row(
+                            children: [
+                              buildText(context,
+                                  '${S.of(context).subtotal} ${total.toStringAsFixed(2)}'),
+                            ],
+                          ),
+
+                          SizedBox(height: 20),
+
+                          Row(
+                            children: [
+                              buildText(context,
+                                  '${S.of(context).tax} (${widget.routeArgument.order.tax}%): ${tax.toStringAsFixed(2)} ${S.of(context).riyal}'),
+                            ],
+                          ),
+                          SizedBox(height: 20),
+
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              buildText(context,
+                                  '${S.of(context).total}: ${totalAfterTax.toStringAsFixed(2)}'),
+                              SizedBox(width: 10),
+                            ],
+                          ),
+
+                          SizedBox(height: 40),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              _buildProfileImage(),
+                              Column(
+                                children: [
+                                  _buildFullName(),
+                                  _buildGetInTouch(context),
+                                ],
+                              ),
+                              if (widget.routeArgument.order.statusId == 2 ||
+                                  widget.routeArgument.order.statusId == 3 ||
+                                  widget.routeArgument.order.statusId == 4)
+                                buildRow(),
+                            ],
+                          ),
+                          SizedBox(height: 40),
+                          buildTextCaption(context, S.of(context).order_note),
+                          SizedBox(height: 20),
+                          //    BuildSeparator(screenSize),
                         ],
                       ),
                     ),
-                  ),
-                  buildRating(context)
-                ],
-              ));
+                  ],
+                ),
+              ),
+            ),
+            if (widget.routeArgument.order.statusId == 4) buildRating(context),
+          ],
+        ));
   }
 
-  Theme buildStepper(BuildContext context) {
-    return Theme(
-      data: ThemeData(
-        primaryColor: Theme.of(context).focusColor,
+  Expanded buildRow() {
+    return Expanded(
+      child: Row(
+        children: [
+          buildCallButton(),
+          buildMessageButton(),
+        ],
       ),
-      child: Stepper(
-          physics: ClampingScrollPhysics(),
-          controlsBuilder: (BuildContext context,
-              {VoidCallback onStepContinue, VoidCallback onStepCancel}) {
-            return SizedBox(height: 0);
-          },
-          steps: _con.getTrackingSteps(context,
-              widget.routeArgument.ordersStatus, widget.routeArgument.order),
-          currentStep:
-              int.tryParse(this.widget.routeArgument.order.orderStatus.id) - 1,
-          onStepTapped: (step) {
-            if (step <=
-                int.tryParse(this.widget.routeArgument.order.orderStatus.id) -
-                    1) {
-              // sorry
-            } else {
-              setState(() {
-                this.widget.routeArgument.order.orderStatus.id =
-                    (step + 1).toString();
-                _con.updateOrder(this.widget.routeArgument.order);
-                // post to server new id
-                //  currentStep = step;
-                // when step more than 2 show message there will be charge and confrmation dailog
-                // if in first step go
-                // if in last step
-              });
-            }
+    );
+  }
+
+  Padding buildText(BuildContext context, String text) {
+    return Padding(
+      padding: const EdgeInsets.only(
+        right: 20.0,
+      ),
+      child: Align(
+        alignment: Alignment.centerRight,
+        child: Text(
+          text,
+          overflow: TextOverflow.ellipsis,
+          maxLines: 2,
+          style: Theme.of(context).textTheme.subtitle1,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildProfileImage() {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Center(
+        child: Container(
+          child: CachedNetworkImage(
+            fit: BoxFit.cover,
+            imageUrl: widget?.routeArgument?.order?.car?.image ?? "",
+            imageBuilder: (context, imageProvider) => Container(
+              width: 60.0,
+              height: 60.0,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                image: DecorationImage(image: imageProvider, fit: BoxFit.cover),
+              ),
+            ),
+            placeholder: (context, url) => Image.asset(
+              'assets/img/loading2.gif',
+              fit: BoxFit.cover,
+            ),
+            errorWidget: (context, url, error) => Icon(Icons.error),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildFullName() {
+    TextStyle _nameTextStyle = TextStyle(
+      fontSize: 22.0,
+      fontWeight: FontWeight.w700,
+    );
+
+    return Text(
+      widget?.routeArgument?.order?.car?.name ?? "لا يوجد",
+      style: _nameTextStyle,
+    );
+  }
+
+  Widget _buildGetInTouch(BuildContext context) {
+    return Container(
+      color: Theme.of(context).scaffoldBackgroundColor,
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              (widget.routeArgument?.order?.car?.carAverageReview ?? 0) == -1
+                  ? Text(S.of(context).no_reviews)
+                  : buildRateIcon(
+                      widget.routeArgument?.order?.car?.carAverageReview ?? 0,
+                      context),
+              SizedBox(
+                width: 5,
+              ),
+              Text(
+                "${S.of(context).based_on}  (${widget.routeArgument?.order?.car?.reviews?.length ?? 0}) ${S.of(context).rate}",
+                style: Theme.of(context).textTheme.caption,
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Container buildMessageButton() {
+    return Container(
+      width: 30,
+      child: IconButton(
+          // Use the FaIcon Widget + FontAwesomeIcons class for the IconData
+          icon: Icon(Icons.message),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => ChatScreen(order: widget.routeArgument.order),
+              ),
+            );
+          }),
+    );
+  }
+
+  Container buildCallButton() {
+    return Container(
+      width: 30,
+      child: IconButton(
+          icon: Icon(Icons.phone),
+
+          // Use the FaIcon Widget + FontAwesomeIcons class for the IconData
+          //   icon: FaIcon(FontAwesomeIcons.phone),
+          onPressed: () {
+            _launchCaller();
           }),
     );
   }
@@ -159,7 +288,6 @@ class _TrackingWidgetState extends StateMVC<TrackingWidget> {
     return Positioned(
       bottom: 0,
       child: Container(
-        height: 150,
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
         decoration: BoxDecoration(
             color: Theme.of(context).primaryColor,
@@ -179,12 +307,12 @@ class _TrackingWidgetState extends StateMVC<TrackingWidget> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  "ماهو تقييمك للمطعم  ؟ ",
-                  style: Theme.of(context).textTheme.headline5,
+                  S.of(context).how_would_you_rate_this_car_,
+                  style: Theme.of(context).textTheme.subtitle2,
                 ),
               ),
               Text(
-                "فضلا اضغط على النجوم بالاسفل ",
+                S.of(context).tell_us_about_this_car,
                 style: Theme.of(context).textTheme.subtitle2,
               ),
               InkWell(
@@ -210,140 +338,25 @@ class _TrackingWidgetState extends StateMVC<TrackingWidget> {
     );
   }
 
-  Padding buildText(BuildContext context, String text) {
-    return Padding(
-      padding: const EdgeInsets.only(
-        right: 20.0,
-      ),
-      child: Align(
-        alignment: Alignment.centerRight,
-        child: Text(
-          text,
-          overflow: TextOverflow.ellipsis,
-          maxLines: 2,
-          style: Theme.of(context).textTheme.subhead,
-        ),
-      ),
-    );
-  }
-
-  Widget _buildProfileImage() {
-    return Center(
-      child: Container(
-        width: 140.0,
-        height: 140.0,
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: widget.routeArgument.order.restaurant.image != null
-                ? CachedNetworkImageProvider(
-                    widget.routeArgument.order.restaurant.image.thumb)
-                : AssetImage('assets/img/default.png'),
-            fit: BoxFit.cover,
-          ),
-          borderRadius: BorderRadius.circular(80.0),
-          border: Border.all(
-            color: Colors.white,
-            width: 10.0,
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildFullName() {
-    TextStyle _nameTextStyle = TextStyle(
-      fontSize: 28.0,
-      fontWeight: FontWeight.w700,
-    );
-
-    return Text(
-      widget.routeArgument.order.restaurant.name,
-      style: _nameTextStyle,
-    );
-  }
-
-  Widget _buildSeparator(Size screenSize) {
-    return Container(
-      width: screenSize.width / 1.6,
-      height: 2.0,
-      color: Colors.black54,
-      margin: EdgeInsets.only(top: 4.0),
-    );
-  }
-
-  Widget _buildGetInTouch(BuildContext context) {
-    return Container(
-      color: Theme.of(context).scaffoldBackgroundColor,
-      padding: EdgeInsets.only(top: 8.0),
-      child: Text(
-        "تواصل مع  ${widget.routeArgument.order.restaurant.name},",
-        style: TextStyle(fontSize: 16.0),
-      ),
-    );
-  }
-
-  Widget _buildButtons() {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-      child: Row(
-        children: <Widget>[
-          Expanded(
-            child: InkWell(
-              onTap: () => _launchCaller(),
-              child: Container(
-                height: 40.0,
-                decoration: BoxDecoration(
-                  border: Border.all(),
-                  color: Theme.of(context).accentColor,
-                ),
-                child: Center(
-                  child: Text(
-                    "اتصال ",
-                    style: TextStyle(fontWeight: FontWeight.w800, fontSize: 15),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          SizedBox(width: 10.0),
-          Expanded(
-            child: InkWell(
-              onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => ChatScreen(order: widget.routeArgument.order),
-                ),
-              ),
-              child: Container(
-                height: 40.0,
-                decoration: BoxDecoration(
-                    border: Border.all(), color: Theme.of(context).accentColor),
-                child: Center(
-                  child: Padding(
-                    padding: EdgeInsets.all(10.0),
-                    child: Text(
-                      "مراسلة",
-                      style:
-                          TextStyle(fontWeight: FontWeight.w800, fontSize: 15),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   _launchCaller() async {
-    String url =
-        'tel:${widget.routeArgument.order.restaurant.phone.toString()}';
+    String url = 'tel:${widget.routeArgument.order.car.user.phone.toString()}';
     if (await canLaunch(url)) {
       await launch(url);
     } else {
-      FlushbarHelper.createInformation(message: 'هذا المطعم لا يملك هاتف')
+      FlushbarHelper.createInformation(message: 'هذا المستخدم لا يملك هاتف')
           .show(_con.scaffoldKey.currentState.context);
     }
+  }
+
+  Padding buildTextCaption(BuildContext context, String text) {
+    return Padding(
+      padding: const EdgeInsets.only(right: 20.0, left: 20.0),
+      child: Text(
+        text,
+        overflow: TextOverflow.ellipsis,
+        maxLines: 2,
+        style: Theme.of(context).textTheme.caption,
+      ),
+    );
   }
 }

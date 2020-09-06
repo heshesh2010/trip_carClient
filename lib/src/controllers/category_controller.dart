@@ -1,18 +1,17 @@
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
+import 'package:trip_car_client/src/models/car_entity.dart';
 import 'package:trip_car_client/src/models/category.dart';
-import 'package:trip_car_client/src/models/food.dart';
-import 'package:trip_car_client/src/models/user.dart';
+import 'package:trip_car_client/src/models/user_entity.dart';
 import 'package:trip_car_client/src/repository/category_repository.dart';
-import 'package:trip_car_client/src/repository/food_repository.dart';
 import 'package:trip_car_client/src/repository/user_repository.dart';
 
 class CategoryController extends ControllerMVC {
-  List<Food> foods = <Food>[];
+  List<CarData> cars = <CarData>[];
   GlobalKey<ScaffoldState> scaffoldKey;
   Category category;
-  User user = new User();
+  UserDataUser user = new UserDataUser();
 
   CategoryController() {
     listenForUser();
@@ -27,11 +26,11 @@ class CategoryController extends ControllerMVC {
     });
   }
 
-  void listenForFoodsByCategory({int id, String message}) async {
-    final Stream<Food> stream = await getFoodsByCategory(id);
-    stream.listen((Food _food) {
+  void listenForCarsByCategory({int id, String message}) async {
+    final Stream<CarData> stream = await getCarsByCategory(id);
+    stream.listen((CarData _car) {
       setState(() {
-        foods.add(_food);
+        cars.add(_car);
       });
     }, onError: (a) {
       FlushbarHelper.createError(message: "حدث خطأ بالاتصال").show(context);
@@ -57,9 +56,9 @@ class CategoryController extends ControllerMVC {
   }
 
   Future<void> refreshCategory() async {
-    foods.clear();
+    cars.clear();
     category = new Category();
-    listenForFoodsByCategory(message: 'تم تحديث التصنيفات بنجاح');
+    listenForCarsByCategory(message: 'تم تحديث التصنيفات بنجاح');
     listenForCategory(message: 'تم تحديث التصنيفات بنجاح');
   }
 }

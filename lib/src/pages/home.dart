@@ -3,12 +3,13 @@ import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:trip_car_client/generated/i18n.dart';
 import 'package:trip_car_client/src/controllers/home_controller.dart';
 import 'package:trip_car_client/src/elements/CardsCarouselWidget.dart';
-import 'package:trip_car_client/src/elements/CaregoriesCarouselWidget.dart';
-import 'package:trip_car_client/src/elements/FoodsCarouselWidget.dart';
-import 'package:trip_car_client/src/elements/ReviewsListWidget.dart';
+import 'package:trip_car_client/src/elements/RecentReviewsListWidget.dart';
 import 'package:trip_car_client/src/elements/SearchBarWidget.dart';
 
 class HomeWidget extends StatefulWidget {
+  final GlobalKey<ScaffoldState> parentScaffoldKey;
+
+  HomeWidget({Key key, this.parentScaffoldKey}) : super(key: key);
   @override
   _HomeWidgetState createState() => _HomeWidgetState();
 }
@@ -20,9 +21,19 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
   }
   @override
   Widget build(BuildContext context) {
-    return RefreshIndicator(
-      onRefresh: _con.refreshHome,
-      child: SingleChildScrollView(
+    return Scaffold(
+      appBar: AppBar(
+        leading: new IconButton(
+          icon: new Icon(Icons.sort, color: Theme.of(context).hintColor),
+          onPressed: () => widget.parentScaffoldKey.currentState.openDrawer(),
+        ),
+        automaticallyImplyLeading: false,
+        backgroundColor: Theme.of(context).accentColor,
+        elevation: 0,
+        centerTitle: true,
+        title: Text(S.of(context).home),
+      ),
+      body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -42,54 +53,38 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    decoration: BoxDecoration(
-                        border: Border(
-                            bottom: BorderSide(
-                      color: Colors.yellow, // Text colour here
-                      width: 2.0, // Underline width
-                    ))),
                     child: Text(
-                      "السيارات المضافة حديثا",
-                      style: TextStyle(
-                        color: Colors.black, // Text colour here
-                      ),
+                      S.of(context).recent_cars,
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline4, // Text colour here
                     ),
                   ),
                 ],
               ),
-              subtitle: Text(
-                S.of(context).ordered_by_nearby_first,
-                style: Theme.of(context).textTheme.caption,
+            ),
+            CardsCarouselWidget(
+                carsList: _con.recentCars, heroTag: 'home_recent_cars'),
+            ListTile(
+              dense: true,
+              contentPadding: EdgeInsets.symmetric(horizontal: 20),
+              leading: Icon(
+                Icons.trending_up,
+                color: Theme.of(context).hintColor,
+              ),
+              title: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    child: Text(S.of(context).trending_this_week,
+                        style: Theme.of(context).textTheme.headline4),
+                  ),
+                ],
               ),
             ),
             CardsCarouselWidget(
-                restaurantsList: _con.topRestaurants,
-                heroTag: 'home_top_restaurants'),
-            _con.trendingFoodsIsEmpty
-                ? Container()
-                : ListTile(
-                    dense: true,
-                    contentPadding: EdgeInsets.symmetric(horizontal: 20),
-                    leading: Icon(
-                      Icons.trending_up,
-                      color: Theme.of(context).hintColor,
-                    ),
-                    title: Text(S.of(context).trending_this_week,
-                        style: Theme.of(context).textTheme.display1),
-                    subtitle: Text(
-                      S.of(context).double_click_on_the_food_to_add_it_to_the,
-                      style: Theme.of(context)
-                          .textTheme
-                          .caption
-                          .merge(TextStyle(fontSize: 11)),
-                    ),
-                  ),
-            _con.trendingFoodsIsEmpty
-                ? Container()
-                : FoodsCarouselWidget(
-                    foodsList: _con.trendingFoods,
-                    heroTag: 'home_food_carousel'),
-            Padding(
+                carsList: _con.topCars, heroTag: 'home_top_cars'),
+            /*Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: ListTile(
                 dense: true,
@@ -106,7 +101,7 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
             ),
             CategoriesCarouselWidget(
               categories: _con.categories,
-            ),
+            ),*/
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: ListTile(
@@ -118,13 +113,13 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
                 ),
                 title: Text(
                   S.of(context).recent_reviews,
-                  style: Theme.of(context).textTheme.display1,
+                  style: Theme.of(context).textTheme.headline4,
                 ),
               ),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: ReviewsListWidget(reviewsList: _con.recentReviews),
+              child: RecentReviewsListWidget(reviewsList: _con.recentReviews),
             ),
           ],
         ),

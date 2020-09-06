@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:trip_car_client/src/controllers/chat_controller.dart';
 import 'package:trip_car_client/src/helpers/helper.dart';
-import 'package:trip_car_client/src/models/recentConversations.dart';
+import 'package:trip_car_client/src/models/conversation_entity.dart';
 import 'package:trip_car_client/src/pages/chat.dart';
 
 class RecentChats extends StatelessWidget {
@@ -26,7 +26,7 @@ class RecentChats extends StatelessWidget {
             child: ListView.builder(
               itemCount: _con.recentConversation.length,
               itemBuilder: (BuildContext context, int index) {
-                final RecentConversations recentConversations =
+                final ConversationData recentConversations =
                     _con.recentConversation[index];
                 return GestureDetector(
                   onTap: () => Navigator.push(
@@ -43,7 +43,7 @@ class RecentChats extends StatelessWidget {
                     padding:
                         EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
                     decoration: BoxDecoration(
-                      color: recentConversations.message.seen == 0
+                      color: recentConversations.latestMessage.seen == 0
                           ? Theme.of(context).primaryColor
                           : Theme.of(context).accentColor,
                       boxShadow: [
@@ -63,30 +63,67 @@ class RecentChats extends StatelessWidget {
                         Row(
                           children: <Widget>[
                             CircleAvatar(
-                                radius: 35.0,
-                                backgroundImage: recentConversations
-                                            .message.sentBy ==
-                                        "user"
-                                    ? _con.currentUser.media != null
-                                        ? CachedNetworkImageProvider(
-                                            _con.currentUser.media.first.thumb)
-                                        : Image.asset('assets/img/default.png')
-                                            .image
-                                    : recentConversations.restaurant.image !=
-                                            null
-                                        ? CachedNetworkImageProvider(
-                                            recentConversations
-                                                .restaurant.image.url)
-                                        : Image.asset('assets/img/default.png')
-                                            .image),
+                              radius: 35.0,
+                              child: recentConversations.latestMessage.sentBy ==
+                                      "carOwner"
+                                  ? CachedNetworkImage(
+                                      fit: BoxFit.cover,
+                                      imageUrl:
+                                          recentConversations.car.user.image ??
+                                              "",
+                                      imageBuilder: (context, imageProvider) =>
+                                          Container(
+                                        width: 80.0,
+                                        height: 80.0,
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          image: DecorationImage(
+                                              image: imageProvider,
+                                              fit: BoxFit.cover),
+                                        ),
+                                      ),
+                                      placeholder: (context, url) =>
+                                          Image.asset(
+                                        'assets/img/loading2.gif',
+                                        fit: BoxFit.cover,
+                                      ),
+                                      errorWidget: (context, url, error) =>
+                                          Icon(Icons.error),
+                                    )
+                                  : CachedNetworkImage(
+                                      fit: BoxFit.cover,
+                                      imageUrl: _con.user.image ?? "",
+                                      imageBuilder: (context, imageProvider) =>
+                                          Container(
+                                        width: 80.0,
+                                        height: 80.0,
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          image: DecorationImage(
+                                              image: imageProvider,
+                                              fit: BoxFit.cover),
+                                        ),
+                                      ),
+                                      placeholder: (context, url) =>
+                                          Image.asset(
+                                        'assets/img/loading2.gif',
+                                        fit: BoxFit.cover,
+                                      ),
+                                      errorWidget: (context, url, error) =>
+                                          Icon(Icons.error),
+                                    ),
+                            ),
                             SizedBox(width: 10.0),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Text(
-                                  recentConversations.message.sentBy == 'user'
-                                      ? _con.currentUser.name
-                                      : recentConversations.restaurant.name,
+                                  recentConversations.latestMessage.sentBy ==
+                                          'carOwner'
+                                      ? recentConversations
+                                              .car.user?.username ??
+                                          "مالك السياره"
+                                      : _con.user.username ?? "انا",
                                   style: TextStyle(
                                     color: Colors.grey,
                                     //   fontSize: 15.0,
@@ -98,7 +135,7 @@ class RecentChats extends StatelessWidget {
                                   width:
                                       MediaQuery.of(context).size.width * 0.45,
                                   child: Text(
-                                    recentConversations.message.message,
+                                    recentConversations.latestMessage.message,
                                     style: TextStyle(
                                       color: Colors.blueGrey,
                                       fontSize: 15.0,
@@ -115,7 +152,7 @@ class RecentChats extends StatelessWidget {
                           children: <Widget>[
                             Text(
                               Helper.getDateOnly(recentConversations
-                                  .message.updatedAt
+                                  .latestMessage.updatedAt
                                   .toString()),
                               style: TextStyle(
                                 color: Theme.of(context).hintColor,
@@ -124,7 +161,7 @@ class RecentChats extends StatelessWidget {
                               ),
                             ),
                             SizedBox(height: 5.0),
-                            recentConversations.message.seen == 0
+                            recentConversations.latestMessage.seen == 0
                                 ? Container(
                                     width: 40.0,
                                     height: 20.0,

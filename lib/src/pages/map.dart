@@ -5,7 +5,7 @@ import 'package:trip_car_client/generated/i18n.dart';
 import 'package:trip_car_client/src/controllers/map_controller.dart';
 import 'package:trip_car_client/src/elements/CardsCarouselWidget.dart';
 import 'package:trip_car_client/src/elements/CircularLoadingWidget.dart';
-import 'package:trip_car_client/src/models/restaurant.dart';
+import 'package:trip_car_client/src/models/car_entity.dart';
 import 'package:trip_car_client/src/models/route_argument.dart';
 
 class MapWidget extends StatefulWidget {
@@ -25,7 +25,7 @@ class _MapWidgetState extends StateMVC<MapWidget> {
 
   @override
   void initState() {
-    _con.currentRestaurant = widget.routeArgument.param as Restaurant;
+    _con.currentCar = widget.routeArgument.param as CarData;
     super.initState();
   }
 
@@ -78,7 +78,7 @@ class _MapWidgetState extends StateMVC<MapWidget> {
                   polylines: _con.polylines,
                 ),
           CardsCarouselWidget(
-            restaurantsList: _con.topRestaurants,
+            carsList: _con.topCars,
             heroTag: 'map_restaurants',
           ),
         ],

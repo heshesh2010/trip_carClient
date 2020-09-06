@@ -5,8 +5,6 @@ import 'package:trip_car_client/src/controllers/faq_controller.dart';
 import 'package:trip_car_client/src/elements/CircularLoadingWidget.dart';
 import 'package:trip_car_client/src/elements/DrawerWidget.dart';
 import 'package:trip_car_client/src/elements/FaqItemWidget.dart';
-import 'package:trip_car_client/src/elements/SearchBarWidget.dart';
-import 'package:trip_car_client/src/elements/ShoppingCartButtonWidget.dart';
 
 class HelpWidget extends StatefulWidget {
   @override
@@ -30,29 +28,23 @@ class _HelpWidgetState extends StateMVC<HelpWidget> {
               key: _con.scaffoldKey,
               drawer: DrawerWidget(),
               appBar: AppBar(
-                backgroundColor: Theme.of(context).focusColor,
+                backgroundColor: Theme.of(context).accentColor,
                 elevation: 0,
                 centerTitle: true,
-                iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
+                iconTheme: IconThemeData(color: Theme.of(context).hintColor),
                 bottom: TabBar(
                   tabs: List.generate(_con.faqs.length, (index) {
                     return Tab(text: _con.faqs.elementAt(index).name ?? '');
                   }),
-                  labelColor: Theme.of(context).primaryColor,
+                  labelColor: Theme.of(context).hintColor,
+                  unselectedLabelColor: Theme.of(context).unselectedWidgetColor,
+
                 ),
                 title: Text(
                   S.of(context).faq,
                   style: Theme.of(context).textTheme.title.merge(TextStyle(
-                      letterSpacing: 1.3,
-                      color: Theme.of(context).primaryColor)),
+                      letterSpacing: 1.3, color: Theme.of(context).focusColor)),
                 ),
-                actions: <Widget>[
-                  _con.user.apiToken != null
-                      ? new ShoppingCartButtonWidget(
-                          iconColor: Theme.of(context).primaryColor,
-                          labelColor: Theme.of(context).accentColor)
-                      : Container()
-                ],
               ),
               body: RefreshIndicator(
                 onRefresh: _con.refreshFaqs,
@@ -66,21 +58,6 @@ class _HelpWidgetState extends StateMVC<HelpWidget> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         mainAxisSize: MainAxisSize.max,
                         children: <Widget>[
-                          SearchBarWidget(),
-                          SizedBox(height: 15),
-                          ListTile(
-                            contentPadding: EdgeInsets.symmetric(vertical: 0),
-                            leading: Icon(
-                              Icons.help,
-                              color: Theme.of(context).hintColor,
-                            ),
-                            title: Text(
-                              S.of(context).help_supports,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: Theme.of(context).textTheme.display1,
-                            ),
-                          ),
                           ListView.separated(
                             padding: EdgeInsets.symmetric(vertical: 5),
                             scrollDirection: Axis.vertical,

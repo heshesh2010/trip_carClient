@@ -1,29 +1,34 @@
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
-import 'package:trip_car_client/src/models/recentConversations.dart';
-import 'package:trip_car_client/src/models/user.dart';
+import 'package:trip_car_client/src/models/conversation_entity.dart';
+import 'package:trip_car_client/src/models/user_entity.dart';
 import 'package:trip_car_client/src/repository/conversation_repository.dart';
 import 'package:trip_car_client/src/repository/user_repository.dart';
 
 class ChatController extends ControllerMVC {
-  List<RecentConversations> recentConversation = <RecentConversations>[];
+  List<ConversationData> recentConversation = <ConversationData>[];
   GlobalKey<ScaffoldState> scaffoldKey;
   bool isLoading = true;
-  User currentUser;
-  getUser() async {
-    this.currentUser = await getCurrentUser();
-  }
+  UserDataUser user = new UserDataUser();
 
   ChatController() {
+    listenForUser();
     this.scaffoldKey = new GlobalKey<ScaffoldState>();
-    getUser();
     listenForRecentConversations();
   }
 
+  void listenForUser() {
+    getCurrentUser().then((_user) {
+      setState(() {
+        user = _user;
+      });
+    });
+  }
+
   void listenForRecentConversations({String message}) async {
-    final Stream<RecentConversations> stream = await getRecentConversations();
-    stream.listen((RecentConversations _recentConversation) {
+    final Stream<ConversationData> stream = await getRecentConversations();
+    stream.listen((ConversationData _recentConversation) {
       setState(() {
         recentConversation.add(_recentConversation);
       });
@@ -38,8 +43,7 @@ class ChatController extends ControllerMVC {
         isLoading = false;
       });
       if (message != null) {
-        FlushbarHelper.createSuccess(message: message)
-            .show(scaffoldKey.currentState.context);
+        FlushbarHelper.createSuccess(message: message).show(context);
       }
     });
   }

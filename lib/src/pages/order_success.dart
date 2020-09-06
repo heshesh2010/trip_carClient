@@ -3,12 +3,15 @@ import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:trip_car_client/generated/i18n.dart';
 import 'package:trip_car_client/src/controllers/checkout_controller.dart';
 import 'package:trip_car_client/src/helpers/helper.dart';
-import 'package:trip_car_client/src/models/payment.dart';
-import 'package:trip_car_client/src/repository/settings_repository.dart';
+import 'package:trip_car_client/src/models/order_entity.dart';
+import 'package:trip_car_client/src/models/route_argument.dart';
+import 'package:trip_car_client/src/pages/pages.dart';
 
 class OrderSuccessWidget extends StatefulWidget {
-  final Payment payment;
-  OrderSuccessWidget({Key key, this.goToWidget2, this.payment})
+  final OrderDataPayment payment;
+  final RouteArgument routeArgument;
+  OrderSuccessWidget(
+      {Key key, this.goToWidget2, this.payment, this.routeArgument})
       : super(key: key);
   final Function goToWidget2;
 
@@ -26,8 +29,7 @@ class _OrderSuccessWidgetState extends StateMVC<OrderSuccessWidget> {
   @override
   void initState() {
     super.initState();
-    _con.payment = widget.payment;
-    _con.listenForCarts(withAddOrder: true);
+    _con.addOrder(widget.routeArgument.order);
   }
 
   @override
@@ -38,7 +40,9 @@ class _OrderSuccessWidgetState extends StateMVC<OrderSuccessWidget> {
           automaticallyImplyLeading: false,
           leading: IconButton(
             onPressed: () {
-              Navigator.of(context).pop();
+              Navigator.of(context).push(new MaterialPageRoute<String>(
+                  builder: (_) => PagesWidget(
+                      scaffoldKey2: _con.scaffoldKey, currentTab: 2)));
             },
             icon: Icon(Icons.arrow_back),
             color: Theme.of(context).hintColor,
@@ -141,7 +145,7 @@ class _OrderSuccessWidgetState extends StateMVC<OrderSuccessWidget> {
                       : Opacity(
                           opacity: 0.4,
                           child: Text(
-                            " رقم الطلب ${_con.payment.id}",
+                            " رقم الطلب ${_con.payment.orderId}",
                             textAlign: TextAlign.center,
                             style: Theme.of(context)
                                 .textTheme
@@ -155,7 +159,7 @@ class _OrderSuccessWidgetState extends StateMVC<OrderSuccessWidget> {
             Positioned(
               bottom: 0,
               child: Container(
-                height: 230,
+                height: 130,
                 padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
                 decoration: BoxDecoration(
                     color: Theme.of(context).primaryColor,
@@ -178,32 +182,6 @@ class _OrderSuccessWidgetState extends StateMVC<OrderSuccessWidget> {
                         children: <Widget>[
                           Expanded(
                             child: Text(
-                              S.of(context).subtotal,
-                              style: Theme.of(context).textTheme.body2,
-                            ),
-                          ),
-                          Helper.getPrice(_con.subTotal,
-                              style: Theme.of(context).textTheme.subhead)
-                        ],
-                      ),
-                      SizedBox(height: 5),
-                      Row(
-                        children: <Widget>[
-                          Expanded(
-                            child: Text(
-                              "${S.of(context).tax} (${setting.defaultTax}%)",
-                              style: Theme.of(context).textTheme.body2,
-                            ),
-                          ),
-                          Helper.getPrice(_con.taxAmount,
-                              style: Theme.of(context).textTheme.subhead)
-                        ],
-                      ),
-                      Divider(height: 30),
-                      Row(
-                        children: <Widget>[
-                          Expanded(
-                            child: Text(
                               S.of(context).total,
                               style: Theme.of(context).textTheme.title.merge(
                                   TextStyle(
@@ -211,8 +189,8 @@ class _OrderSuccessWidgetState extends StateMVC<OrderSuccessWidget> {
                             ),
                           ),
                           Helper.getPrice(
-                            _con.total,
-                            style: Theme.of(context).textTheme.title,
+                            _con?.payment?.price?.toDouble() ?? 0.0,
+                            context,
                           )
                         ],
                       ),
@@ -223,9 +201,11 @@ class _OrderSuccessWidgetState extends StateMVC<OrderSuccessWidget> {
                           onPressed: () {
 //Navigator.of(context).popUntil((route) => route.navigator.widget.pages.);
 
-                            Navigator.of(context).pushNamedAndRemoveUntil(
-                                'Pages', (Route r) => r == null,
-                                arguments: 3);
+                            Navigator.of(context).push(
+                                new MaterialPageRoute<String>(
+                                    builder: (_) => PagesWidget(
+                                        scaffoldKey2: _con.scaffoldKey,
+                                        currentTab: 3)));
                           },
                           padding: EdgeInsets.symmetric(vertical: 14),
                           color: Theme.of(context).accentColor,
@@ -238,7 +218,6 @@ class _OrderSuccessWidgetState extends StateMVC<OrderSuccessWidget> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 10),
                     ],
                   ),
                 ),

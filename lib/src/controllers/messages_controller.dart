@@ -1,21 +1,20 @@
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
-import 'package:trip_car_client/src/models/Message.dart';
-import 'package:trip_car_client/src/models/user.dart';
+import 'package:trip_car_client/src/models/message_entity.dart';
+import 'package:trip_car_client/src/models/user_entity.dart';
 import 'package:trip_car_client/src/repository/message_repository.dart';
 import 'package:trip_car_client/src/repository/message_repository.dart'
     as messageRepo;
 import 'package:trip_car_client/src/repository/user_repository.dart';
 
 class MessagesController extends ControllerMVC {
-  List<Message> messages = <Message>[];
+  List<MessageData> messages = <MessageData>[];
   GlobalKey<ScaffoldState> scaffoldKey;
-  User currentUser;
+  UserDataUser user;
   bool isLoading = false;
-
   getUser() async {
-    this.currentUser = await getCurrentUser();
+    this.user = await getCurrentUser();
   }
 
   MessagesController({conversationId}) {
@@ -29,8 +28,8 @@ class MessagesController extends ControllerMVC {
     setState(() {
       isLoading = true;
     });
-    final Stream<Message> stream = await getMessages(conversationId);
-    stream.listen((Message _message) {
+    final Stream<MessageData> stream = await getMessages(conversationId);
+    stream.listen((MessageData _message) {
       setState(() {
         messages.add(_message);
       });
@@ -38,7 +37,7 @@ class MessagesController extends ControllerMVC {
       setState(() {
         isLoading = false;
       });
-      FlushbarHelper.createError(message: "حدث خطأ بالاتصال").show(context);
+      FlushbarHelper.createError(message: a.toString()).show(context);
     }, onDone: () {
       setState(() {
         isLoading = false;
@@ -46,18 +45,20 @@ class MessagesController extends ControllerMVC {
     });
   }
 
-  void sendMessage(String message, int orderId) {
+  void sendMessage(String message, int orderId, int restaurantId) {
     setState(() {
       isLoading = true;
     });
-    messageRepo.updateMessages(message, orderId).then((value) {
-      if (value is Message) {
+    messageRepo.updateMessages(message, orderId, restaurantId).then((value) {
+      if (value is MessageData) {
         setState(() {
           isLoading = false;
           //refreshRecentConversations(value.conversationId);
         });
       } else {
-        FlushbarHelper.createError(message: "حدث خطأ بالاتصال").show(context);
+        FlushbarHelper.createSuccess(message: "تم ارسال الرساله بنجاح")
+            .show(context);
+
         setState(() {
           isLoading = false;
         });
@@ -68,6 +69,6 @@ class MessagesController extends ControllerMVC {
   Future<void> refreshRecentConversations(conversationId) async {
     messages.clear();
     listenForMessages(
-        conversationId: conversationId, message: 'تم تحديث المحادثه');
+        conversationId: conversationId, message: 'Chat refreshed successfuly');
   }
 }

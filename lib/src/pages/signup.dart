@@ -109,7 +109,7 @@ class _SignUpWidgetState extends StateMVC<SignUpWidget> {
                     TextFormField(
                       textInputAction: TextInputAction.next,
                       keyboardType: TextInputType.text,
-                      onSaved: (input) => _con.user.name = input,
+                      onSaved: (input) => _con.user.username = input,
                       validator: (input) => input.length < 3 || input.isEmpty
                           ? S.of(context).should_be_more_than_3_letters
                           : null,
@@ -152,7 +152,7 @@ class _SignUpWidgetState extends StateMVC<SignUpWidget> {
                     TextFormField(
                       textInputAction: TextInputAction.next,
                       keyboardType: TextInputType.text,
-                      onSaved: (input) => _con.user.name = input,
+                      onSaved: (input) => _con.user.fullname = input,
                       validator: (input) => input.length < 3 || input.isEmpty
                           ? S.of(context).should_be_more_than_3_letters
                           : null,
@@ -195,7 +195,7 @@ class _SignUpWidgetState extends StateMVC<SignUpWidget> {
                     TextFormField(
                       textInputAction: TextInputAction.next,
                       keyboardType: TextInputType.phone,
-                      onSaved: (input) => _con.user.mobile = input,
+                      onSaved: (input) => _con.user.phone = input,
                       validator: (input) => input.length < 3
                           ? S.of(context).should_be_more_than_3_letters
                           : null,
@@ -292,7 +292,7 @@ class _SignUpWidgetState extends StateMVC<SignUpWidget> {
                         labelStyle:
                             TextStyle(color: Theme.of(context).hintColor),
                         contentPadding: EdgeInsets.all(12),
-                        hintText: 'ادخل كلمه المرور 6 خانات على الاقل ',
+                        hintText: S.of(context).should_be_more_than_6_letters,
                         hintStyle: TextStyle(
                             color:
                                 Theme.of(context).focusColor.withOpacity(0.7)),

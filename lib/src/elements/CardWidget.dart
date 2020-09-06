@@ -1,14 +1,15 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:trip_car_client/generated/i18n.dart';
 import 'package:trip_car_client/src/helpers/helper.dart';
-import 'package:trip_car_client/src/models/restaurant.dart';
+import 'package:trip_car_client/src/models/car_entity.dart';
 import 'package:trip_car_client/src/models/route_argument.dart';
 
 class CardWidget extends StatelessWidget {
-  Restaurant restaurant;
-  String heroTag;
+  final CarData car;
+  final String heroTag;
 
-  CardWidget({Key key, this.restaurant, this.heroTag}) : super(key: key);
+  CardWidget({Key key, this.car, this.heroTag}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -31,22 +32,18 @@ class CardWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               // Image of the card
-              Hero(
-                tag: this.heroTag + restaurant.id.toString(),
-                child: Container(
+              Container(
                   height: 150,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: CachedNetworkImageProvider(
-                          "https://saudishift.com/wp-content/uploads/2015/02/2.png"),
+                  width: 292,
+                  child: CachedNetworkImage(
+                    fit: BoxFit.cover,
+                    imageUrl: car?.image ?? "",
+                    placeholder: (context, url) => Image.asset(
+                      'assets/img/loading.gif',
                       fit: BoxFit.cover,
                     ),
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(10),
-                        topRight: Radius.circular(10)),
-                  ),
-                ),
-              ),
+                    errorWidget: (context, url, error) => Icon(Icons.error),
+                  )),
 
               Padding(
                 padding:
@@ -59,28 +56,36 @@ class CardWidget extends StatelessWidget {
                     Expanded(
                       flex: 3,
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           Text(
-                            "مرسيدس c180 موديل 2019",
+                            car?.name ?? "",
                             overflow: TextOverflow.fade,
                             softWrap: false,
                             style: Theme.of(context).textTheme.subhead,
                           ),
                           SizedBox(height: 5),
-                          Row(
-                            children: [
-                              Row(
-                                children: Helper.getStarsList(restaurant.rate),
-                              ),
-                              Text(
-                                "بناء على 14 رحلة ",
-                                overflow: TextOverflow.fade,
-                                softWrap: false,
-                                style: Theme.of(context).textTheme.caption,
-                              ),
-                            ],
-                          ),
+                          car.carAverageReview == -1.0
+                              ? Text(S.of(context).no_reviews)
+                              : Column(
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: Helper.getStarsList(
+                                          car?.carAverageReview ?? 0.0),
+                                    ),
+                                    SizedBox(height: 5),
+                                    Text(
+                                      "${S.of(context).based_on}  (${car.reviews?.length ?? 0}) ${S.of(context).rate}",
+                                      overflow: TextOverflow.fade,
+                                      softWrap: false,
+                                      style:
+                                          Theme.of(context).textTheme.caption,
+                                    ),
+                                  ],
+                                ),
                         ],
                       ),
                     ),
@@ -93,17 +98,16 @@ class CardWidget extends StatelessWidget {
                             onPressed: () {
                               print('Go to map');
                               Navigator.of(context).pushNamed('Map',
-                                  arguments:
-                                      new RouteArgument(param: restaurant));
+                                  arguments: new RouteArgument(param: car));
                             },
                             child: Icon(Icons.directions,
-                                color: Theme.of(context).focusColor),
-                            color: Theme.of(context).accentColor,
+                                color: Theme.of(context).primaryColor),
+                            color: Theme.of(context).unselectedWidgetColor,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(5)),
                           ),
                           Text(
-                            Helper.getDistance(restaurant.distance),
+                            Helper.getDistance(car.distance, context),
                             overflow: TextOverflow.fade,
                             maxLines: 1,
                             softWrap: false,
@@ -126,18 +130,18 @@ class CardWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    "550",
-                    style: Theme.of(context).textTheme.headline6,
+                    car?.rentPricePerDay ?? "0",
+                    style: TextStyle(color: Colors.white),
                   ),
                   Text(
-                    "ريال/يوم",
-                    style: Theme.of(context).textTheme.caption,
+                    S.of(context).riyal_per_day,
+                    style: TextStyle(color: Colors.white),
                   ),
                 ],
               ),
               // color: Theme.of(context).accentColor.withOpacity(0.9),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: Theme.of(context).highlightColor,
                 borderRadius: BorderRadius.all(Radius.circular(
                         5.0) //                 <--- border radius here
                     ),

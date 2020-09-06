@@ -1,5 +1,5 @@
 {
-  "base_url": "http://salalorder.toplinedev.com/",
-  "api_base_url": "http://salalorder.toplinedev.com/public/api/",
-  "google_maps_key" : "AIzaSyBVaPkrHib_vKXVIIiqFayY0dml0tVQ_nQ"
+  "base_url": "http://f-trip.co/",
+  "api_base_url": "http://f-trip.co/public/api/client/",
+  "google_maps_key" : "AIzaSyBJD56icxmRQOX0gx03EHyjgffFmij94Ag"
 }

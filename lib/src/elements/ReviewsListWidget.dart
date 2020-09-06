@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:trip_car_client/src/elements/EmptyReviewsWidget.dart';
 import 'package:trip_car_client/src/elements/ReviewItemWidget.dart';
-import 'package:trip_car_client/src/models/review.dart';
+import 'package:trip_car_client/src/models/car_entity.dart';
 
 // ignore: must_be_immutable
 class ReviewsListWidget extends StatelessWidget {
-  List<Review> reviewsList;
+  List<CarDataReview> reviewsList;
 
   ReviewsListWidget({Key key, this.reviewsList}) : super(key: key);
 

@@ -1,27 +1,17 @@
-import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
-import 'package:trip_car_client/src/models/food.dart';
-import 'package:trip_car_client/src/models/gallery.dart';
-import 'package:trip_car_client/src/models/restaurant.dart';
-import 'package:trip_car_client/src/models/review.dart';
-import 'package:trip_car_client/src/models/user.dart';
-import 'package:trip_car_client/src/repository/food_repository.dart';
-import 'package:trip_car_client/src/repository/gallery_repository.dart';
-import 'package:trip_car_client/src/repository/restaurant_repository.dart';
+import 'package:trip_car_client/src/models/car_entity.dart';
+import 'package:trip_car_client/src/models/review_entity.dart';
+import 'package:trip_car_client/src/models/user_entity.dart';
+import 'package:trip_car_client/src/repository/car_repository.dart';
 import 'package:trip_car_client/src/repository/user_repository.dart';
 
-class RestaurantController extends ControllerMVC {
-  Restaurant restaurant;
-  List<Gallery> galleries = <Gallery>[];
-  List<Food> foods = <Food>[];
-  List<Food> trendingFoods = <Food>[];
-  List<Food> featuredFoods = <Food>[];
-  List<Review> reviews = <Review>[];
+class CarController extends ControllerMVC {
+  CarData car;
+  List<ReviewData> reviews = <ReviewData>[];
   GlobalKey<ScaffoldState> scaffoldKey;
-  User user = new User();
-
-  RestaurantController() {
+  UserDataUser user = new UserDataUser();
+  CarController() {
     this.scaffoldKey = new GlobalKey<ScaffoldState>();
     if (user != null) {
       listenForUser();
@@ -36,74 +26,17 @@ class RestaurantController extends ControllerMVC {
     });
   }
 
-  void listenForRestaurant({int id, String message}) async {
-    final Stream<Restaurant> stream = await getRestaurant(id);
-    stream.listen((Restaurant _restaurant) {
-      setState(() => restaurant = _restaurant);
-    }, onError: (a) {
-      print(a);
-      FlushbarHelper.createError(message: "حدث خطأ بالاتصال")
-          .show(scaffoldKey.currentState.context);
-    }, onDone: () {
-      if (message != null) {
-        FlushbarHelper.createSuccess(message: message)
-            .show(scaffoldKey.currentState.context);
-      }
-    });
-  }
-
-  void listenForGalleries(int idRestaurant) async {
-    final Stream<Gallery> stream = await getGalleries(idRestaurant);
-    stream.listen((Gallery _gallery) {
-      setState(() => galleries.add(_gallery));
-    }, onError: (a) {}, onDone: () {});
-  }
-
-  void listenForRestaurantReviews({int id, String message}) async {
-    final Stream<Review> stream = await getRestaurantReviews(id);
-    stream.listen((Review _review) {
+  void listenForCarReviews({int id, String message}) async {
+    final Stream<ReviewData> stream = await getCarReviews(id);
+    stream.listen((ReviewData _review) {
       setState(() => reviews.add(_review));
     }, onError: (a) {}, onDone: () {});
   }
 
-  void listenForFoods(int idRestaurant) async {
-    final Stream<Food> stream = await getFoodsOfRestaurant(idRestaurant);
-    stream.listen((Food _food) {
-      setState(() => foods.add(_food));
-    }, onError: (a) {
-      print(a);
-    }, onDone: () {});
-  }
-
-  void listenForTrendingFoods(int idRestaurant) async {
-    final Stream<Food> stream =
-        await getTrendingFoodsOfRestaurant(idRestaurant);
-    stream.listen((Food _food) {
-      setState(() => trendingFoods.add(_food));
-    }, onError: (a) {
-      print(a);
-    }, onDone: () {});
-  }
-
-  void listenForFeaturedFoods(int idRestaurant) async {
-    final Stream<Food> stream =
-        await getFeaturedFoodsOfRestaurant(idRestaurant);
-    stream.listen((Food _food) {
-      setState(() => featuredFoods.add(_food));
-    }, onError: (a) {
-      print(a);
-    }, onDone: () {});
-  }
-
   Future<void> refreshRestaurant() async {
-    var _id = restaurant.id;
-    restaurant = new Restaurant();
-    galleries.clear();
+    var _id = car.id;
+    car = new CarData();
     reviews.clear();
-    featuredFoods.clear();
-    listenForRestaurant(id: _id, message: 'تم تحديث معلومات المطعم');
-    listenForRestaurantReviews(id: _id);
-    listenForGalleries(_id);
-    listenForFeaturedFoods(_id);
+    listenForCarReviews(id: _id);
   }
 }
